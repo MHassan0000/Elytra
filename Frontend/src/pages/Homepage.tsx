@@ -1,7 +1,7 @@
 
 const Homepage = () => {
   return (
-    <div>Nigger</div>
+    <div className="text-7xl text-white ml-20">Nigger</div>
   )
 }
 
