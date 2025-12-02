@@ -20,112 +20,123 @@ const SubmitFeedback = () => {
     const priorities = ['low', 'medium', 'high'];
 
     return (
-        <div className="space-y-6">
-            {/* Header */}
-            <h1 className="text-2xl font-semibold text-slate-900">Submit Feedback</h1>
+        <div className="space-y-8">
+            <div className="flex items-end justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">Submit Feedback</h1>
+                    <p className="text-slate-400">Report an issue or suggest an improvement.</p>
+                </div>
+            </div>
 
-            {/* Form */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Issue Title *</label>
-                        <input
-                            type="text"
-                            value={formData.title}
-                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                            placeholder="Brief description of the issue"
-                            required
-                            className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Detailed Description *</label>
-                        <textarea
-                            value={formData.description}
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            placeholder="Provide detailed information about the issue..."
-                            rows={6}
-                            required
-                            className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                        />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">Category *</label>
-                            <select
-                                value={formData.category}
-                                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                required
-                                className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                            >
-                                <option value="">Select Category</option>
-                                {categories.map((cat) => (
-                                    <option key={cat} value={cat}>{cat}</option>
-                                ))}
-                            </select>
-                        </div>
+            <div className="glass-card p-8 max-w-4xl mx-auto">
+                <form onSubmit={handleSubmit} className="space-y-8">
+                    <div className="space-y-6">
+                        <h3 className="text-lg font-bold text-white border-b border-white/5 pb-4">Issue Details</h3>
 
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">Priority</label>
-                            <select
-                                value={formData.priority}
-                                onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                                className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                            >
-                                {priorities.map((priority) => (
-                                    <option key={priority} value={priority}>
-                                        {priority.charAt(0).toUpperCase() + priority.slice(1)}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">City *</label>
+                            <label className="block text-sm font-medium text-slate-400 mb-2">Issue Title *</label>
                             <input
                                 type="text"
-                                value={formData.city}
-                                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                                placeholder="City name"
+                                value={formData.title}
+                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                placeholder="Brief description of the issue"
                                 required
-                                className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
+                                className="input-dark w-full"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">Zone *</label>
-                            <input
-                                type="text"
-                                value={formData.zone}
-                                onChange={(e) => setFormData({ ...formData, zone: e.target.value })}
-                                placeholder="Zone/Sector"
+                            <label className="block text-sm font-medium text-slate-400 mb-2">Detailed Description *</label>
+                            <textarea
+                                value={formData.description}
+                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                placeholder="Provide detailed information about the issue..."
+                                rows={6}
                                 required
-                                className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
+                                className="input-dark w-full"
                             />
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">Area *</label>
-                            <input
-                                type="text"
-                                value={formData.area}
-                                onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-                                placeholder="Specific area"
-                                required
-                                className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                            />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Category *</label>
+                                <select
+                                    value={formData.category}
+                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                    required
+                                    className="input-dark w-full"
+                                >
+                                    <option value="">Select Category</option>
+                                    {categories.map((cat) => (
+                                        <option key={cat} value={cat}>{cat}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Priority</label>
+                                <select
+                                    value={formData.priority}
+                                    onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                                    className="input-dark w-full"
+                                >
+                                    {priorities.map((priority) => (
+                                        <option key={priority} value={priority}>
+                                            {priority.charAt(0).toUpperCase() + priority.slice(1)}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="flex gap-2 pt-4">
-                        <button type="submit" className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700">
+                    <div className="space-y-6">
+                        <h3 className="text-lg font-bold text-white border-b border-white/5 pb-4">Location</h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">City *</label>
+                                <input
+                                    type="text"
+                                    value={formData.city}
+                                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                                    placeholder="City name"
+                                    required
+                                    className="input-dark w-full"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Zone *</label>
+                                <input
+                                    type="text"
+                                    value={formData.zone}
+                                    onChange={(e) => setFormData({ ...formData, zone: e.target.value })}
+                                    placeholder="Zone/Sector"
+                                    required
+                                    className="input-dark w-full"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Area *</label>
+                                <input
+                                    type="text"
+                                    value={formData.area}
+                                    onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                                    placeholder="Specific area"
+                                    required
+                                    className="input-dark w-full"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4 pt-4 border-t border-white/5">
+                        <button type="submit" className="btn-gradient flex-1 py-3 text-lg">
                             Submit Feedback
                         </button>
-                        <button type="button" className="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded hover:bg-slate-50">
+                        <button type="button" className="px-8 py-3 rounded-xl border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 transition-all">
                             Cancel
                         </button>
                     </div>

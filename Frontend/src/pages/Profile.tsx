@@ -1,104 +1,99 @@
 const Profile = () => {
     return (
-        <div className="space-y-6">
-            {/* Header */}
-            <h1 className="text-2xl font-semibold text-slate-900">Profile Settings</h1>
+        <div className="space-y-8">
+            <h1 className="text-3xl font-bold text-white">Profile Settings</h1>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Profile Card */}
-                <div className="bg-white border border-slate-200 rounded-lg p-6">
-                    <div className="text-center mb-6">
-                        <div className="w-20 h-20 rounded-full bg-emerald-600 flex items-center justify-center text-3xl font-bold text-white mx-auto mb-3">
-                            H
+                <div className="glass-card p-8 text-center h-fit">
+                    <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-tr from-violet-600 to-pink-600 p-1 mb-6">
+                        <div className="w-full h-full rounded-full bg-[#151A25] flex items-center justify-center">
+                            <span className="text-4xl font-bold text-white">H</span>
                         </div>
-                        <h2 className="text-lg font-semibold text-slate-900">Hassan</h2>
-                        <p className="text-sm text-slate-600">hassan@example.com</p>
                     </div>
-                    <div className="space-y-2">
-                        <button className="w-full px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700">
+                    <h2 className="text-2xl font-bold text-white mb-1">Hassan</h2>
+                    <p className="text-slate-400 mb-6">hassan@example.com</p>
+
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="p-4 rounded-xl bg-white/5">
+                            <p className="text-2xl font-bold text-white">12</p>
+                            <p className="text-xs text-slate-500">Reports</p>
+                        </div>
+                        <div className="p-4 rounded-xl bg-white/5">
+                            <p className="text-2xl font-bold text-white">45</p>
+                            <p className="text-xs text-slate-500">Upvotes</p>
+                        </div>
+                    </div>
+
+                    <div className="space-y-3">
+                        <button className="btn-gradient w-full py-3">
                             Change Avatar
                         </button>
-                        <button className="w-full px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded hover:bg-slate-50">
+                        <button className="w-full py-3 rounded-xl border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 transition-all">
                             Edit Profile
                         </button>
                     </div>
                 </div>
 
-                {/* Account Information */}
-                <div className="lg:col-span-2 bg-white border border-slate-200 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-slate-900 mb-6">Account Information</h3>
-                    <form className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
-                                <input
-                                    type="text"
-                                    defaultValue="Hassan"
-                                    className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                                />
+                {/* Settings Form */}
+                <div className="lg:col-span-2 space-y-6">
+                    <div className="glass-card p-8">
+                        <h3 className="text-xl font-bold text-white mb-6">Account Information</h3>
+                        <form className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">Full Name</label>
+                                    <input type="text" defaultValue="Hassan" className="input-dark w-full" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">Email</label>
+                                    <input type="email" defaultValue="hassan@example.com" className="input-dark w-full" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">Phone</label>
+                                    <input type="tel" defaultValue="+92 300 1234567" className="input-dark w-full" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">City</label>
+                                    <input type="text" defaultValue="Lahore" className="input-dark w-full" />
+                                </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                                <input
-                                    type="email"
-                                    defaultValue="hassan@example.com"
-                                    className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                                />
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Address</label>
+                                <textarea rows={3} defaultValue="Block A, Gulberg, Lahore" className="input-dark w-full" />
                             </div>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">Phone</label>
-                                <input
-                                    type="tel"
-                                    defaultValue="+92 300 1234567"
-                                    className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                                />
+                            <div className="flex justify-end gap-4 pt-4">
+                                <button type="button" className="px-6 py-3 rounded-xl border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+                                    Cancel
+                                </button>
+                                <button type="submit" className="btn-gradient px-8 py-3">
+                                    Save Changes
+                                </button>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">City</label>
-                                <input
-                                    type="text"
-                                    defaultValue="Lahore"
-                                    className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">Address</label>
-                            <textarea
-                                rows={3}
-                                defaultValue="Block A, Gulberg, Lahore"
-                                className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
-                            />
-                        </div>
-                        <div className="flex gap-2 pt-4">
-                            <button type="submit" className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700">
-                                Save Changes
-                            </button>
-                            <button type="button" className="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded hover:bg-slate-50">
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                        </form>
+                    </div>
 
-            {/* Notification Preferences */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-slate-900 mb-6">Notification Preferences</h3>
-                <div className="space-y-3">
-                    {[
-                        'Email notifications for new issues in my area',
-                        'Push notifications for report updates',
-                        'Weekly summary emails',
-                        'Notifications when someone upvotes my report'
-                    ].map((pref, i) => (
-                        <label key={i} className="flex items-center gap-3 cursor-pointer">
-                            <input type="checkbox" defaultChecked={i !== 2} className="w-4 h-4" />
-                            <span className="text-sm text-slate-700">{pref}</span>
-                        </label>
-                    ))}
+                    <div className="glass-card p-8">
+                        <h3 className="text-xl font-bold text-white mb-6">Notification Preferences</h3>
+                        <div className="space-y-4">
+                            {[
+                                'Email notifications for new issues in my area',
+                                'Push notifications for report updates',
+                                'Weekly summary emails',
+                                'Notifications when someone upvotes my report'
+                            ].map((pref, i) => (
+                                <label key={i} className="flex items-center gap-4 cursor-pointer group p-3 rounded-xl hover:bg-white/5 transition-colors">
+                                    <div className="relative">
+                                        <input type="checkbox" defaultChecked={i !== 2} className="peer sr-only" />
+                                        <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-violet-600"></div>
+                                    </div>
+                                    <span className="text-sm text-slate-300 group-hover:text-white transition-colors">{pref}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

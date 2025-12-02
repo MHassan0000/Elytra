@@ -10,13 +10,16 @@ const SurveyManagement = () => {
     ];
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold text-slate-900">Survey Management</h1>
+            <div className="flex items-end justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">Survey Management</h1>
+                    <p className="text-slate-400">Create and manage community surveys.</p>
+                </div>
                 <button
                     onClick={() => setShowCreateForm(!showCreateForm)}
-                    className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700"
+                    className="btn-gradient px-6 py-3 shadow-lg shadow-blue-500/20 bg-gradient-to-r from-blue-600 to-cyan-600"
                 >
                     + Create Survey
                 </button>
@@ -24,63 +27,65 @@ const SurveyManagement = () => {
 
             {/* Create Form */}
             {showCreateForm && (
-                <div className="bg-white border border-slate-200 rounded-lg p-6">
-                    <h2 className="text-lg font-semibold text-slate-900 mb-4">Create New Survey</h2>
-                    <div className="space-y-4">
+                <div className="glass-card p-8 animate-in fade-in slide-in-from-top-4 duration-300">
+                    <h2 className="text-xl font-bold text-white mb-6">Create New Survey</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">Survey Title</label>
-                            <input type="text" className="w-full px-3 py-2 border border-slate-300 rounded text-sm" placeholder="Enter survey title..." />
+                            <label className="block text-sm font-medium text-slate-400 mb-2">Survey Title</label>
+                            <input type="text" className="input-dark w-full" placeholder="Enter survey title..." />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">Assign to Areas</label>
-                            <select className="w-full px-3 py-2 border border-slate-300 rounded text-sm">
+                            <label className="block text-sm font-medium text-slate-400 mb-2">Assign to Areas</label>
+                            <select className="input-dark w-full">
                                 <option>All Areas</option>
                                 <option>Lahore</option>
                                 <option>Karachi</option>
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">End Date</label>
-                            <input type="date" className="w-full px-3 py-2 border border-slate-300 rounded text-sm" />
+                            <label className="block text-sm font-medium text-slate-400 mb-2">End Date</label>
+                            <input type="date" className="input-dark w-full" />
                         </div>
-                        <div className="flex gap-2">
-                            <button className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700">Create</button>
-                            <button onClick={() => setShowCreateForm(false)} className="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded hover:bg-slate-50">Cancel</button>
-                        </div>
+                    </div>
+                    <div className="flex gap-4">
+                        <button className="btn-gradient px-8 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600">Create</button>
+                        <button onClick={() => setShowCreateForm(false)} className="px-6 py-2.5 rounded-xl border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 transition-all">Cancel</button>
                     </div>
                 </div>
             )}
 
             {/* Table */}
-            <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+            <div className="glass-card p-1">
                 <table className="w-full">
-                    <thead className="bg-slate-50 border-b border-slate-200">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Survey Title</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Areas</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Responses</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Status</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">End Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Actions</th>
+                    <thead>
+                        <tr className="border-b border-white/5 bg-white/[0.02]">
+                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Survey Title</th>
+                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Areas</th>
+                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Responses</th>
+                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                            <th className="text-right py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">End Date</th>
+                            <th className="text-right py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-200">
+                    <tbody className="divide-y divide-white/5">
                         {surveys.map((survey) => (
-                            <tr key={survey.id} className="hover:bg-slate-50">
-                                <td className="px-6 py-4 text-sm font-medium text-blue-600 hover:underline cursor-pointer">{survey.title}</td>
-                                <td className="px-6 py-4 text-sm text-slate-700">{survey.areas}</td>
-                                <td className="px-6 py-4 text-sm text-slate-700">{survey.responses}</td>
-                                <td className="px-6 py-4">
-                                    <span className={`inline-flex px-2 py-1 text-xs font-medium rounded ${survey.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700'
+                            <tr key={survey.id} className="group hover:bg-white/[0.02] transition-colors">
+                                <td className="py-4 px-6">
+                                    <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors cursor-pointer">{survey.title}</span>
+                                </td>
+                                <td className="py-4 px-6 text-sm text-slate-400">{survey.areas}</td>
+                                <td className="py-4 px-6 text-sm text-slate-300">{survey.responses}</td>
+                                <td className="py-4 px-6">
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${survey.status === 'Active' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
                                         }`}>
                                         {survey.status}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 text-sm text-slate-700">{survey.endDate}</td>
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center gap-2">
-                                        <button className="text-slate-600 hover:text-slate-900">⋯</button>
-                                        <button className="text-red-600 hover:text-red-700">🗑️</button>
+                                <td className="py-4 px-6 text-right text-sm text-slate-500">{survey.endDate}</td>
+                                <td className="py-4 px-6 text-right">
+                                    <div className="flex items-center justify-end gap-2">
+                                        <button className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-colors">⋯</button>
+                                        <button className="p-2 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors">🗑️</button>
                                     </div>
                                 </td>
                             </tr>

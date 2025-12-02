@@ -13,67 +13,73 @@ const IssuesManagement = () => {
     const filteredIssues = filter === 'all' ? issues : issues.filter(i => i.status.toLowerCase().replace(' ', '-') === filter);
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold text-slate-900">Issues Management</h1>
+            <div className="flex items-end justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">Issues Management</h1>
+                    <p className="text-slate-400">Track and resolve reported community issues.</p>
+                </div>
             </div>
 
             {/* Filters */}
-            <div className="flex items-center gap-4">
-                <input
-                    type="text"
-                    placeholder="Search issues..."
-                    className="flex-1 max-w-md px-4 py-2 border border-slate-300 rounded text-sm"
-                />
-                <div className="flex gap-2">
-                    {['all', 'pending', 'in-progress', 'resolved'].map((status) => (
-                        <button
-                            key={status}
-                            onClick={() => setFilter(status)}
-                            className={`px-4 py-2 text-sm font-medium rounded ${filter === status
-                                    ? 'bg-emerald-600 text-white'
-                                    : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
-                                }`}
-                        >
-                            {status.charAt(0).toUpperCase() + status.slice(1).replace('-', ' ')}
-                        </button>
-                    ))}
+            <div className="glass-card p-2 flex items-center gap-2">
+                {['All', 'Pending', 'In Progress', 'Resolved'].map((status) => (
+                    <button
+                        key={status}
+                        onClick={() => setFilter(status.toLowerCase().replace(' ', '-'))}
+                        className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${filter === status.toLowerCase().replace(' ', '-')
+                                ? 'bg-[#151A25] text-white shadow-lg border border-white/10'
+                                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                            }`}
+                    >
+                        {status}
+                    </button>
+                ))}
+                <div className="flex-1" />
+                <div className="relative px-2">
+                    <input
+                        type="text"
+                        placeholder="Search issues..."
+                        className="bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-violet-500/50 w-64"
+                    />
                 </div>
             </div>
 
             {/* Table */}
-            <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+            <div className="glass-card p-1">
                 <table className="w-full">
-                    <thead className="bg-slate-50 border-b border-slate-200">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Issue Title</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Area</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Category</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Upvotes</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Status</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Actions</th>
+                    <thead>
+                        <tr className="border-b border-white/5 bg-white/[0.02]">
+                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issue Title</th>
+                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Area</th>
+                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
+                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Upvotes</th>
+                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                            <th className="text-right py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-200">
+                    <tbody className="divide-y divide-white/5">
                         {filteredIssues.map((issue) => (
-                            <tr key={issue.id} className="hover:bg-slate-50">
-                                <td className="px-6 py-4 text-sm font-medium text-blue-600 hover:underline cursor-pointer">{issue.title}</td>
-                                <td className="px-6 py-4 text-sm text-slate-700">{issue.area}</td>
-                                <td className="px-6 py-4 text-sm text-slate-700">{issue.category}</td>
-                                <td className="px-6 py-4 text-sm text-slate-700">{issue.upvotes}</td>
-                                <td className="px-6 py-4">
-                                    <span className={`inline-flex px-2 py-1 text-xs font-medium rounded ${issue.status === 'Resolved' ? 'bg-green-100 text-green-700' :
-                                            issue.status === 'In Progress' ? 'bg-blue-100 text-blue-700' :
-                                                'bg-yellow-100 text-yellow-700'
+                            <tr key={issue.id} className="group hover:bg-white/[0.02] transition-colors">
+                                <td className="py-4 px-6">
+                                    <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors cursor-pointer">{issue.title}</span>
+                                </td>
+                                <td className="py-4 px-6 text-sm text-slate-400">{issue.area}</td>
+                                <td className="py-4 px-6 text-sm text-slate-300">{issue.category}</td>
+                                <td className="py-4 px-6 text-sm text-slate-300">{issue.upvotes}</td>
+                                <td className="py-4 px-6">
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${issue.status === 'Resolved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                                            issue.status === 'In Progress' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                                'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                                         }`}>
                                         {issue.status}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center gap-2">
-                                        <button className="text-slate-600 hover:text-slate-900">⋯</button>
-                                        <button className="text-red-600 hover:text-red-700">🗑️</button>
+                                <td className="py-4 px-6 text-right">
+                                    <div className="flex items-center justify-end gap-2">
+                                        <button className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-colors">⋯</button>
+                                        <button className="p-2 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors">🗑️</button>
                                     </div>
                                 </td>
                             </tr>

@@ -3,139 +3,85 @@ import { useState } from 'react';
 
 const AdminSidebar = () => {
     const location = useLocation();
-    const [expandedSections, setExpandedSections] = useState<string[]>(['identity']);
-
-    const toggleSection = (section: string) => {
-        setExpandedSections(prev =>
-            prev.includes(section)
-                ? prev.filter(s => s !== section)
-                : [...prev, section]
-        );
-    };
 
     const isActive = (path: string) => location.pathname === path;
 
+    const NavItem = ({ to, icon, label }: { to: string; icon: string; label: string }) => (
+        <Link
+            to={to}
+            className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group ${isActive(to)
+                    ? 'bg-gradient-to-r from-blue-600/10 to-cyan-600/10 text-white border-l-2 border-blue-500'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                }`}
+        >
+            <span className={`text-lg transition-colors ${isActive(to) ? 'text-blue-400' : 'text-slate-500 group-hover:text-white'}`}>
+                {icon}
+            </span>
+            <span>{label}</span>
+        </Link>
+    );
+
     return (
-        <aside className="w-64 bg-white border-r border-slate-200 flex flex-col">
+        <aside className="w-72 bg-[#10141D] border-r border-white/5 flex flex-col h-screen sticky top-0">
             {/* Logo */}
-            <div className="h-16 flex items-center px-6 border-b border-slate-200">
-                <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center text-white text-xs font-bold">
-                        E
+            <div className="h-20 flex items-center px-8 border-b border-white/5">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/20">
+                        A
                     </div>
-                    <span className="font-semibold text-slate-900">Elytra Admin</span>
+                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+                        Elytra Admin
+                    </span>
                 </div>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 overflow-y-auto p-4">
-                {/* Identity & Access Section */}
-                <div className="mb-6">
-                    <button
-                        onClick={() => toggleSection('identity')}
-                        className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2 w-full"
-                    >
-                        <span className="text-emerald-600">👥</span>
-                        <span>Management</span>
-                        <span className="ml-auto">{expandedSections.includes('identity') ? '▼' : '▶'}</span>
-                    </button>
-                    {expandedSections.includes('identity') && (
-                        <div className="space-y-1">
-                            <Link
-                                to="/admin/dashboard"
-                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/dashboard')
-                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
-                                        : 'text-slate-700 hover:bg-slate-50'
-                                    }`}
-                            >
-                                Dashboard
-                            </Link>
-                            <Link
-                                to="/admin/users"
-                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/users')
-                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
-                                        : 'text-slate-700 hover:bg-slate-50'
-                                    }`}
-                            >
-                                Users
-                            </Link>
-                            <Link
-                                to="/admin/issues"
-                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/issues')
-                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
-                                        : 'text-slate-700 hover:bg-slate-50'
-                                    }`}
-                            >
-                                Issues
-                            </Link>
-                            <Link
-                                to="/admin/city-areas"
-                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/city-areas')
-                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
-                                        : 'text-slate-700 hover:bg-slate-50'
-                                    }`}
-                            >
-                                City Areas
-                            </Link>
-                        </div>
-                    )}
+            <nav className="flex-1 overflow-y-auto p-6 space-y-8">
+                {/* Management Section */}
+                <div>
+                    <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4 px-4">
+                        Management
+                    </div>
+                    <div className="space-y-1">
+                        <NavItem to="/admin/dashboard" icon="📊" label="Dashboard" />
+                        <NavItem to="/admin/users" icon="👥" label="Users" />
+                        <NavItem to="/admin/issues" icon="⚠️" label="Issues" />
+                        <NavItem to="/admin/city-areas" icon="🏙️" label="City Areas" />
+                    </div>
                 </div>
 
                 {/* Surveys Section */}
-                <div className="mb-6">
-                    <button
-                        onClick={() => toggleSection('surveys')}
-                        className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2 w-full"
-                    >
-                        <span className="text-emerald-600">📊</span>
-                        <span>Surveys</span>
-                        <span className="ml-auto">{expandedSections.includes('surveys') ? '▼' : '▶'}</span>
-                    </button>
-                    {expandedSections.includes('surveys') && (
-                        <div className="space-y-1">
-                            <Link
-                                to="/admin/surveys"
-                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/surveys')
-                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
-                                        : 'text-slate-700 hover:bg-slate-50'
-                                    }`}
-                            >
-                                All Surveys
-                            </Link>
-                        </div>
-                    )}
+                <div>
+                    <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4 px-4">
+                        Feedback
+                    </div>
+                    <div className="space-y-1">
+                        <NavItem to="/admin/surveys" icon="📝" label="Surveys" />
+                    </div>
                 </div>
 
-                {/* Configurations Section */}
+                {/* Config Section */}
                 <div>
-                    <button
-                        onClick={() => toggleSection('config')}
-                        className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2 w-full"
-                    >
-                        <span className="text-emerald-600">⚙️</span>
-                        <span>Configurations</span>
-                        <span className="ml-auto">{expandedSections.includes('config') ? '▼' : '▶'}</span>
-                    </button>
-                    {expandedSections.includes('config') && (
-                        <div className="space-y-1">
-                            <Link
-                                to="/admin/settings"
-                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/settings')
-                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
-                                        : 'text-slate-700 hover:bg-slate-50'
-                                    }`}
-                            >
-                                Settings
-                            </Link>
-                        </div>
-                    )}
+                    <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4 px-4">
+                        System
+                    </div>
+                    <div className="space-y-1">
+                        <NavItem to="/admin/settings" icon="⚙️" label="Settings" />
+                    </div>
                 </div>
             </nav>
 
-            {/* Footer */}
-            <div className="p-4 border-t border-slate-200 text-xs text-slate-500">
-                <p>System Status: <span className="text-emerald-600 font-medium">All Good</span></p>
-                <p className="mt-1">Admin Mode Active</p>
+            {/* Admin Profile Snippet */}
+            <div className="p-6 border-t border-white/5">
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-500 to-purple-500 flex items-center justify-center text-sm font-bold">
+                        AD
+                    </div>
+                    <div className="flex-1 overflow-hidden">
+                        <p className="text-sm font-medium text-white truncate">Admin User</p>
+                        <p className="text-xs text-slate-400 truncate">System Administrator</p>
+                    </div>
+                </div>
             </div>
         </aside>
     );

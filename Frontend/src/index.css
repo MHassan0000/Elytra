@@ -1,290 +1,84 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* CSS Custom Properties */
 :root {
-  /* Vision UI Colors */
-  --bg-primary: #020617; /* Deeper Navy */
-  --bg-secondary: #020617; /* Deeper Navy */
-  --bg-tertiary: #0b1120;
+  /* Figr CRM Dark Theme Palette */
+  --bg-dark: #0b0e14; /* Main background - Very dark */
+  --bg-card: #151a25; /* Card background */
+  --bg-sidebar: #10141d; /* Sidebar background */
 
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-surface: rgba(15, 23, 42, 0.6);
-  --glass-highlight: rgba(255, 255, 255, 0.05);
-
-  --accent-blue: #2563eb; /* Neon-ish Bright Blue */
-  --accent-cyan: #22d3ee;
-  --accent-purple: #7928ca;
-  --accent-pink: #ff0080;
-  --accent-green: #05cd99;
-  --accent-red: #f31260;
-  --accent-orange: #ff5b1e;
+  --accent-purple: #8b5cf6; /* Violet-500 */
+  --accent-pink: #ec4899; /* Pink-500 */
+  --accent-blue: #3b82f6; /* Blue-500 */
+  --accent-cyan: #06b6d4; /* Cyan-500 */
 
   --text-primary: #ffffff;
-  --text-secondary: #a0aec0;
-  --text-muted: #718096;
+  --text-secondary: #94a3b8; /* Slate-400 */
 
-  --shadow-sm: 0 2px 6px rgba(20, 20, 43, 0.06);
-  --shadow-md: 0 8px 15px rgba(20, 20, 43, 0.08);
-  --shadow-lg: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
-  --shadow-glow: 0 0 20px rgba(0, 117, 255, 0.4);
+  --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+  --gradient-glass: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
 }
 
-/* Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html,
 body {
-  background-color: var(--bg-primary);
-  background-image: radial-gradient(
-      circle at 0% 0%,
-      rgba(56, 189, 248, 0.18),
-      transparent 55%
-    ),
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(59, 130, 246, 0.22),
-      transparent 55%
-    ),
-    linear-gradient(to bottom, #020617, #020617 30%, #0b1120 70%, #020617 100%);
-  background-attachment: fixed;
+  background-color: var(--bg-dark);
   color: var(--text-primary);
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  font-family: "Inter", sans-serif;
 }
 
-body {
-  min-height: 100vh;
-  line-height: 1.6;
-}
+@layer components {
+  .glass-card {
+    @apply bg-[#151A25] rounded-2xl border border-white/5 shadow-xl backdrop-blur-sm;
+  }
 
-/* Glassmorphism Utilities */
-.glass {
-  background: linear-gradient(
-    127.09deg,
-    rgba(6, 11, 40, 0.94) 19.41%,
-    rgba(10, 14, 35, 0.49) 76.65%
-  );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-lg);
-}
+  .glass-card-hover {
+    @apply transition-all duration-300 hover:border-white/10 hover:shadow-2xl hover:-translate-y-1;
+  }
 
-.glass-card {
-  background: linear-gradient(
-    127.09deg,
-    rgba(6, 11, 40, 0.94) 19.41%,
-    rgba(10, 14, 35, 0.49) 76.65%
-  );
-  backdrop-filter: blur(20px);
-  border-radius: 1.25rem;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-lg);
-}
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400;
+  }
 
-.glass-input {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  color: white;
-  transition: all 0.3s ease;
-}
+  .nav-item-active {
+    @apply relative text-white;
+  }
 
-.glass-input:focus {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 2px rgba(0, 117, 255, 0.2);
-  outline: none;
+  .nav-item-active::before {
+    content: "";
+    @apply absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-violet-500 to-pink-500 rounded-r-full;
+  }
+
+  .nav-item-active .nav-icon {
+    @apply text-violet-400;
+  }
+
+  .btn-gradient {
+    @apply bg-gradient-to-r from-violet-600 to-pink-600 text-white font-medium rounded-xl 
+           hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all duration-300 active:scale-95;
+  }
+
+  .input-dark {
+    @apply bg-[#0B0E14] border border-white/10 rounded-xl px-4 py-3 text-white 
+           focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/50 transition-all;
+  }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #0b0e14;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  background: #2d3748;
+  border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-/* Gradient Text */
-.gradient-text {
-  background: linear-gradient(135deg, #fff 0%, #a0aec0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-blue {
-  background: linear-gradient(135deg, #0075ff 0%, #00c6ff 100%);
-}
-
-.gradient-orange {
-  background: linear-gradient(135deg, #ff5b1e 0%, #ffb347 100%);
-}
-
-.gradient-purple {
-  background: linear-gradient(135deg, #7928ca 0%, #ff0080 100%);
-}
-
-/* Icon Box */
-.icon-box {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.25rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Sidebar Active Item */
-.nav-item-active {
-  background: var(--bg-secondary);
-  box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
-  border-radius: 1rem;
-}
-
-.nav-icon-active {
-  background: var(--accent-blue);
-  box-shadow: var(--shadow-glow);
-  border-radius: 0.75rem;
-  color: white;
-}
-
-/* Vision UI Metric Cards */
-.metric-card {
-  background: linear-gradient(
-    127.09deg,
-    rgba(6, 11, 40, 0.94) 19.41%,
-    rgba(10, 14, 35, 0.49) 76.65%
-  );
-  backdrop-filter: blur(20px);
-  border-radius: 1.25rem;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-lg);
-  transition: all 0.3s ease;
-}
-
-.metric-card:hover {
-  border-color: rgba(37, 99, 235, 0.5);
-  box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
-}
-
-/* Circular Progress */
-.circular-progress {
-  transform: rotate(-90deg);
-}
-
-.circular-progress-bg {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.1);
-}
-
-.circular-progress-fill {
-  fill: none;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 1s ease-in-out;
-}
-
-/* Enhanced Icon Box */
-.icon-box-blue {
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-  box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
-}
-
-.icon-box-cyan {
-  background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
-  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
-}
-
-.icon-box-green {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-}
-
-/* Smooth Transitions */
-.transition-smooth {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Glow Effects */
-.glow-blue {
-  box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
-}
-
-.glow-blue-strong {
-  box-shadow: 0 0 30px rgba(37, 99, 235, 0.6);
-}
-
-/* Progress Bar */
-.progress-bar {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 9999px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 9999px;
-  transition: width 0.5s ease-in-out;
-}
-
-/* Stat Value Animation */
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-countUp {
-  animation: countUp 0.6s ease-out forwards;
-}
-
-/* Card Hover Lift */
-.card-hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  background: #4a5568;
 }

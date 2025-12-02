@@ -6,56 +6,79 @@ const MyReports = () => {
     ];
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold text-slate-900">My Reports</h1>
+            <div className="flex items-end justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">My Reports</h1>
+                    <p className="text-slate-400">Track and manage your submitted issues.</p>
+                </div>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-white border border-slate-200 rounded-lg p-6">
-                    <p className="text-sm text-slate-600 mb-1">Total Reports</p>
-                    <p className="text-3xl font-semibold text-slate-900">3</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="glass-card p-6 flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center text-2xl">📝</div>
+                    <div>
+                        <p className="text-slate-400 text-sm">Total Reports</p>
+                        <p className="text-2xl font-bold text-white">3</p>
+                    </div>
                 </div>
-                <div className="bg-white border border-slate-200 rounded-lg p-6">
-                    <p className="text-sm text-slate-600 mb-1">In Progress</p>
-                    <p className="text-3xl font-semibold text-blue-600">1</p>
+                <div className="glass-card p-6 flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-2xl">⏳</div>
+                    <div>
+                        <p className="text-slate-400 text-sm">In Progress</p>
+                        <p className="text-2xl font-bold text-blue-400">1</p>
+                    </div>
                 </div>
-                <div className="bg-white border border-slate-200 rounded-lg p-6">
-                    <p className="text-sm text-slate-600 mb-1">Resolved</p>
-                    <p className="text-3xl font-semibold text-green-600">1</p>
+                <div className="glass-card p-6 flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-2xl">✅</div>
+                    <div>
+                        <p className="text-slate-400 text-sm">Resolved</p>
+                        <p className="text-2xl font-bold text-emerald-400">1</p>
+                    </div>
                 </div>
             </div>
 
             {/* Reports List */}
             <div className="space-y-4">
                 {reports.map((report) => (
-                    <div key={report.id} className="bg-white border border-slate-200 rounded-lg p-6">
-                        <div className="flex items-start justify-between mb-3">
-                            <div className="flex-1">
-                                <h3 className="text-base font-medium text-slate-900 mb-1">{report.title}</h3>
-                                <p className="text-sm text-slate-600">📍 {report.area}</p>
+                    <div key={report.id} className="glass-card p-6 glass-card-hover">
+                        <div className="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 className="text-lg font-bold text-white mb-1">{report.title}</h3>
+                                <p className="text-sm text-slate-400">📍 {report.area}</p>
                             </div>
-                            <span className={`inline-flex px-3 py-1 text-xs font-medium rounded ${report.status === 'Resolved' ? 'bg-green-100 text-green-700' :
-                                    report.status === 'In Progress' ? 'bg-blue-100 text-blue-700' :
-                                        'bg-yellow-100 text-yellow-700'
+                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${report.status === 'Resolved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                                    report.status === 'In Progress' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                        'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                                 }`}>
                                 {report.status}
                             </span>
                         </div>
-                        <div className="flex items-center justify-between text-sm text-slate-600 mb-3">
-                            <div className="flex items-center gap-4">
-                                <span>📅 Submitted: {report.submitted}</span>
-                                {report.resolved && <span>✅ Resolved: {report.resolved}</span>}
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-t border-b border-white/5 mb-4">
+                            <div>
+                                <p className="text-xs text-slate-500 mb-1">Submitted</p>
+                                <p className="text-sm text-slate-300">{report.submitted}</p>
                             </div>
-                            <span>👍 {report.upvotes} upvotes</span>
+                            <div>
+                                <p className="text-xs text-slate-500 mb-1">Upvotes</p>
+                                <p className="text-sm text-slate-300">{report.upvotes}</p>
+                            </div>
+                            {report.resolved && (
+                                <div>
+                                    <p className="text-xs text-slate-500 mb-1">Resolved</p>
+                                    <p className="text-sm text-emerald-400">{report.resolved}</p>
+                                </div>
+                            )}
                         </div>
-                        <div className="flex gap-2 pt-3 border-t border-slate-200">
-                            <button className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700">
+
+                        <div className="flex gap-3">
+                            <button className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-sm font-medium text-white transition-colors">
                                 View Details
                             </button>
-                            <button className="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded hover:bg-slate-50">
+                            <button className="px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5 text-sm font-medium text-slate-400 hover:text-white transition-colors">
                                 Share
                             </button>
                         </div>

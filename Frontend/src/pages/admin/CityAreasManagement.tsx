@@ -10,11 +10,14 @@ const CityAreasManagement = () => {
     ];
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold text-slate-900">City Areas Management</h1>
-                <button className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700">
+            <div className="flex items-end justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">City Areas Management</h1>
+                    <p className="text-slate-400">Manage geographical zones and areas.</p>
+                </div>
+                <button className="btn-gradient px-6 py-3 shadow-lg shadow-blue-500/20 bg-gradient-to-r from-blue-600 to-cyan-600">
                     + Add City
                 </button>
             </div>
@@ -25,33 +28,35 @@ const CityAreasManagement = () => {
                     <div
                         key={city.id}
                         onClick={() => setSelectedCity(city.name)}
-                        className={`bg-white border rounded-lg p-6 cursor-pointer hover:shadow-md transition-shadow ${selectedCity === city.name ? 'border-emerald-600 ring-2 ring-emerald-100' : 'border-slate-200'
+                        className={`glass-card p-6 cursor-pointer transition-all duration-300 hover:-translate-y-1 group ${selectedCity === city.name
+                                ? 'border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]'
+                                : 'hover:border-white/10'
                             }`}
                     >
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold text-slate-900">{city.name}</h3>
-                            <span className="text-2xl">🏙️</span>
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{city.name}</h3>
+                            <span className="text-3xl bg-white/5 p-2 rounded-xl">🏙️</span>
                         </div>
-                        <div className="space-y-2 text-sm">
-                            <div className="flex justify-between">
-                                <span className="text-slate-600">Zones</span>
-                                <span className="font-medium text-slate-900">{city.zones}</span>
+                        <div className="space-y-3">
+                            <div className="flex justify-between items-center p-2 rounded-lg bg-white/5">
+                                <span className="text-slate-400 text-sm">Zones</span>
+                                <span className="font-bold text-white">{city.zones}</span>
                             </div>
-                            <div className="flex justify-between">
-                                <span className="text-slate-600">Areas</span>
-                                <span className="font-medium text-slate-900">{city.areas}</span>
+                            <div className="flex justify-between items-center p-2 rounded-lg bg-white/5">
+                                <span className="text-slate-400 text-sm">Areas</span>
+                                <span className="font-bold text-white">{city.areas}</span>
                             </div>
-                            <div className="flex justify-between">
-                                <span className="text-slate-600">Active Issues</span>
-                                <span className="font-medium text-emerald-600">{city.issues}</span>
+                            <div className="flex justify-between items-center p-2 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                                <span className="text-blue-300 text-sm">Active Issues</span>
+                                <span className="font-bold text-blue-400">{city.issues}</span>
                             </div>
                         </div>
-                        <div className="flex gap-2 mt-4 pt-4 border-t border-slate-200">
-                            <button className="flex-1 px-3 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded hover:bg-slate-50">
+                        <div className="flex gap-2 mt-6 pt-4 border-t border-white/5">
+                            <button className="flex-1 py-2 rounded-lg border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 text-sm font-medium transition-all">
                                 Edit
                             </button>
-                            <button className="px-3 py-2 text-red-600 text-sm font-medium hover:bg-red-50 rounded">
-                                Delete
+                            <button className="py-2 px-3 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-sm font-medium transition-all">
+                                🗑️
                             </button>
                         </div>
                     </div>
@@ -60,19 +65,22 @@ const CityAreasManagement = () => {
 
             {/* Selected City Details */}
             {selectedCity && (
-                <div className="bg-white border border-slate-200 rounded-lg p-6">
-                    <h2 className="text-lg font-semibold text-slate-900 mb-4">{selectedCity} - Zones & Areas</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="glass-card p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-2xl font-bold text-white">{selectedCity} - Zones & Areas</h2>
+                        <button className="text-sm text-blue-400 hover:text-blue-300">View All Zones →</button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {['Zone A', 'Zone B', 'Zone C'].map((zone, index) => (
-                            <div key={index} className="border border-slate-200 rounded-lg p-4">
-                                <h3 className="font-medium text-slate-900 mb-1">{zone}</h3>
-                                <p className="text-sm text-slate-600 mb-3">12 areas</p>
+                            <div key={index} className="p-6 rounded-2xl bg-[#0B0E14] border border-white/5 hover:border-white/10 transition-all">
+                                <h3 className="text-lg font-bold text-white mb-2">{zone}</h3>
+                                <p className="text-sm text-slate-400 mb-4">12 areas mapped</p>
                                 <div className="flex gap-2">
-                                    <button className="flex-1 px-3 py-1.5 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700">
+                                    <button className="flex-1 py-2 rounded-lg bg-blue-600/10 text-blue-400 hover:bg-blue-600/20 text-sm font-medium transition-all">
                                         Manage
                                     </button>
-                                    <button className="px-3 py-1.5 border border-slate-300 text-slate-700 text-sm font-medium rounded hover:bg-slate-50">
-                                        Edit
+                                    <button className="py-2 px-3 rounded-lg border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                                        ✏️
                                     </button>
                                 </div>
                             </div>
