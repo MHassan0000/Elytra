@@ -1,56 +1,35 @@
-import { useLocation } from 'react-router-dom';
-
 const Navbar = () => {
-  const location = useLocation();
-
-  // Get current page name from path
-  const getPageName = () => {
-    const path = location.pathname;
-    if (path === '/' || path === '/dashboard') return 'Dashboard';
-    if (path.includes('admin')) return 'Admin Dashboard';
-    return path.split('/').pop()?.split('-').map(word =>
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ') || 'Dashboard';
-  };
-
   return (
-    <nav className="fixed top-4 right-4 left-4 lg:left-[290px] h-20 z-30 transition-all duration-300">
-      <div className="glass-card h-full px-6 flex items-center justify-between">
-        {/* Breadcrumbs */}
-        <div className="flex flex-col">
-          <div className="flex items-center gap-2 text-sm text-gray-400">
-            <span>Pages</span>
-            <span>/</span>
-            <span className="text-white">{getPageName()}</span>
+    <nav className="fixed top-0 left-64 right-0 h-16 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 z-40">
+      <div className="h-full px-8 flex items-center justify-between">
+        {/* Search */}
+        <div className="flex-1 max-w-xl">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full bg-slate-800 text-white placeholder-slate-400 rounded-lg px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              🔍
+            </span>
           </div>
-          <h2 className="text-white font-bold text-lg">{getPageName()}</h2>
         </div>
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
-          {/* Search */}
-          <div className="hidden md:flex items-center bg-[#0f172a] border border-white/10 rounded-2xl px-4 py-2.5 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500/50 transition-all">
-            <span className="text-gray-400 mr-2">🔍</span>
-            <input
-              type="text"
-              placeholder="Type here..."
-              className="bg-transparent border-none outline-none text-sm text-white placeholder-gray-500 w-48"
-            />
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center gap-3">
-            <button className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-              <span className="text-sm font-semibold">Sign In</span>
-              <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs">👤</div>
-            </button>
-            <button className="text-gray-400 hover:text-white transition-colors">
-              ⚙️
-            </button>
-            <button className="text-gray-400 hover:text-white transition-colors relative">
-              🔔
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+          <button className="relative p-2 text-slate-400 hover:text-white transition-colors">
+            <span className="text-xl">🔔</span>
+            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+          <div className="flex items-center gap-3 pl-4 border-l border-slate-800">
+            <div className="text-right">
+              <p className="text-sm font-medium text-white">Hassan</p>
+              <p className="text-xs text-slate-400">Admin</p>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold">
+              H
+            </div>
           </div>
         </div>
       </div>

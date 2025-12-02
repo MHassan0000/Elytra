@@ -1,14 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
 const Sidebar = () => {
     const location = useLocation();
-    const [isOpen, setIsOpen] = useState(false);
-
-    // Close sidebar on route change on mobile
-    useEffect(() => {
-        setIsOpen(false);
-    }, [location.pathname]);
 
     const menuItems = [
         { path: '/dashboard', label: 'Dashboard', icon: '🏠' },
@@ -24,89 +17,50 @@ const Sidebar = () => {
     const isActive = (path: string) => location.pathname === path;
 
     return (
-        <>
-            {/* Mobile Hamburger */}
-            <button
-                className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-slate-800 text-white shadow-lg"
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                {isOpen ? '✕' : '☰'}
-            </button>
-
-            {/* Sidebar Container */}
-            <aside
-                className={`fixed left-4 top-4 bottom-4 w-64 z-40 flex flex-col transition-transform duration-300 ease-in-out rounded-3xl glass-card
-                    ${isOpen ? 'translate-x-0' : '-translate-x-[110%] lg:translate-x-0'}
-                `}
-            >
-                {/* Logo Section */}
-                <div className="p-6 flex items-center gap-3 border-b border-white/5 mx-2">
-                    <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center text-lg shadow-lg shadow-blue-500/40 text-white">
-                        ⚡
+        <aside className="fixed left-0 top-0 h-screen w-64 bg-slate-900 border-r border-slate-800 flex flex-col z-50">
+            {/* Logo */}
+            <div className="p-6 border-b border-slate-800">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xl font-bold">
+                        E
                     </div>
                     <div>
-                        <h1 className="text-sm font-bold text-white tracking-wide uppercase">Elytra</h1>
-                        <p className="text-[10px] text-gray-400 font-medium">CITY MANAGEMENT</p>
+                        <h1 className="text-white font-bold text-lg">Elytra</h1>
+                        <p className="text-slate-400 text-xs">City Management</p>
                     </div>
                 </div>
+            </div>
 
-                {/* Navigation Menu */}
-                <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+            {/* Navigation */}
+            <nav className="flex-1 p-4 overflow-y-auto">
+                <div className="space-y-1">
                     {menuItems.map((item) => (
                         <Link
                             key={item.path}
                             to={item.path}
-                            className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group
-                                ${isActive(item.path)
-                                    ? 'bg-slate-800 shadow-md'
-                                    : 'hover:bg-white/5'
-                                }
-                            `}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive(item.path)
+                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/50'
+                                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                                }`}
                         >
-                            <div className={`
-                                w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200
-                                ${isActive(item.path)
-                                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/40'
-                                    : 'bg-slate-800 text-blue-500 group-hover:bg-blue-500 group-hover:text-white'
-                                }
-                            `}>
-                                <span className="text-sm">{item.icon}</span>
-                            </div>
-                            <span className={`text-sm font-medium ${isActive(item.path) ? 'text-white' : 'text-gray-400 group-hover:text-white'}`}>
-                                {item.label}
-                            </span>
+                            <span className="text-xl">{item.icon}</span>
+                            <span className="text-sm font-medium">{item.label}</span>
                         </Link>
                     ))}
-                </nav>
-
-                {/* Bottom Card */}
-                <div className="p-4 mx-2 mb-2">
-                    <div className="rounded-2xl p-4 bg-gradient-to-br from-blue-600 to-blue-400 relative overflow-hidden">
-                        <div className="relative z-10">
-                            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-3 backdrop-blur-sm">
-                                <span className="text-white">?</span>
-                            </div>
-                            <h4 className="text-white font-bold text-sm mb-1">Need Help?</h4>
-                            <p className="text-white/80 text-xs mb-3">Please check our docs</p>
-                            <button className="w-full py-2 bg-white text-blue-600 text-xs font-bold rounded-lg shadow-sm hover:bg-gray-50 transition-colors">
-                                DOCUMENTATION
-                            </button>
-                        </div>
-                        {/* Decorative circles */}
-                        <div className="absolute -top-4 -right-4 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
-                        <div className="absolute bottom-0 right-0 w-16 h-16 bg-white/10 rounded-full blur-lg"></div>
-                    </div>
                 </div>
-            </aside>
+            </nav>
 
-            {/* Overlay for mobile */}
-            {isOpen && (
-                <div
-                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
-                    onClick={() => setIsOpen(false)}
-                />
-            )}
-        </>
+            {/* Footer */}
+            <div className="p-4 border-t border-slate-800">
+                <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg p-4">
+                    <h4 className="text-white font-bold text-sm mb-1">Need Help?</h4>
+                    <p className="text-blue-100 text-xs mb-3">Check our documentation</p>
+                    <button className="w-full bg-white text-blue-600 text-xs font-bold py-2 rounded-lg hover:bg-blue-50 transition-colors">
+                        View Docs
+                    </button>
+                </div>
+            </div>
+        </aside>
     );
 };
 

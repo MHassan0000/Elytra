@@ -12,31 +12,28 @@ interface AdminStatsCardProps {
 const AdminStatsCard = ({ icon, value, label, trend, color = 'orange' }: AdminStatsCardProps) => {
     const getColorClasses = () => {
         switch (color) {
-            case 'orange': return 'bg-orange-500 shadow-orange-500/40';
-            case 'purple': return 'bg-purple-500 shadow-purple-500/40';
-            case 'blue': return 'bg-blue-500 shadow-blue-500/40';
-            case 'green': return 'bg-green-500 shadow-green-500/40';
-            default: return 'bg-orange-500 shadow-orange-500/40';
+            case 'orange': return 'bg-orange-600 border-orange-500';
+            case 'purple': return 'bg-purple-600 border-purple-500';
+            case 'blue': return 'bg-blue-600 border-blue-500';
+            case 'green': return 'bg-green-600 border-green-500';
+            default: return 'bg-orange-600 border-orange-500';
         }
     };
 
     return (
-        <div className="glass-card p-5 flex items-center justify-between relative overflow-hidden group hover:translate-y-[-2px] transition-all duration-300">
-            <div className="flex flex-col">
-                <p className="text-gray-400 text-xs font-bold mb-1 uppercase tracking-wider">{label}</p>
-                <div className="flex items-end gap-2">
-                    <h3 className="text-white font-bold text-xl">{value}</h3>
-                    {trend && (
-                        <span className={`text-xs font-bold mb-1 ${trend.isPositive ? 'text-green-400' : 'text-red-400'}`}>
-                            {trend.isPositive ? '+' : ''}{trend.value}%
-                        </span>
-                    )}
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
+            <div className="flex items-center justify-between mb-4">
+                <div className={`w-12 h-12 rounded-lg ${getColorClasses()} flex items-center justify-center text-2xl`}>
+                    {icon}
                 </div>
+                {trend && (
+                    <span className={`text-sm font-bold ${trend.isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                        {trend.isPositive ? '↑' : '↓'} {trend.value}%
+                    </span>
+                )}
             </div>
-
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white shadow-lg ${getColorClasses()}`}>
-                {icon}
-            </div>
+            <h3 className="text-3xl font-bold text-white mb-1">{value}</h3>
+            <p className="text-slate-400 text-sm font-medium">{label}</p>
         </div>
     );
 };
