@@ -1,5 +1,4 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 
 const AdminSidebar = () => {
     const location = useLocation();
@@ -10,8 +9,8 @@ const AdminSidebar = () => {
         <Link
             to={to}
             className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group ${isActive(to)
-                    ? 'bg-gradient-to-r from-blue-600/10 to-cyan-600/10 text-white border-l-2 border-blue-500'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                ? 'bg-linear-to-r from-blue-600/10 to-cyan-600/10 text-white border-l-2 border-blue-500'
+                : 'text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
         >
             <span className={`text-lg transition-colors ${isActive(to) ? 'text-blue-400' : 'text-slate-500 group-hover:text-white'}`}>
@@ -26,11 +25,13 @@ const AdminSidebar = () => {
             {/* Logo */}
             <div className="h-20 flex items-center px-8 border-b border-white/5">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/20">
+                    <div className="w-10 h-10 rounded-xl bg-linear-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/20">
                         A
                     </div>
-                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-                        Elytra Admin
+                    <span className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-white to-slate-400">
+                        <Link to="/">
+                            Elytra Admin
+                        </Link>
                     </span>
                 </div>
             </div>
@@ -74,7 +75,7 @@ const AdminSidebar = () => {
             {/* Admin Profile Snippet */}
             <div className="p-6 border-t border-white/5">
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-500 to-purple-500 flex items-center justify-center text-sm font-bold">
+                    <div className="w-10 h-10 rounded-full bg-linear-to-tr from-violet-500 to-purple-500 flex items-center justify-center text-sm font-bold">
                         AD
                     </div>
                     <div className="flex-1 overflow-hidden">

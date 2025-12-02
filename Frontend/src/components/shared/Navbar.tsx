@@ -24,14 +24,14 @@ const Navbar = () => {
           </button>
         </div>
 
-        <div className="h-8 w-[1px] bg-white/10"></div>
+        <div className="h-8 w-px bg-white/10"></div>
 
         <div className="flex items-center gap-3">
           <div className="text-right hidden md:block">
             <p className="text-sm font-medium text-white">Mark Johnson</p>
             <p className="text-xs text-slate-400">Premium Member</p>
           </div>
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-500 to-pink-500 p-[2px]">
+          <div className="w-10 h-10 rounded-full bg-linear-to-tr from-violet-500 to-pink-500 p-0.5">
             <div className="w-full h-full rounded-full bg-[#0B0E14] flex items-center justify-center">
               <span className="text-sm font-bold text-white">MJ</span>
             </div>

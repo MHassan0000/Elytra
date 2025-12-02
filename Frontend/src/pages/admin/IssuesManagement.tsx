@@ -29,8 +29,8 @@ const IssuesManagement = () => {
                         key={status}
                         onClick={() => setFilter(status.toLowerCase().replace(' ', '-'))}
                         className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${filter === status.toLowerCase().replace(' ', '-')
-                                ? 'bg-[#151A25] text-white shadow-lg border border-white/10'
-                                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                            ? 'bg-[#151A25] text-white shadow-lg border border-white/10'
+                            : 'text-slate-400 hover:text-white hover:bg-white/5'
                             }`}
                     >
                         {status}
@@ -50,7 +50,7 @@ const IssuesManagement = () => {
             <div className="glass-card p-1">
                 <table className="w-full">
                     <thead>
-                        <tr className="border-b border-white/5 bg-white/[0.02]">
+                        <tr className="border-b border-white/5 bg-white/2">
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issue Title</th>
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Area</th>
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
@@ -61,7 +61,7 @@ const IssuesManagement = () => {
                     </thead>
                     <tbody className="divide-y divide-white/5">
                         {filteredIssues.map((issue) => (
-                            <tr key={issue.id} className="group hover:bg-white/[0.02] transition-colors">
+                            <tr key={issue.id} className="group hover:bg-white/2 transition-colors">
                                 <td className="py-4 px-6">
                                     <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors cursor-pointer">{issue.title}</span>
                                 </td>
@@ -70,8 +70,8 @@ const IssuesManagement = () => {
                                 <td className="py-4 px-6 text-sm text-slate-300">{issue.upvotes}</td>
                                 <td className="py-4 px-6">
                                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${issue.status === 'Resolved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                                            issue.status === 'In Progress' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
-                                                'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                                        issue.status === 'In Progress' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                            'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                                         }`}>
                                         {issue.status}
                                     </span>

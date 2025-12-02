@@ -14,7 +14,7 @@ const AdminDashboard = () => {
                     <h1 className="text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
                     <p className="text-slate-400">System overview and management.</p>
                 </div>
-                <button className="btn-gradient px-6 py-3 shadow-lg shadow-blue-500/20 bg-gradient-to-r from-blue-600 to-cyan-600">
+                <button className="btn-gradient px-6 py-3 shadow-lg shadow-blue-500/20 bg-linear-to-r from-blue-600 to-cyan-600">
                     + Add User
                 </button>
             </div>
@@ -28,13 +28,13 @@ const AdminDashboard = () => {
                     { title: 'Pending', value: '23', change: '+2%', color: 'from-amber-500 to-orange-500' },
                 ].map((stat, i) => (
                     <div key={i} className="glass-card p-6 relative overflow-hidden">
-                        <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${stat.color} opacity-10 rounded-bl-full -mr-4 -mt-4`} />
+                        <div className={`absolute top-0 right-0 w-24 h-24 bg-linear-to-br ${stat.color} opacity-10 rounded-bl-full -mr-4 -mt-4`} />
                         <p className="text-slate-400 text-sm font-medium mb-2">{stat.title}</p>
                         <div className="flex items-end justify-between">
                             <h3 className="text-3xl font-bold text-white">{stat.value}</h3>
                             <span className={`text-xs font-medium px-2 py-1 rounded-lg border ${stat.change.startsWith('+')
-                                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                                    : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                                 }`}>
                                 {stat.change}
                             </span>
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
                 </div>
                 <table className="w-full">
                     <thead>
-                        <tr className="border-b border-white/5 bg-white/[0.02]">
+                        <tr className="border-b border-white/5 bg-white/2">
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Username</th>
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</th>
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Reports</th>
@@ -62,10 +62,10 @@ const AdminDashboard = () => {
                     </thead>
                     <tbody className="divide-y divide-white/5">
                         {users.map((user) => (
-                            <tr key={user.id} className="group hover:bg-white/[0.02] transition-colors">
+                            <tr key={user.id} className="group hover:bg-white/2 transition-colors">
                                 <td className="py-4 px-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-xs font-bold text-white">
+                                        <div className="w-8 h-8 rounded-full bg-linear-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-xs font-bold text-white">
                                             {user.username.charAt(0).toUpperCase()}
                                         </div>
                                         <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">{user.username}</span>

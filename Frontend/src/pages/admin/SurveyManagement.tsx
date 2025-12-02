@@ -19,7 +19,7 @@ const SurveyManagement = () => {
                 </div>
                 <button
                     onClick={() => setShowCreateForm(!showCreateForm)}
-                    className="btn-gradient px-6 py-3 shadow-lg shadow-blue-500/20 bg-gradient-to-r from-blue-600 to-cyan-600"
+                    className="btn-gradient px-6 py-3 shadow-lg shadow-blue-500/20 bg-linear-to-r from-blue-600 to-cyan-600"
                 >
                     + Create Survey
                 </button>
@@ -48,7 +48,7 @@ const SurveyManagement = () => {
                         </div>
                     </div>
                     <div className="flex gap-4">
-                        <button className="btn-gradient px-8 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600">Create</button>
+                        <button className="btn-gradient px-8 py-2.5 bg-linear-to-r from-blue-600 to-cyan-600">Create</button>
                         <button onClick={() => setShowCreateForm(false)} className="px-6 py-2.5 rounded-xl border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 transition-all">Cancel</button>
                     </div>
                 </div>
@@ -58,7 +58,7 @@ const SurveyManagement = () => {
             <div className="glass-card p-1">
                 <table className="w-full">
                     <thead>
-                        <tr className="border-b border-white/5 bg-white/[0.02]">
+                        <tr className="border-b border-white/5 bg-white/2">
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Survey Title</th>
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Areas</th>
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Responses</th>
@@ -69,7 +69,7 @@ const SurveyManagement = () => {
                     </thead>
                     <tbody className="divide-y divide-white/5">
                         {surveys.map((survey) => (
-                            <tr key={survey.id} className="group hover:bg-white/[0.02] transition-colors">
+                            <tr key={survey.id} className="group hover:bg-white/2 transition-colors">
                                 <td className="py-4 px-6">
                                     <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors cursor-pointer">{survey.title}</span>
                                 </td>

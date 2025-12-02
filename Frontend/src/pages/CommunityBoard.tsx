@@ -75,7 +75,7 @@ const CommunityBoard = () => {
 
                         <div className="flex items-center justify-between pt-4 border-t border-white/5">
                             <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-700 to-slate-600 flex items-center justify-center text-xs font-bold text-white">
+                                <div className="w-8 h-8 rounded-full bg-linear-to-tr from-violet-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white">
                                     {issue.user.charAt(0)}
                                 </div>
                                 <div className="flex flex-col">

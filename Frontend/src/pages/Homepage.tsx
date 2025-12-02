@@ -1,63 +1,82 @@
+import HomeNav from '../components/shared/HomeNav';
+import HomeFooter from '../components/shared/HomeFooter';
+import Threads from '../components/ui/Threads';
 import { Link } from 'react-router-dom';
 
 const Homepage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center p-8">
-      <div className="max-w-4xl mx-auto text-center animate-fadeIn">
-        {/* Logo */}
-        <div className="flex justify-center mb-8">
-          <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-5xl">
-            ✈️
-          </div>
+    <div className="min-h-screen bg-black text-white selection:bg-violet-500/30">
+      <HomeNav />
+
+      {/* Hero Section with Threads Background */}
+      <main className="relative min-h-screen max-w-7xl mx-auto px-6 py-24">
+        {/* Threads Background */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-100">
+          <Threads
+            color={[1, 1, 1]}
+            amplitude={1.5}
+            distance={0.3}
+            enableMouseInteraction={true}
+          />
         </div>
 
-        {/* Hero Content */}
-        <h1 className="text-6xl font-bold text-white mb-4">
-          Welcome to <span className="gradient-text">Elytra</span>
-        </h1>
-        <p className="text-2xl text-gray-300 mb-8">
-          City Management Survey System
-        </p>
-        <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
-          Report issues, share feedback, and help improve your city. Join your community
-          in making a difference by participating in city management surveys and tracking
-          the resolution of local problems.
-        </p>
+        {/* Content */}
+        <div className="relative z-10 text-center max-w-3xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 mt-30">
+            Report issues, improve your city.
+          </h1>
+          <p className="text-lg md:text-xl text-slate-400 mb-10">
+            A platform for citizens to easily report and track local issues, fostering community engagement and efficient problem-solving.
+          </p>
 
-        {/* Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="card">
-            <span className="text-4xl mb-3 block">📝</span>
-            <h3 className="text-xl font-bold text-white mb-2">Submit Feedback</h3>
-            <p className="text-sm text-gray-400">
-              Report issues and suggest improvements for your area
-            </p>
-          </div>
-          <div className="card">
-            <span className="text-4xl mb-3 block">👥</span>
-            <h3 className="text-xl font-bold text-white mb-2">Community Board</h3>
-            <p className="text-sm text-gray-400">
-              View and upvote issues reported by other residents
-            </p>
-          </div>
-          <div className="card">
-            <span className="text-4xl mb-3 block">📊</span>
-            <h3 className="text-xl font-bold text-white mb-2">Track Progress</h3>
-            <p className="text-sm text-gray-400">
-              Monitor the status of reported issues and resolutions
-            </p>
+          {/* CTA */}
+          <div className="flex flex-col items-center gap-4">
+            <Link
+              to="/register"
+              className="group relative px-8 py-4 bg-white text-black font-bold rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)]"
+            >
+              Sign up for free <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+            </Link>
           </div>
         </div>
+      </main>
 
-        {/* CTA */}
-        <Link
-          to="/dashboard"
-          className="btn-primary inline-flex items-center gap-3 px-8 py-4 text-lg"
-        >
-          <span>Enter Dashboard</span>
-          <span>→</span>
-        </Link>
-      </div>
+      {/* Features Grid */}
+      <section className="px-6 pb-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: "🚀",
+                title: "Ready-to-use",
+                description: "Start reporting issues immediately. No complicated setup needed."
+              },
+              {
+                icon: "⚡",
+                title: "Seamless scaling",
+                description: "Designed to handle traffic from entire cities without breaking a sweat."
+              },
+              {
+                icon: "🛠️",
+                title: "Zero maintenance",
+                description: "Focus on community improvement, not managing infrastructure."
+              }
+            ].map((feature, i) => (
+              <div key={i} className="group p-8 rounded-3xl bg-[#151A25]/50 border border-white/5 hover:border-white/10 transition-all duration-300 hover:bg-[#151A25]">
+                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                <p className="text-slate-400 leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <HomeFooter />
     </div>
   );
 };

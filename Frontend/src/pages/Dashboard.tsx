@@ -5,7 +5,7 @@ const Dashboard = () => {
             <div className="flex items-end justify-between">
                 <div>
                     <h1 className="text-3xl font-bold text-white mb-2">
-                        Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400">Mark</span> 👋
+                        Welcome back, <span className="text-transparent bg-clip-text bg-linear-to-r from-violet-400 to-pink-400">Mark</span> 👋
                     </h1>
                     <p className="text-slate-400">Here's what's happening in your community today.</p>
                 </div>
@@ -23,7 +23,7 @@ const Dashboard = () => {
                     { title: 'Community Rank', value: '#42', change: 'Top 5%', color: 'from-pink-500 to-rose-500' },
                 ].map((stat, i) => (
                     <div key={i} className="glass-card p-6 relative overflow-hidden group">
-                        <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${stat.color} opacity-10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110`} />
+                        <div className={`absolute top-0 right-0 w-24 h-24 bg-linear-to-br ${stat.color} opacity-10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110`} />
                         <p className="text-slate-400 text-sm font-medium mb-2">{stat.title}</p>
                         <div className="flex items-end justify-between">
                             <h3 className="text-3xl font-bold text-white">{stat.value}</h3>
@@ -61,15 +61,15 @@ const Dashboard = () => {
                                     { name: 'Water Supply', area: 'Johar Town', status: 'Resolved', date: '1d ago' },
                                     { name: 'Road Repair', area: 'Model Town', status: 'Pending', date: '2d ago' },
                                 ].map((item, i) => (
-                                    <tr key={i} className="group hover:bg-white/[0.02] transition-colors">
+                                    <tr key={i} className="group hover:bg-white/2 transition-colors">
                                         <td className="py-4 px-6">
                                             <span className="text-sm font-medium text-white group-hover:text-violet-400 transition-colors">{item.name}</span>
                                         </td>
                                         <td className="py-4 px-6 text-sm text-slate-400">{item.area}</td>
                                         <td className="py-4 px-6">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${item.status === 'Resolved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                                                    item.status === 'In Progress' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
-                                                        'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                                                item.status === 'In Progress' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                                    'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                                                 }`}>
                                                 {item.status}
                                             </span>
@@ -86,7 +86,7 @@ const Dashboard = () => {
                 <div className="space-y-6">
                     {/* Satisfaction Card */}
                     <div className="glass-card p-6 text-center relative overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-b from-violet-500/5 to-transparent" />
                         <h3 className="text-lg font-bold text-white mb-6 relative z-10">Community Impact</h3>
                         <div className="relative w-40 h-40 mx-auto mb-6">
                             <svg className="w-full h-full transform -rotate-90">

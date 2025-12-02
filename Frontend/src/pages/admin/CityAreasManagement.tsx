@@ -17,7 +17,7 @@ const CityAreasManagement = () => {
                     <h1 className="text-3xl font-bold text-white mb-2">City Areas Management</h1>
                     <p className="text-slate-400">Manage geographical zones and areas.</p>
                 </div>
-                <button className="btn-gradient px-6 py-3 shadow-lg shadow-blue-500/20 bg-gradient-to-r from-blue-600 to-cyan-600">
+                <button className="btn-gradient px-6 py-3 shadow-lg shadow-blue-500/20 bg-linear-to-r from-blue-600 to-cyan-600">
                     + Add City
                 </button>
             </div>
@@ -29,8 +29,8 @@ const CityAreasManagement = () => {
                         key={city.id}
                         onClick={() => setSelectedCity(city.name)}
                         className={`glass-card p-6 cursor-pointer transition-all duration-300 hover:-translate-y-1 group ${selectedCity === city.name
-                                ? 'border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]'
-                                : 'hover:border-white/10'
+                            ? 'border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]'
+                            : 'hover:border-white/10'
                             }`}
                     >
                         <div className="flex items-center justify-between mb-6">

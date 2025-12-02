@@ -1,19 +1,17 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import DashboardLayout from './components/shared/DashboardLayout';
 import AdminLayout from './components/admin/AdminLayout';
-import Homepage from './pages/Homepage';
 import Dashboard from './pages/Dashboard';
-import SubmitFeedback from './pages/SubmitFeedback';
 import CommunityBoard from './pages/CommunityBoard';
 import MyReports from './pages/MyReports';
 import Profile from './pages/Profile';
-
-// Admin Pages
+import SubmitFeedback from './pages/SubmitFeedback';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import CityAreasManagement from './pages/admin/CityAreasManagement';
 import IssuesManagement from './pages/admin/IssuesManagement';
 import SurveyManagement from './pages/admin/SurveyManagement';
 import UserManagement from './pages/admin/UserManagement';
+import CityAreasManagement from './pages/admin/CityAreasManagement';
+import Homepage from './pages/Homepage';
 
 function App() {
   return (

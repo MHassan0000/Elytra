@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-import :root {
+:root {
   /* Figr CRM Dark Theme Palette */
   --bg-dark: #0b0e14; /* Main background - Very dark */
   --bg-card: #151a25; /* Card background */
@@ -39,7 +39,7 @@ body {
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400;
+    @apply bg-clip-text text-transparent bg-linear-to-r from-violet-400 to-pink-400;
   }
 
   .nav-item-active {
@@ -48,7 +48,7 @@ body {
 
   .nav-item-active::before {
     content: "";
-    @apply absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-violet-500 to-pink-500 rounded-r-full;
+    @apply absolute left-0 top-0 bottom-0 w-1 bg-linear-to-b from-violet-500 to-pink-500 rounded-r-full;
   }
 
   .nav-item-active .nav-icon {
@@ -56,7 +56,7 @@ body {
   }
 
   .btn-gradient {
-    @apply bg-gradient-to-r from-violet-600 to-pink-600 text-white font-medium rounded-xl 
+    @apply bg-linear-to-r from-violet-600 to-pink-600 text-white font-medium rounded-xl 
            hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all duration-300 active:scale-95;
   }
 

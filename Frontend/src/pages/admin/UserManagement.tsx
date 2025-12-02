@@ -38,7 +38,7 @@ const UserManagement = () => {
             <div className="glass-card p-1">
                 <table className="w-full">
                     <thead>
-                        <tr className="border-b border-white/5 bg-white/[0.02]">
+                        <tr className="border-b border-white/5 bg-white/2">
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Username</th>
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</th>
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Reports</th>
@@ -49,10 +49,10 @@ const UserManagement = () => {
                     </thead>
                     <tbody className="divide-y divide-white/5">
                         {users.map((user) => (
-                            <tr key={user.id} className="group hover:bg-white/[0.02] transition-colors">
+                            <tr key={user.id} className="group hover:bg-white/2 transition-colors">
                                 <td className="py-4 px-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-xs font-bold text-white">
+                                        <div className="w-8 h-8 rounded-full bg-linear-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-xs font-bold text-white">
                                             {user.username.charAt(0).toUpperCase()}
                                         </div>
                                         <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors cursor-pointer">{user.username}</span>

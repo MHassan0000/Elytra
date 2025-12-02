@@ -6,7 +6,7 @@ const Profile = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Profile Card */}
                 <div className="glass-card p-8 text-center h-fit">
-                    <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-tr from-violet-600 to-pink-600 p-1 mb-6">
+                    <div className="w-32 h-32 mx-auto rounded-full bg-linear-to-tr from-violet-600 to-pink-600 p-1 mb-6">
                         <div className="w-full h-full rounded-full bg-[#151A25] flex items-center justify-center">
                             <span className="text-4xl font-bold text-white">H</span>
                         </div>
@@ -87,7 +87,7 @@ const Profile = () => {
                                 <label key={i} className="flex items-center gap-4 cursor-pointer group p-3 rounded-xl hover:bg-white/5 transition-colors">
                                     <div className="relative">
                                         <input type="checkbox" defaultChecked={i !== 2} className="peer sr-only" />
-                                        <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-violet-600"></div>
+                                        <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-violet-600"></div>
                                     </div>
                                     <span className="text-sm text-slate-300 group-hover:text-white transition-colors">{pref}</span>
                                 </label>
