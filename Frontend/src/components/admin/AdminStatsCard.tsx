@@ -16,14 +16,13 @@ const AdminStatsCard = ({ icon, value, label, trend, color = 'orange' }: AdminSt
             case 'purple': return 'bg-purple-600 border-purple-500';
             case 'blue': return 'bg-blue-600 border-blue-500';
             case 'green': return 'bg-green-600 border-green-500';
-            default: return 'bg-orange-600 border-orange-500';
         }
     };
 
     return (
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
+        <div className="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 sm:p-6 shadow-lg shadow-slate-950/40 hover:border-orange-400/80 hover:shadow-[0_0_25px_rgba(251,146,60,0.45)] transition-all">
             <div className="flex items-center justify-between mb-4">
-                <div className={`w-12 h-12 rounded-lg ${getColorClasses()} flex items-center justify-center text-2xl`}>
+                <div className={`w-12 h-12 rounded-xl ${getColorClasses()} flex items-center justify-center text-2xl shadow-[0_0_18px_rgba(251,146,60,0.6)]`}>
                     {icon}
                 </div>
                 {trend && (

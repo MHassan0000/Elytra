@@ -2,7 +2,7 @@ import StatsCard from '../components/ui/StatsCard';
 
 const Dashboard = () => {
     return (
-        <div className="space-y-8">
+        <div className="space-y-10">
             {/* Header */}
             <div>
                 <h1 className="text-3xl font-bold text-white mb-2">Dashboard</h1>
@@ -38,9 +38,9 @@ const Dashboard = () => {
             </div>
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Trending Problems */}
-                <div className="lg:col-span-2 bg-slate-900 rounded-xl border border-slate-800 p-6">
+                <div className="lg:col-span-2 rounded-2xl bg-slate-900/80 border border-slate-800/80 shadow-lg shadow-slate-950/40 p-6 sm:p-7 space-y-4">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-xl font-bold text-white">Trending Problems</h2>
                         <button className="text-blue-500 text-sm font-medium hover:text-blue-400">
@@ -76,8 +76,8 @@ const Dashboard = () => {
                 </div>
 
                 {/* Quick Actions */}
-                <div className="bg-slate-900 rounded-xl border border-slate-800 p-6">
-                    <h2 className="text-xl font-bold text-white mb-6">Quick Actions</h2>
+                <div className="rounded-2xl bg-slate-900/80 border border-slate-800/80 shadow-lg shadow-slate-950/40 p-6 sm:p-7 flex flex-col gap-5">
+                    <h2 className="text-xl font-bold text-white">Quick Actions</h2>
                     <div className="space-y-3">
                         <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
                             <span>📝</span>
@@ -93,14 +93,14 @@ const Dashboard = () => {
                         </button>
                     </div>
 
-                    <div className="mt-6 pt-6 border-t border-slate-800">
-                        <h3 className="text-sm font-bold text-slate-400 mb-3">AREA SELECTOR</h3>
-                        <select className="w-full bg-slate-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    <div className="pt-5 border-t border-slate-800/80">
+                        <h3 className="text-xs font-semibold text-slate-400 tracking-[0.18em] mb-3">AREA SELECTOR</h3>
+                        <select className="w-full bg-slate-900/70 border border-slate-700/70 text-white rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/80 appearance-none">
                             <option>Select Zone</option>
                             <option>Zone A</option>
                             <option>Zone B</option>
                         </select>
-                        <select className="w-full bg-slate-800 text-white rounded-lg px-4 py-2 mt-3 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <select className="w-full bg-slate-900/70 border border-slate-700/70 text-white rounded-xl px-4 py-2 mt-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/80 appearance-none">
                             <option>Select Area</option>
                             <option>Area 1</option>
                             <option>Area 2</option>
@@ -110,7 +110,7 @@ const Dashboard = () => {
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-slate-900 rounded-xl border border-slate-800 p-6">
+            <div className="rounded-2xl bg-slate-900/80 border border-slate-800/80 shadow-lg shadow-slate-950/40 p-6 sm:p-7 space-y-4">
                 <h2 className="text-xl font-bold text-white mb-6">Recent Activity</h2>
                 <div className="space-y-4">
                     {[

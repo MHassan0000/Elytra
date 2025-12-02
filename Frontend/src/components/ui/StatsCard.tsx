@@ -10,9 +10,9 @@ interface StatsCardProps {
 
 const StatsCard = ({ title, value, icon, trend }: StatsCardProps) => {
     return (
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-blue-600 transition-colors">
+        <div className="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 sm:p-6 shadow-lg shadow-slate-950/40 hover:border-blue-500/80 hover:shadow-[0_0_25px_rgba(59,130,246,0.45)] transition-all">
             <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center text-2xl">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-2xl shadow-[0_0_18px_rgba(56,189,248,0.6)]">
                     {icon}
                 </div>
                 {trend && (

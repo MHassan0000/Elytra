@@ -16,44 +16,44 @@ const AdminSidebar = () => {
     const isActive = (path: string) => location.pathname === path;
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-64 bg-slate-900 border-r border-slate-800 flex flex-col z-50">
+        <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-64 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-r border-slate-800/80 shadow-2xl shadow-blue-900/40 flex flex-col z-50">
             {/* Logo */}
-            <div className="p-6 border-b border-slate-800">
+            <div className="px-6 pt-6 pb-4 border-b border-slate-800/80">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center text-white text-xl font-bold">
+                    <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-400 flex items-center justify-center text-white text-xl font-extrabold shadow-[0_0_20px_rgba(251,146,60,0.6)]">
                         A
                     </div>
                     <div>
-                        <h1 className="text-white font-bold text-lg">Elytra Admin</h1>
-                        <p className="text-slate-400 text-xs">Management Panel</p>
+                        <h1 className="text-white font-semibold text-base tracking-wide">Elytra Admin</h1>
+                        <p className="text-slate-400 text-[11px] uppercase tracking-[0.18em]">Management Panel</p>
                     </div>
                 </div>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 p-4 overflow-y-auto">
+            <nav className="flex-1 px-3 py-4 overflow-y-auto">
                 <div className="space-y-1">
                     {menuItems.map((item) => (
                         <Link
                             key={item.path}
                             to={item.path}
-                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive(item.path)
-                                    ? 'bg-orange-600 text-white shadow-lg shadow-orange-600/50'
-                                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${isActive(item.path)
+                                    ? 'bg-orange-500/90 text-white shadow-[0_10px_25px_rgba(249,115,22,0.45)]'
+                                    : 'text-slate-400 hover:bg-slate-800/80 hover:text-white hover:shadow-[0_8px_18px_rgba(15,23,42,0.85)]'
                                 }`}
                         >
-                            <span className="text-xl">{item.icon}</span>
-                            <span className="text-sm font-medium">{item.label}</span>
+                            <span className="text-lg">{item.icon}</span>
+                            <span>{item.label}</span>
                         </Link>
                     ))}
                 </div>
             </nav>
 
             {/* Footer */}
-            <div className="p-4 border-t border-slate-800">
-                <div className="bg-gradient-to-r from-orange-600 to-orange-500 rounded-lg p-4">
-                    <h4 className="text-white font-bold text-sm mb-1">Admin Mode</h4>
-                    <p className="text-orange-100 text-xs">Full access enabled</p>
+            <div className="p-4 border-t border-slate-800/80">
+                <div className="glass rounded-2xl p-4">
+                    <h4 className="text-white font-semibold text-xs mb-1 tracking-wide">Admin Mode</h4>
+                    <p className="text-slate-300 text-[11px]">Full access enabled for system configuration.</p>
                 </div>
             </div>
         </aside>

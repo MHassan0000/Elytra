@@ -2,7 +2,7 @@ import AdminStatsCard from '../../components/admin/AdminStatsCard';
 
 const AdminDashboard = () => {
     return (
-        <div className="space-y-8">
+        <div className="space-y-10">
             {/* Header */}
             <div>
                 <h1 className="text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
@@ -16,7 +16,7 @@ const AdminDashboard = () => {
                     value={1247}
                     label="Total Issues"
                     trend={{ value: 12, isPositive: true }}
-                    color="blue"
+                    color="orange"
                 />
                 <AdminStatsCard
                     icon="⏳"
@@ -30,21 +30,21 @@ const AdminDashboard = () => {
                     value={1034}
                     label="Resolved"
                     trend={{ value: 18, isPositive: true }}
-                    color="green"
+                    color="orange"
                 />
                 <AdminStatsCard
                     icon="📊"
                     value={12}
                     label="Active Surveys"
                     trend={{ value: 3, isPositive: true }}
-                    color="purple"
+                    color="orange"
                 />
             </div>
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Recent Issues */}
-                <div className="lg:col-span-2 bg-slate-900 rounded-xl border border-slate-800 p-6">
+                <div className="lg:col-span-2 rounded-2xl bg-slate-900/80 border border-slate-800/80 shadow-lg shadow-orange-900/40 p-6 sm:p-7 space-y-4">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-xl font-bold text-white">Recent Issues</h2>
                         <button className="text-orange-500 text-sm font-medium hover:text-orange-400">
@@ -95,7 +95,7 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* System Overview */}
-                <div className="bg-slate-900 rounded-xl border border-slate-800 p-6">
+                <div className="rounded-2xl bg-slate-900/80 border border-slate-800/80 shadow-lg shadow-orange-900/40 p-6 sm:p-7 flex flex-col gap-6">
                     <h2 className="text-xl font-bold text-white mb-6">System Overview</h2>
                     <div className="space-y-6">
                         <div>
@@ -104,7 +104,7 @@ const AdminDashboard = () => {
                                 <span className="text-white font-bold">124</span>
                             </div>
                             <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                                <div className="h-full bg-blue-600 w-3/4"></div>
+                                <div className="h-full bg-orange-600 w-3/4"></div>
                             </div>
                         </div>
                         <div>
@@ -127,8 +127,8 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="mt-6 pt-6 border-t border-slate-800">
-                        <h3 className="text-sm font-bold text-slate-400 mb-3">QUICK ACTIONS</h3>
+                    <div className="pt-5 border-t border-slate-800/80">
+                        <h3 className="text-xs font-semibold text-slate-400 mb-3 tracking-[0.18em]">QUICK ACTIONS</h3>
                         <div className="space-y-2">
                             <button className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 rounded-lg transition-colors text-sm">
                                 Add City/Area
@@ -145,7 +145,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* User Activity */}
-            <div className="bg-slate-900 rounded-xl border border-slate-800 p-6">
+            <div className="rounded-2xl bg-slate-900/80 border border-slate-800/80 shadow-lg shadow-orange-900/40 p-6 sm:p-7 space-y-4">
                 <h2 className="text-xl font-bold text-white mb-6">Recent User Activity</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {[
