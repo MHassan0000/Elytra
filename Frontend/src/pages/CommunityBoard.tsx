@@ -1,165 +1,66 @@
-import { useState } from 'react';
-import TrendingIssueCard from '../components/ui/TrendingIssueCard';
-
 const CommunityBoard = () => {
-    const [filter, setFilter] = useState('all');
-    const [sortBy, setSortBy] = useState('upvotes');
-
     const issues = [
-        {
-            id: 1,
-            title: 'Broken Street Light on Main Boulevard',
-            description: 'The street light near the park has been broken for over a week, making the area unsafe at night.',
-            area: 'Gulberg, Block A',
-            upvotes: 45,
-            status: 'in-progress' as const,
-            userName: 'Ahmed Khan',
-            timestamp: '2 hours ago',
-            isUpvoted: false,
-        },
-        {
-            id: 2,
-            title: 'Garbage Collection Not Regular',
-            description: 'Garbage has not been collected for 3 days in our street. This is causing health hazards.',
-            area: 'DHA, Phase 2',
-            upvotes: 89,
-            status: 'pending' as const,
-            userName: 'Sara Ali',
-            timestamp: '5 hours ago',
-            isUpvoted: true,
-        },
-        {
-            id: 3,
-            title: 'Road Repair Needed Urgently',
-            description: 'Large potholes on the main road are causing accidents and vehicle damage.',
-            area: 'Model Town, Block C',
-            upvotes: 127,
-            status: 'pending' as const,
-            userName: 'Usman Malik',
-            timestamp: '1 day ago',
-            isUpvoted: false,
-        },
-        {
-            id: 4,
-            title: 'Water Supply Issues',
-            description: 'Inconsistent water supply in the morning hours. Need immediate attention.',
-            area: 'Johar Town, Block B',
-            upvotes: 34,
-            status: 'resolved' as const,
-            userName: 'Fatima Hassan',
-            timestamp: '2 days ago',
-            isUpvoted: false,
-        },
-        {
-            id: 5,
-            title: 'Park Maintenance Required',
-            description: 'The community park needs cleaning and maintenance. Playground equipment is damaged.',
-            area: 'Gulberg, Block C',
-            upvotes: 56,
-            status: 'pending' as const,
-            userName: 'Ali Raza',
-            timestamp: '3 days ago',
-            isUpvoted: false,
-        },
-        {
-            id: 6,
-            title: 'Traffic Signal Not Working',
-            description: 'Traffic signal at the main intersection has been malfunctioning for days.',
-            area: 'DHA, Phase 1',
-            upvotes: 78,
-            status: 'in-progress' as const,
-            userName: 'Ayesha Khan',
-            timestamp: '4 days ago',
-            isUpvoted: true,
-        },
+        { id: 1, title: 'Broken Street Light on Main Boulevard', area: 'Gulberg, Block A', upvotes: 45, status: 'In Progress', user: 'Ahmed Khan', time: '2 hours ago' },
+        { id: 2, title: 'Garbage Collection Not Regular', area: 'DHA, Phase 2', upvotes: 89, status: 'Pending', user: 'Sara Ali', time: '5 hours ago' },
+        { id: 3, title: 'Road Repair Needed Urgently', area: 'Model Town, Block C', upvotes: 127, status: 'Pending', user: 'Usman Malik', time: '1 day ago' },
+        { id: 4, title: 'Water Supply Issues', area: 'Johar Town, Block B', upvotes: 34, status: 'Resolved', user: 'Fatima Hassan', time: '2 days ago' },
     ];
 
     return (
-        <div className="ml-56 mt-14 p-6 min-h-screen">
+        <div className="space-y-6">
             {/* Header */}
-            <div className="mb-8 animate-fadeIn">
-                <h1 className="text-4xl font-bold text-white mb-2">
-                    Community Feedback Board 👥
-                </h1>
-                <p className="text-lg text-gray-400">
-                    View and upvote issues reported by your community
-                </p>
+            <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-semibold text-slate-900">Community Board</h1>
+                <button className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700">
+                    + Submit Issue
+                </button>
             </div>
 
-            {/* Filters and Sort */}
-            <div className="card mb-6">
-                <div className="flex flex-wrap items-center gap-4">
-                    <div className="flex-1">
-                        <label className="block text-sm font-medium text-gray-400 mb-2">
-                            Filter by Status
-                        </label>
-                        <select
-                            value={filter}
-                            onChange={(e) => setFilter(e.target.value)}
-                            className="w-full max-w-xs"
-                        >
-                            <option value="all">All Issues</option>
-                            <option value="pending">Pending</option>
-                            <option value="in-progress">In Progress</option>
-                            <option value="resolved">Resolved</option>
-                        </select>
-                    </div>
-
-                    <div className="flex-1">
-                        <label className="block text-sm font-medium text-gray-400 mb-2">
-                            Sort By
-                        </label>
-                        <select
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                            className="w-full max-w-xs"
-                        >
-                            <option value="upvotes">Most Upvoted</option>
-                            <option value="recent">Most Recent</option>
-                            <option value="oldest">Oldest First</option>
-                        </select>
-                    </div>
-
-                    <div className="flex items-end">
-                        <button className="btn-secondary">
-                            Apply Filters
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div className="card text-center">
-                    <p className="text-3xl font-bold text-white mb-1">156</p>
-                    <p className="text-sm text-gray-400">Total Issues</p>
-                </div>
-                <div className="card text-center">
-                    <p className="text-3xl font-bold text-yellow-400 mb-1">89</p>
-                    <p className="text-sm text-gray-400">Pending</p>
-                </div>
-                <div className="card text-center">
-                    <p className="text-3xl font-bold text-blue-400 mb-1">45</p>
-                    <p className="text-sm text-gray-400">In Progress</p>
-                </div>
-                <div className="card text-center">
-                    <p className="text-3xl font-bold text-green-400 mb-1">22</p>
-                    <p className="text-sm text-gray-400">Resolved</p>
-                </div>
+            {/* Filters */}
+            <div className="flex items-center gap-4">
+                <input
+                    type="text"
+                    placeholder="Search issues..."
+                    className="flex-1 max-w-md px-4 py-2 border border-slate-300 rounded text-sm"
+                />
+                <select className="px-4 py-2 border border-slate-300 rounded text-sm">
+                    <option>All Status</option>
+                    <option>Pending</option>
+                    <option>In Progress</option>
+                    <option>Resolved</option>
+                </select>
             </div>
 
             {/* Issues Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-4">
                 {issues.map((issue) => (
-                    <TrendingIssueCard key={issue.id} {...issue} />
+                    <div key={issue.id} className="bg-white border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                        <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1">
+                                <h3 className="text-base font-medium text-slate-900 mb-1">{issue.title}</h3>
+                                <p className="text-sm text-slate-600">📍 {issue.area}</p>
+                            </div>
+                            <span className={`inline-flex px-3 py-1 text-xs font-medium rounded ${issue.status === 'Resolved' ? 'bg-green-100 text-green-700' :
+                                    issue.status === 'In Progress' ? 'bg-blue-100 text-blue-700' :
+                                        'bg-yellow-100 text-yellow-700'
+                                }`}>
+                                {issue.status}
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm text-slate-600">
+                            <div className="flex items-center gap-4">
+                                <span>👤 {issue.user}</span>
+                                <span>🕒 {issue.time}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button className="flex items-center gap-1 px-3 py-1 border border-slate-300 rounded hover:bg-slate-50">
+                                    <span>👍</span>
+                                    <span className="font-medium">{issue.upvotes}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 ))}
-            </div>
-
-            {/* Load More */}
-            <div className="text-center mt-8">
-                <button className="btn-secondary px-8">
-                    Load More Issues
-                </button>
             </div>
         </div>
     );

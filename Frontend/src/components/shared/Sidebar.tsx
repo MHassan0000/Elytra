@@ -1,64 +1,150 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 const Sidebar = () => {
     const location = useLocation();
+    const [expandedSections, setExpandedSections] = useState<string[]>(['main']);
 
-    const menuItems = [
-        { path: '/dashboard', label: 'Dashboard', icon: '🏠' },
-        { path: '/city-areas', label: 'City Areas', icon: '🏙️' },
-        { path: '/submit-feedback', label: 'Submit Feedback', icon: '📝' },
-        { path: '/community-board', label: 'Community Board', icon: '👥' },
-        { path: '/my-reports', label: 'My Reports', icon: '📋' },
-        { path: '/notifications', label: 'Notifications', icon: '🔔' },
-        { path: '/profile', label: 'Profile', icon: '⚙️' },
-        { path: '/help', label: 'Help', icon: '❓' },
-    ];
+    const toggleSection = (section: string) => {
+        setExpandedSections(prev =>
+            prev.includes(section)
+                ? prev.filter(s => s !== section)
+                : [...prev, section]
+        );
+    };
 
     const isActive = (path: string) => location.pathname === path;
 
     return (
-        <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-64 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-r border-slate-800/80 shadow-2xl shadow-blue-900/40 flex flex-col z-50">
+        <aside className="w-64 bg-white border-r border-slate-200 flex flex-col">
             {/* Logo */}
-            <div className="px-6 pt-6 pb-4 border-b border-slate-800/80">
-                <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white text-xl font-extrabold shadow-[0_0_20px_rgba(56,189,248,0.6)]">
+            <div className="h-16 flex items-center px-6 border-b border-slate-200">
+                <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center text-white text-xs font-bold">
                         E
                     </div>
-                    <div>
-                        <h1 className="text-white font-semibold text-base tracking-wide">Elytra</h1>
-                        <p className="text-slate-400 text-[11px] uppercase tracking-[0.18em]">City Management</p>
-                    </div>
+                    <span className="font-semibold text-slate-900">Elytra</span>
                 </div>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 px-3 py-4 overflow-y-auto">
-                <div className="space-y-1">
-                    {menuItems.map((item) => (
-                        <Link
-                            key={item.path}
-                            to={item.path}
-                            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${isActive(item.path)
-                                    ? 'bg-blue-600/90 text-white shadow-[0_10px_25px_rgba(37,99,235,0.45)]'
-                                    : 'text-slate-400 hover:bg-slate-800/80 hover:text-white hover:shadow-[0_8px_18px_rgba(15,23,42,0.85)]'
-                                }`}
-                        >
-                            <span className="text-lg">{item.icon}</span>
-                            <span>{item.label}</span>
-                        </Link>
-                    ))}
+            <nav className="flex-1 overflow-y-auto p-4">
+                {/* Main Section */}
+                <div className="mb-6">
+                    <button
+                        onClick={() => toggleSection('main')}
+                        className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2 w-full"
+                    >
+                        <span className="text-emerald-600">📊</span>
+                        <span>Dashboard</span>
+                        <span className="ml-auto">{expandedSections.includes('main') ? '▼' : '▶'}</span>
+                    </button>
+                    {expandedSections.includes('main') && (
+                        <div className="space-y-1">
+                            <Link
+                                to="/dashboard"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/dashboard')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Overview
+                            </Link>
+                            <Link
+                                to="/community-board"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/community-board')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Community Board
+                            </Link>
+                            <Link
+                                to="/my-reports"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/my-reports')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                My Reports
+                            </Link>
+                        </div>
+                    )}
+                </div>
+
+                {/* Actions Section */}
+                <div className="mb-6">
+                    <button
+                        onClick={() => toggleSection('actions')}
+                        className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2 w-full"
+                    >
+                        <span className="text-emerald-600">⚡</span>
+                        <span>Actions</span>
+                        <span className="ml-auto">{expandedSections.includes('actions') ? '▼' : '▶'}</span>
+                    </button>
+                    {expandedSections.includes('actions') && (
+                        <div className="space-y-1">
+                            <Link
+                                to="/submit-feedback"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/submit-feedback')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Submit Feedback
+                            </Link>
+                            <Link
+                                to="/surveys"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/surveys')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Surveys
+                            </Link>
+                        </div>
+                    )}
+                </div>
+
+                {/* Settings Section */}
+                <div>
+                    <button
+                        onClick={() => toggleSection('settings')}
+                        className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2 w-full"
+                    >
+                        <span className="text-emerald-600">⚙️</span>
+                        <span>Settings</span>
+                        <span className="ml-auto">{expandedSections.includes('settings') ? '▼' : '▶'}</span>
+                    </button>
+                    {expandedSections.includes('settings') && (
+                        <div className="space-y-1">
+                            <Link
+                                to="/profile"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/profile')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Profile
+                            </Link>
+                            <Link
+                                to="/notifications"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/notifications')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Notifications
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </nav>
 
             {/* Footer */}
-            <div className="p-4 border-t border-slate-800/80">
-                <div className="glass rounded-2xl p-4">
-                    <h4 className="text-white font-semibold text-xs mb-1 tracking-wide">Need Help?</h4>
-                    <p className="text-slate-300 text-[11px] mb-3">Browse the city guidelines and FAQs.</p>
-                    <button className="w-full bg-gradient-to-r from-blue-600 to-cyan-400 text-xs font-semibold py-2 rounded-xl text-white hover:shadow-[0_12px_30px_rgba(56,189,248,0.65)] transition-shadow">
-                        View Docs
-                    </button>
-                </div>
+            <div className="p-4 border-t border-slate-200 text-xs text-slate-500">
+                <p>System Status: <span className="text-emerald-600 font-medium">All Good</span></p>
+                <p className="mt-1">Last Login: {new Date().toLocaleDateString()}</p>
             </div>
         </aside>
     );

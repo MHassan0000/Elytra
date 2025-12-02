@@ -1,60 +1,141 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 const AdminSidebar = () => {
     const location = useLocation();
+    const [expandedSections, setExpandedSections] = useState<string[]>(['identity']);
 
-    const menuItems = [
-        { path: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
-        { path: '/admin/city-areas', label: 'City Areas', icon: '🏙️' },
-        { path: '/admin/issues', label: 'Issues', icon: '📋' },
-        { path: '/admin/surveys', label: 'Surveys', icon: '📝' },
-        { path: '/admin/users', label: 'Users', icon: '👥' },
-        { path: '/admin/notifications', label: 'Notifications', icon: '🔔' },
-        { path: '/admin/settings', label: 'Settings', icon: '⚙️' },
-    ];
+    const toggleSection = (section: string) => {
+        setExpandedSections(prev =>
+            prev.includes(section)
+                ? prev.filter(s => s !== section)
+                : [...prev, section]
+        );
+    };
 
     const isActive = (path: string) => location.pathname === path;
 
     return (
-        <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-64 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-r border-slate-800/80 shadow-2xl shadow-blue-900/40 flex flex-col z-50">
+        <aside className="w-64 bg-white border-r border-slate-200 flex flex-col">
             {/* Logo */}
-            <div className="px-6 pt-6 pb-4 border-b border-slate-800/80">
-                <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-400 flex items-center justify-center text-white text-xl font-extrabold shadow-[0_0_20px_rgba(251,146,60,0.6)]">
-                        A
+            <div className="h-16 flex items-center px-6 border-b border-slate-200">
+                <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center text-white text-xs font-bold">
+                        E
                     </div>
-                    <div>
-                        <h1 className="text-white font-semibold text-base tracking-wide">Elytra Admin</h1>
-                        <p className="text-slate-400 text-[11px] uppercase tracking-[0.18em]">Management Panel</p>
-                    </div>
+                    <span className="font-semibold text-slate-900">Elytra Admin</span>
                 </div>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 px-3 py-4 overflow-y-auto">
-                <div className="space-y-1">
-                    {menuItems.map((item) => (
-                        <Link
-                            key={item.path}
-                            to={item.path}
-                            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${isActive(item.path)
-                                    ? 'bg-orange-500/90 text-white shadow-[0_10px_25px_rgba(249,115,22,0.45)]'
-                                    : 'text-slate-400 hover:bg-slate-800/80 hover:text-white hover:shadow-[0_8px_18px_rgba(15,23,42,0.85)]'
-                                }`}
-                        >
-                            <span className="text-lg">{item.icon}</span>
-                            <span>{item.label}</span>
-                        </Link>
-                    ))}
+            <nav className="flex-1 overflow-y-auto p-4">
+                {/* Identity & Access Section */}
+                <div className="mb-6">
+                    <button
+                        onClick={() => toggleSection('identity')}
+                        className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2 w-full"
+                    >
+                        <span className="text-emerald-600">👥</span>
+                        <span>Management</span>
+                        <span className="ml-auto">{expandedSections.includes('identity') ? '▼' : '▶'}</span>
+                    </button>
+                    {expandedSections.includes('identity') && (
+                        <div className="space-y-1">
+                            <Link
+                                to="/admin/dashboard"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/dashboard')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Dashboard
+                            </Link>
+                            <Link
+                                to="/admin/users"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/users')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Users
+                            </Link>
+                            <Link
+                                to="/admin/issues"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/issues')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Issues
+                            </Link>
+                            <Link
+                                to="/admin/city-areas"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/city-areas')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                City Areas
+                            </Link>
+                        </div>
+                    )}
+                </div>
+
+                {/* Surveys Section */}
+                <div className="mb-6">
+                    <button
+                        onClick={() => toggleSection('surveys')}
+                        className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2 w-full"
+                    >
+                        <span className="text-emerald-600">📊</span>
+                        <span>Surveys</span>
+                        <span className="ml-auto">{expandedSections.includes('surveys') ? '▼' : '▶'}</span>
+                    </button>
+                    {expandedSections.includes('surveys') && (
+                        <div className="space-y-1">
+                            <Link
+                                to="/admin/surveys"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/surveys')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                All Surveys
+                            </Link>
+                        </div>
+                    )}
+                </div>
+
+                {/* Configurations Section */}
+                <div>
+                    <button
+                        onClick={() => toggleSection('config')}
+                        className="flex items-center gap-2 text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-2 w-full"
+                    >
+                        <span className="text-emerald-600">⚙️</span>
+                        <span>Configurations</span>
+                        <span className="ml-auto">{expandedSections.includes('config') ? '▼' : '▶'}</span>
+                    </button>
+                    {expandedSections.includes('config') && (
+                        <div className="space-y-1">
+                            <Link
+                                to="/admin/settings"
+                                className={`block px-4 py-2 text-sm rounded ${isActive('/admin/settings')
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-slate-700 hover:bg-slate-50'
+                                    }`}
+                            >
+                                Settings
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </nav>
 
             {/* Footer */}
-            <div className="p-4 border-t border-slate-800/80">
-                <div className="glass rounded-2xl p-4">
-                    <h4 className="text-white font-semibold text-xs mb-1 tracking-wide">Admin Mode</h4>
-                    <p className="text-slate-300 text-[11px]">Full access enabled for system configuration.</p>
-                </div>
+            <div className="p-4 border-t border-slate-200 text-xs text-slate-500">
+                <p>System Status: <span className="text-emerald-600 font-medium">All Good</span></p>
+                <p className="mt-1">Admin Mode Active</p>
             </div>
         </aside>
     );

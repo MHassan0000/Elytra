@@ -1,165 +1,92 @@
-import AdminStatsCard from '../../components/admin/AdminStatsCard';
-
 const AdminDashboard = () => {
+    const users = [
+        { id: 1, username: 'ahmed_khan', email: 'ahmed@example.com', reports: 12, status: 'Active', joined: '2024-01-15' },
+        { id: 2, username: 'sara_ali', email: 'sara@example.com', reports: 8, status: 'Active', joined: '2024-02-20' },
+        { id: 3, username: 'usman_malik', email: 'usman@example.com', reports: 15, status: 'Active', joined: '2024-03-10' },
+        { id: 4, username: 'fatima_hassan', email: 'fatima@example.com', reports: 5, status: 'Inactive', joined: '2024-04-05' },
+    ];
+
     return (
-        <div className="space-y-10">
+        <div className="space-y-6">
             {/* Header */}
-            <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
-                <p className="text-slate-400">Manage your city's feedback and surveys</p>
+            <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-semibold text-slate-900">All Users</h1>
+                <button className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700">
+                    + Add User
+                </button>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <AdminStatsCard
-                    icon="📋"
-                    value={1247}
-                    label="Total Issues"
-                    trend={{ value: 12, isPositive: true }}
-                    color="orange"
-                />
-                <AdminStatsCard
-                    icon="⏳"
-                    value={89}
-                    label="Pending"
-                    trend={{ value: 5, isPositive: false }}
-                    color="orange"
-                />
-                <AdminStatsCard
-                    icon="✅"
-                    value={1034}
-                    label="Resolved"
-                    trend={{ value: 18, isPositive: true }}
-                    color="orange"
-                />
-                <AdminStatsCard
-                    icon="📊"
-                    value={12}
-                    label="Active Surveys"
-                    trend={{ value: 3, isPositive: true }}
-                    color="orange"
+            {/* Search */}
+            <div className="flex items-center gap-4">
+                <input
+                    type="text"
+                    placeholder="Find a user..."
+                    className="flex-1 max-w-md px-4 py-2 border border-slate-300 rounded text-sm"
                 />
             </div>
 
-            {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Recent Issues */}
-                <div className="lg:col-span-2 rounded-2xl bg-slate-900/80 border border-slate-800/80 shadow-lg shadow-orange-900/40 p-6 sm:p-7 space-y-4">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-xl font-bold text-white">Recent Issues</h2>
-                        <button className="text-orange-500 text-sm font-medium hover:text-orange-400">
-                            Manage All →
-                        </button>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="text-left text-slate-400 text-sm border-b border-slate-800">
-                                    <th className="pb-3 font-medium">Issue</th>
-                                    <th className="pb-3 font-medium">Area</th>
-                                    <th className="pb-3 font-medium">Upvotes</th>
-                                    <th className="pb-3 font-medium">Status</th>
-                                    <th className="pb-3 font-medium">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {[
-                                    { title: 'Broken Street Light', area: 'Gulberg', upvotes: 45, status: 'pending' },
-                                    { title: 'Road Repair Needed', area: 'DHA', upvotes: 127, status: 'in-progress' },
-                                    { title: 'Water Leakage', area: 'Johar Town', upvotes: 34, status: 'resolved' },
-                                ].map((issue, i) => (
-                                    <tr key={i} className="border-b border-slate-800 hover:bg-slate-800/50">
-                                        <td className="py-4 text-white font-medium">{issue.title}</td>
-                                        <td className="py-4 text-slate-400">{issue.area}</td>
-                                        <td className="py-4">
-                                            <span className="text-blue-500 font-bold">{issue.upvotes}</span>
-                                        </td>
-                                        <td className="py-4">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${issue.status === 'resolved' ? 'bg-green-500/20 text-green-400' :
-                                                    issue.status === 'in-progress' ? 'bg-blue-500/20 text-blue-400' :
-                                                        'bg-yellow-500/20 text-yellow-400'
-                                                }`}>
-                                                {issue.status}
-                                            </span>
-                                        </td>
-                                        <td className="py-4">
-                                            <button className="text-orange-500 hover:text-orange-400 text-sm font-medium">
-                                                Edit
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                {/* System Overview */}
-                <div className="rounded-2xl bg-slate-900/80 border border-slate-800/80 shadow-lg shadow-orange-900/40 p-6 sm:p-7 flex flex-col gap-6">
-                    <h2 className="text-xl font-bold text-white mb-6">System Overview</h2>
-                    <div className="space-y-6">
-                        <div>
-                            <div className="flex justify-between text-sm mb-2">
-                                <span className="text-slate-400">Issues This Week</span>
-                                <span className="text-white font-bold">124</span>
-                            </div>
-                            <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                                <div className="h-full bg-orange-600 w-3/4"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className="flex justify-between text-sm mb-2">
-                                <span className="text-slate-400">Response Time</span>
-                                <span className="text-green-400 font-bold">2.4 days</span>
-                            </div>
-                            <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                                <div className="h-full bg-green-600 w-4/5"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className="flex justify-between text-sm mb-2">
-                                <span className="text-slate-400">User Satisfaction</span>
-                                <span className="text-purple-400 font-bold">94%</span>
-                            </div>
-                            <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                                <div className="h-full bg-purple-600 w-[94%]"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="pt-5 border-t border-slate-800/80">
-                        <h3 className="text-xs font-semibold text-slate-400 mb-3 tracking-[0.18em]">QUICK ACTIONS</h3>
-                        <div className="space-y-2">
-                            <button className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 rounded-lg transition-colors text-sm">
-                                Add City/Area
-                            </button>
-                            <button className="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-2 rounded-lg transition-colors text-sm">
-                                Create Survey
-                            </button>
-                            <button className="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-2 rounded-lg transition-colors text-sm">
-                                View Reports
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            {/* Table */}
+            <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+                <table className="w-full">
+                    <thead className="bg-slate-50 border-b border-slate-200">
+                        <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
+                                Username
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
+                                Email
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
+                                Reports
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
+                                Joined
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                        {users.map((user) => (
+                            <tr key={user.id} className="hover:bg-slate-50">
+                                <td className="px-6 py-4">
+                                    <span className="text-sm font-medium text-blue-600 hover:underline cursor-pointer">
+                                        {user.username}
+                                    </span>
+                                </td>
+                                <td className="px-6 py-4 text-sm text-slate-700">{user.email}</td>
+                                <td className="px-6 py-4 text-sm text-slate-700">{user.reports}</td>
+                                <td className="px-6 py-4">
+                                    <span className={`inline-flex px-2 py-1 text-xs font-medium rounded ${user.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700'
+                                        }`}>
+                                        {user.status}
+                                    </span>
+                                </td>
+                                <td className="px-6 py-4 text-sm text-slate-700">{user.joined}</td>
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center gap-2">
+                                        <button className="text-slate-600 hover:text-slate-900">
+                                            <span className="text-lg">⋯</span>
+                                        </button>
+                                        <button className="text-red-600 hover:text-red-700">
+                                            <span className="text-lg">🗑️</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
 
-            {/* User Activity */}
-            <div className="rounded-2xl bg-slate-900/80 border border-slate-800/80 shadow-lg shadow-orange-900/40 p-6 sm:p-7 space-y-4">
-                <h2 className="text-xl font-bold text-white mb-6">Recent User Activity</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {[
-                        { user: 'Ahmed Khan', action: 'submitted issue', time: '5 min ago' },
-                        { user: 'Sara Ali', action: 'upvoted issue', time: '12 min ago' },
-                        { user: 'Usman Malik', action: 'completed survey', time: '1 hour ago' },
-                    ].map((activity, i) => (
-                        <div key={i} className="p-4 bg-slate-800/50 rounded-lg">
-                            <p className="text-white font-medium mb-1">{activity.user}</p>
-                            <p className="text-slate-400 text-sm">{activity.action}</p>
-                            <p className="text-slate-500 text-xs mt-2">{activity.time}</p>
-                        </div>
-                    ))}
-                </div>
+            {/* Footer Info */}
+            <div className="flex items-center justify-between text-sm text-slate-600">
+                <p>System Status: <span className="text-emerald-600 font-medium">All Good</span></p>
+                <p>Admin Mode Active</p>
             </div>
         </div>
     );

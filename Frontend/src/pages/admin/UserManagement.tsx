@@ -1,137 +1,63 @@
-import DataTable from '../../components/admin/DataTable';
-import StatusBadge from '../../components/admin/StatusBadge';
-
 const UserManagement = () => {
     const users = [
-        {
-            id: 1,
-            username: 'ahmed_khan',
-            email: 'ahmed@example.com',
-            reports: 12,
-            joinDate: '2024-01-15',
-            status: 'active',
-        },
-        {
-            id: 2,
-            username: 'sara_ali',
-            email: 'sara@example.com',
-            reports: 8,
-            joinDate: '2024-02-20',
-            status: 'active',
-        },
-        {
-            id: 3,
-            username: 'usman_malik',
-            email: 'usman@example.com',
-            reports: 15,
-            joinDate: '2024-03-10',
-            status: 'active',
-        },
-        {
-            id: 4,
-            username: 'fatima_hassan',
-            email: 'fatima@example.com',
-            reports: 5,
-            joinDate: '2024-04-05',
-            status: 'inactive',
-        },
-    ];
-
-    const columns = [
-        {
-            key: 'username',
-            label: 'Username',
-            sortable: true,
-            render: (value: string) => (
-                <span className="font-medium text-white">{value}</span>
-            ),
-        },
-        {
-            key: 'email',
-            label: 'Email',
-            sortable: true,
-        },
-        {
-            key: 'reports',
-            label: 'Reports Submitted',
-            sortable: true,
-            render: (value: number) => (
-                <span className="font-semibold text-blue-400">{value}</span>
-            ),
-        },
-        {
-            key: 'joinDate',
-            label: 'Join Date',
-            sortable: true,
-        },
-        {
-            key: 'status',
-            label: 'Status',
-            sortable: true,
-            render: (value: string) => <StatusBadge status={value as any} />,
-        },
+        { id: 1, username: 'ahmed_khan', email: 'ahmed@example.com', reports: 12, status: 'Active', joined: '2024-01-15' },
+        { id: 2, username: 'sara_ali', email: 'sara@example.com', reports: 8, status: 'Active', joined: '2024-02-20' },
+        { id: 3, username: 'usman_malik', email: 'usman@example.com', reports: 15, status: 'Active', joined: '2024-03-10' },
+        { id: 4, username: 'fatima_hassan', email: 'fatima@example.com', reports: 5, status: 'Inactive', joined: '2024-04-05' },
     ];
 
     return (
-        <div className="ml-56 mt-14 p-6 min-h-screen">
+        <div className="space-y-6">
             {/* Header */}
-            <div className="mb-6">
-                <h1 className="text-3xl font-bold text-white mb-1">User Management</h1>
-                <p className="text-sm text-gray-400">
-                    Manage registered users and their activities
-                </p>
+            <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-semibold text-slate-900">User Management</h1>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div className="card p-4">
-                    <p className="text-sm text-gray-400 mb-1">Total Users</p>
-                    <p className="text-2xl font-bold text-white">{users.length}</p>
-                </div>
-                <div className="card p-4">
-                    <p className="text-sm text-gray-400 mb-1">Active Users</p>
-                    <p className="text-2xl font-bold text-green-400">
-                        {users.filter(u => u.status === 'active').length}
-                    </p>
-                </div>
-                <div className="card p-4">
-                    <p className="text-sm text-gray-400 mb-1">New This Month</p>
-                    <p className="text-2xl font-bold text-blue-400">24</p>
-                </div>
-                <div className="card p-4">
-                    <p className="text-sm text-gray-400 mb-1">Avg Reports/User</p>
-                    <p className="text-2xl font-bold text-purple-400">
-                        {(users.reduce((sum, u) => sum + u.reports, 0) / users.length).toFixed(1)}
-                    </p>
-                </div>
-            </div>
-
-            {/* Users Table */}
-            <div
-                className="rounded-xl overflow-hidden"
-                style={{
-                    background: 'rgba(26, 31, 58, 0.6)',
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                }}
-            >
-                <DataTable
-                    columns={columns}
-                    data={users}
-                    actions={(row) => (
-                        <>
-                            <button className="px-3 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors">
-                                View Profile
-                            </button>
-                            <button className="px-3 py-1 text-xs bg-yellow-600 hover:bg-yellow-700 text-white rounded transition-colors">
-                                {row.status === 'active' ? 'Block' : 'Unblock'}
-                            </button>
-                            <button className="px-3 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded transition-colors">
-                                Deactivate
-                            </button>
-                        </>
-                    )}
+            {/* Search */}
+            <div className="flex items-center gap-4">
+                <input
+                    type="text"
+                    placeholder="Search users..."
+                    className="flex-1 max-w-md px-4 py-2 border border-slate-300 rounded text-sm"
                 />
+            </div>
+
+            {/* Table */}
+            <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+                <table className="w-full">
+                    <thead className="bg-slate-50 border-b border-slate-200">
+                        <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Username</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Email</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Reports</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Status</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Joined</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                        {users.map((user) => (
+                            <tr key={user.id} className="hover:bg-slate-50">
+                                <td className="px-6 py-4 text-sm font-medium text-blue-600 hover:underline cursor-pointer">{user.username}</td>
+                                <td className="px-6 py-4 text-sm text-slate-700">{user.email}</td>
+                                <td className="px-6 py-4 text-sm text-slate-700">{user.reports}</td>
+                                <td className="px-6 py-4">
+                                    <span className={`inline-flex px-2 py-1 text-xs font-medium rounded ${user.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700'
+                                        }`}>
+                                        {user.status}
+                                    </span>
+                                </td>
+                                <td className="px-6 py-4 text-sm text-slate-700">{user.joined}</td>
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center gap-2">
+                                        <button className="text-slate-600 hover:text-slate-900">⋯</button>
+                                        <button className="text-red-600 hover:text-red-700">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
