@@ -1,9 +1,177 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
-html,body {
-  background-color: black;
-  color : white;
+/* CSS Custom Properties */
+:root {
+  /* Vision UI Colors */
+  --bg-primary: #0f172a; /* Deep Navy */
+  --bg-secondary: #1e293b; /* Lighter Navy */
+  --bg-tertiary: #334155;
+
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-surface: rgba(15, 23, 42, 0.6);
+  --glass-highlight: rgba(255, 255, 255, 0.05);
+
+  --accent-blue: #0075ff; /* Vision UI Bright Blue */
+  --accent-cyan: #06b6d4;
+  --accent-purple: #7928ca;
+  --accent-pink: #ff0080;
+  --accent-green: #05cd99;
+  --accent-red: #f31260;
+  --accent-orange: #ff5b1e;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0aec0;
+  --text-muted: #718096;
+
+  --shadow-sm: 0 2px 6px rgba(20, 20, 43, 0.06);
+  --shadow-md: 0 8px 15px rgba(20, 20, 43, 0.08);
+  --shadow-lg: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 20px rgba(0, 117, 255, 0.4);
+}
+
+/* Global Styles */
+* {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: var(--bg-primary);
+  background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: linear-gradient(
+    127.09deg,
+    rgba(6, 11, 40, 0.94) 19.41%,
+    rgba(10, 14, 35, 0.49) 76.65%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.glass-card {
+  background: linear-gradient(
+    127.09deg,
+    rgba(6, 11, 40, 0.94) 19.41%,
+    rgba(10, 14, 35, 0.49) 76.65%
+  );
+  backdrop-filter: blur(20px);
+  border-radius: 1.25rem;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.glass-input {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(0, 117, 255, 0.2);
+  outline: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #fff 0%, #a0aec0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-blue {
+  background: linear-gradient(135deg, #0075ff 0%, #00c6ff 100%);
+}
+
+.gradient-orange {
+  background: linear-gradient(135deg, #ff5b1e 0%, #ffb347 100%);
+}
+
+.gradient-purple {
+  background: linear-gradient(135deg, #7928ca 0%, #ff0080 100%);
+}
+
+/* Icon Box */
+.icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar Active Item */
+.nav-item-active {
+  background: var(--bg-secondary);
+  box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
+}
+
+.nav-icon-active {
+  background: var(--accent-blue);
+  box-shadow: var(--shadow-glow);
+  border-radius: 0.75rem;
+  color: white;
 }
