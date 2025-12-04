@@ -1,4 +1,4 @@
-package com.yourproject.config;
+package com.elytra.backend.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
