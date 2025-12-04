@@ -1,12 +1,10 @@
 package com.elytra.backend.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.HashMap;
-//random controller to check if spring boot server is running nigger nigger nigger niger niger
 
 @RestController
 public class HealthController {
