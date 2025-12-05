@@ -1,6 +1,7 @@
 package com.elytra.backend.Controller;
 
 import com.elytra.backend.Models.Issue;
+import com.elytra.backend.DTO.IssueDTO;
 import com.elytra.backend.Services.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,45 +11,72 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/issues")
-@CrossOrigin(origins = "*")
+
 public class IssueController {
 
     @Autowired
     private IssueService issueService;
 
     @GetMapping
-    public ResponseEntity<List<Issue>> getAllIssues() {
-        return ResponseEntity.ok(issueService.getAllIssues());
+    public ResponseEntity<List<IssueDTO>> getAllIssues() {
+        List<Issue> issues = issueService.getAllIssues();
+        List<IssueDTO> dtos = issues.stream()
+                .map(IssueDTO::fromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/sorted-by-upvotes")
+    public ResponseEntity<List<IssueDTO>> getIssuesSortedByUpvotes() {
+        List<Issue> issues = issueService.getIssuesSortedByUpvotes();
+        List<IssueDTO> dtos = issues.stream()
+                .map(IssueDTO::fromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Issue> getIssueById(@PathVariable Long id) {
+    public ResponseEntity<IssueDTO> getIssueById(@PathVariable Long id) {
         return issueService.getIssueById(id)
+                .map(IssueDTO::fromEntity)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Issue>> getIssuesByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(issueService.getIssuesByUserId(userId));
+    public ResponseEntity<List<IssueDTO>> getIssuesByUserId(@PathVariable Long userId) {
+        List<Issue> issues = issueService.getIssuesByUserId(userId);
+        List<IssueDTO> dtos = issues.stream()
+                .map(IssueDTO::fromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<Issue>> getIssuesByStatus(@PathVariable String status) {
+    public ResponseEntity<List<IssueDTO>> getIssuesByStatus(@PathVariable String status) {
         try {
             Issue.IssueStatus issueStatus = Issue.IssueStatus.valueOf(status.toUpperCase());
-            return ResponseEntity.ok(issueService.getIssuesByStatus(issueStatus));
+            List<Issue> issues = issueService.getIssuesByStatus(issueStatus);
+            List<IssueDTO> dtos = issues.stream()
+                    .map(IssueDTO::fromEntity)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtos);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @GetMapping("/city/{cityId}")
-    public ResponseEntity<List<Issue>> getIssuesByCityId(@PathVariable Long cityId) {
-        return ResponseEntity.ok(issueService.getIssuesByCityId(cityId));
+    public ResponseEntity<List<IssueDTO>> getIssuesByCityId(@PathVariable Long cityId) {
+        List<Issue> issues = issueService.getIssuesByCityId(cityId);
+        List<IssueDTO> dtos = issues.stream()
+                .map(IssueDTO::fromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @PostMapping

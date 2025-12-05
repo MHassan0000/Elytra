@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/upvotes")
-@CrossOrigin(origins = "*")
+
 public class UpvoteController {
 
     @Autowired

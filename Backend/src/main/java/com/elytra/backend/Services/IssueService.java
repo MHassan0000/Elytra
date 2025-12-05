@@ -34,6 +34,10 @@ public class IssueService {
         return issueRepository.findAllOrderByCreatedAtDesc();
     }
 
+    public List<Issue> getIssuesSortedByUpvotes() {
+        return issueRepository.findAllOrderByUpvotesDesc();
+    }
+
     public Optional<Issue> getIssueById(Long id) {
         return issueRepository.findById(id);
     }

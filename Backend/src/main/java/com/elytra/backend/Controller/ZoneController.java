@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/zones")
-@CrossOrigin(origins = "*")
+
 public class ZoneController {
 
     @Autowired

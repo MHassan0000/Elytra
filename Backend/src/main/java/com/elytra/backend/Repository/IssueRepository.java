@@ -25,6 +25,9 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     @Query("SELECT i FROM Issue i ORDER BY i.createdAt DESC")
     List<Issue> findAllOrderByCreatedAtDesc();
 
+    @Query("SELECT i FROM Issue i ORDER BY i.upvotes DESC, i.createdAt DESC")
+    List<Issue> findAllOrderByUpvotesDesc();
+
     @Query("SELECT i FROM Issue i WHERE i.user.id = ?1 ORDER BY i.createdAt DESC")
     List<Issue> findByUserIdOrderByCreatedAtDesc(Long userId);
 
