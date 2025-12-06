@@ -62,8 +62,10 @@ public class SecurityConfig {
                     corsConfig.setAllowedOriginPatterns(
                             java.util.List.of("http://localhost:5173", "http://localhost:3000"));
                     corsConfig.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-                    corsConfig.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type", "Accept"));
+                    corsConfig.setAllowedHeaders(java.util.List.of("*")); // Allow all headers
+                    corsConfig.setExposedHeaders(java.util.List.of("Authorization", "Content-Type")); // Expose headers
                     corsConfig.setAllowCredentials(true);
+                    corsConfig.setMaxAge(3600L); // Cache preflight for 1 hour
                     return corsConfig;
                 }))
                 .csrf(csrf -> csrf.disable())

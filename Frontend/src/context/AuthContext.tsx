@@ -76,9 +76,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
     };
 
-    const logout = () => {
-        authService.logout();
-        setUser(null);
+    const logout = async () => {
+        try {
+            // Call backend logout endpoint
+            await authService.logout();
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            // Always clear local state and redirect
+            setUser(null);
+            // Redirect to homepage
+            window.location.href = '/';
+        }
     };
 
     const updateProfile = async (data: UpdateProfileRequest) => {

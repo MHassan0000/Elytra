@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import type { User } from '../types/types';
-import { userService } from '../services/userService';
+import React, { createContext, useContext, type ReactNode } from 'react';
+import { useAuth } from './AuthContext';
 
 interface UserContextType {
-    currentUser: User | null;
+    currentUser: any | null;
     userId: number;
     loading: boolean;
     error: string | null;
@@ -25,41 +24,13 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-    // TODO: Replace with actual auth when implemented
-    // For now, using hardcoded userId = 1 (Hassan)
-    const MOCK_USER_ID = 1;
-
-    const [currentUser, setCurrentUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    const fetchUser = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            const user = await userService.getUserById(MOCK_USER_ID);
-            setCurrentUser(user);
-        } catch (err) {
-            console.error('Error fetching user:', err);
-            setError('Failed to load user data');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchUser();
-    }, []);
-
-    const refreshUser = async () => {
-        await fetchUser();
-    };
+    const { user, loading, refreshUser } = useAuth();
 
     const value: UserContextType = {
-        currentUser,
-        userId: MOCK_USER_ID,
+        currentUser: user,
+        userId: user?.id || 0,
         loading,
-        error,
+        error: null,
         refreshUser,
     };
 
