@@ -30,8 +30,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         try {
-            return processOAuth2User(userRequest, oAuth2User);
+            System.out.println("=== OAuth2 User Loading ===");
+            System.out.println("Provider: " + userRequest.getClientRegistration().getRegistrationId());
+            System.out.println("Attributes: " + oAuth2User.getAttributes());
+
+            OAuth2User result = processOAuth2User(userRequest, oAuth2User);
+            System.out.println("=== OAuth2 User Loaded Successfully ===");
+            return result;
         } catch (Exception ex) {
+            System.err.println("=== OAuth2 User Loading FAILED ===");
+            System.err.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
             throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
         }
     }
@@ -78,18 +87,27 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User registerNewUser(OAuth2UserRequest userRequest, OAuth2UserInfo oAuth2UserInfo, String registrationId) {
-        User user = new User();
+        try {
+            User user = new User();
 
-        user.setProvider(User.AuthProvider.valueOf(registrationId.toUpperCase()));
-        user.setProviderId(oAuth2UserInfo.getId());
-        user.setUsername(oAuth2UserInfo.getName());
-        user.setEmail(oAuth2UserInfo.getEmail());
-        user.setProfilePicture(oAuth2UserInfo.getImageUrl());
-        user.setEmailVerified(true);
-        user.setRole(User.Role.USER);
-        user.setStatus(User.Status.ACTIVE);
+            user.setProvider(User.AuthProvider.valueOf(registrationId.toUpperCase()));
+            user.setProviderId(oAuth2UserInfo.getId());
+            user.setUsername(oAuth2UserInfo.getName());
+            user.setEmail(oAuth2UserInfo.getEmail());
+            user.setProfilePicture(oAuth2UserInfo.getImageUrl());
+            user.setEmailVerified(true);
+            user.setRole(User.Role.USER);
+            user.setStatus(User.Status.ACTIVE);
 
-        return userRepository.save(user);
+            System.out.println("Saving new OAuth2 user: " + user.getEmail());
+            User savedUser = userRepository.save(user);
+            System.out.println("User saved successfully with ID: " + savedUser.getId());
+            return savedUser;
+        } catch (Exception e) {
+            System.err.println("Failed to save OAuth2 user: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Failed to register OAuth2 user: " + e.getMessage(), e);
+        }
     }
 
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo, String registrationId) {
