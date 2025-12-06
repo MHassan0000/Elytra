@@ -59,9 +59,10 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                    corsConfig.setAllowedOrigins(java.util.List.of("http://localhost:5173", "http://localhost:3000"));
+                    corsConfig.setAllowedOriginPatterns(
+                            java.util.List.of("http://localhost:5173", "http://localhost:3000"));
                     corsConfig.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-                    corsConfig.setAllowedHeaders(java.util.List.of("*"));
+                    corsConfig.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type", "Accept"));
                     corsConfig.setAllowCredentials(true);
                     return corsConfig;
                 }))
@@ -82,7 +83,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/oauth2/authorization/google") // Bypass default login page
-                        .defaultSuccessUrl("http://localhost:5173/dashboard", true)
+                        .successHandler(oAuth2AuthenticationSuccessHandler)
                         .failureUrl("http://localhost:5173/login?error=oauth_failed")
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService)))
