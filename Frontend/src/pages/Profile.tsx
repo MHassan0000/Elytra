@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useUser } from '../context/UserContext';
-import { userService } from '../services/userService';
+import { useAuth } from '../context/AuthContext';
 import { issueService } from '../services/issueService';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { useToast } from '../components/ui/Toast';
 
 const Profile = () => {
-    const { currentUser, userId, refreshUser } = useUser();
+
+    const { user, updateProfile } = useAuth();
     const { showToast, ToastContainer } = useToast();
 
     const [formData, setFormData] = useState({
         username: '',
-        email: '',
+        profilePicture: '',
     });
 
     const [stats, setStats] = useState({
@@ -34,23 +34,20 @@ const Profile = () => {
             try {
                 setLoading(true);
 
-                // Fetch user stats
-                const issueStats = await issueService.getUserIssueStats(userId);
+                // Fetch user stats if user is authenticated
+                if (user?.id) {
+                    const issueStats = await issueService.getUserIssueStats(user.id);
+                    setStats({
+                        totalReports: issueStats.total,
+                        totalUpvotes: 0, // Placeholder - would need backend endpoint
+                    });
+                }
 
-                // Get total upvotes given by user (count of upvotes)
-                // Note: This is a simplified version. In production, you'd have a dedicated endpoint
-                const totalUpvotes = 0; // Placeholder - would need backend endpoint
-
-                setStats({
-                    totalReports: issueStats.total,
-                    totalUpvotes: totalUpvotes,
-                });
-
-                // Set form data from current user
-                if (currentUser) {
+                // Set form data from authenticated user
+                if (user) {
                     setFormData({
-                        username: currentUser.username,
-                        email: currentUser.email,
+                        username: user.username,
+                        profilePicture: user.profilePicture || '',
                     });
                 }
 
@@ -68,7 +65,7 @@ const Profile = () => {
         };
 
         fetchProfileData();
-    }, [userId, currentUser]);
+    }, [user]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -76,18 +73,15 @@ const Profile = () => {
         try {
             setSaving(true);
 
-            await userService.updateUser(userId, {
+            await updateProfile({
                 username: formData.username,
-                email: formData.email,
+                profilePicture: formData.profilePicture || undefined,
             });
 
-            // Refresh user data
-            await refreshUser();
-
             showToast('Profile updated successfully!', 'success');
-        } catch (err) {
+        } catch (err: any) {
             console.error('Error updating profile:', err);
-            showToast('Failed to update profile', 'error');
+            showToast(err.message || 'Failed to update profile', 'error');
         } finally {
             setSaving(false);
         }
@@ -121,12 +115,12 @@ const Profile = () => {
                         <div className="w-32 h-32 mx-auto rounded-full bg-linear-to-tr from-violet-600 to-pink-600 p-1 mb-6">
                             <div className="w-full h-full rounded-full bg-[#151A25] flex items-center justify-center">
                                 <span className="text-4xl font-bold text-white">
-                                    {currentUser?.username?.charAt(0).toUpperCase() || 'U'}
+                                    {user?.username?.charAt(0).toUpperCase() || 'U'}
                                 </span>
                             </div>
                         </div>
-                        <h2 className="text-2xl font-bold text-white mb-1">{currentUser?.username || 'User'}</h2>
-                        <p className="text-slate-400 mb-6">{currentUser?.email || 'user@example.com'}</p>
+                        <h2 className="text-2xl font-bold text-white mb-1">{user?.username || 'User'}</h2>
+                        <p className="text-slate-400 mb-6">{user?.email || 'user@example.com'}</p>
 
                         <div className="grid grid-cols-2 gap-4 mb-6">
                             <div className="p-4 rounded-xl bg-white/5">
@@ -141,10 +135,10 @@ const Profile = () => {
 
                         <div className="space-y-3">
                             <div className="w-full py-3 rounded-xl bg-violet-500/10 text-violet-400 border border-violet-500/20 text-sm font-medium">
-                                {currentUser?.role || 'USER'}
+                                {user?.role || 'USER'}
                             </div>
                             <div className="w-full py-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-sm font-medium">
-                                {currentUser?.status || 'ACTIVE'}
+                                {user?.status || 'ACTIVE'}
                             </div>
                         </div>
                     </div>
@@ -168,10 +162,11 @@ const Profile = () => {
                                         <label className="block text-sm font-medium text-slate-400 mb-2">Email</label>
                                         <input
                                             type="email"
-                                            value={formData.email}
-                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            className="input-dark w-full"
+                                            value={user?.email || ''}
+                                            disabled
+                                            className="input-dark w-full opacity-50 cursor-not-allowed"
                                         />
+                                        <p className="text-xs text-slate-500 mt-1">Email cannot be changed</p>
                                     </div>
                                 </div>
 
@@ -179,10 +174,10 @@ const Profile = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
-                                            if (currentUser) {
+                                            if (user) {
                                                 setFormData({
-                                                    username: currentUser.username,
-                                                    email: currentUser.email,
+                                                    username: user.username,
+                                                    profilePicture: user.profilePicture || '',
                                                 });
                                             }
                                         }}
