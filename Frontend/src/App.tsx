@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import CommunityBoard from './pages/CommunityBoard';
 import MyReports from './pages/MyReports';
 import Profile from './pages/Profile';
+import Settings from './pages/Settings';
 import SubmitFeedback from './pages/SubmitFeedback';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import IssuesManagement from './pages/admin/IssuesManagement';
@@ -77,6 +78,16 @@ function App() {
               <ProtectedRoute>
                 <DashboardLayout>
                   <Profile />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Settings />
                 </DashboardLayout>
               </ProtectedRoute>
             }
