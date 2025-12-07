@@ -1,69 +1,34 @@
 import { useState } from 'react';
-import { Upload, Loader2, User, Mail, Shield, Key } from 'lucide-react';
+import { User, Mail, Shield, Key, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Settings = () => {
-    const { user, updateProfile, refreshUser } = useAuth();
+    const { user, updateProfile } = useAuth();
     const [username, setUsername] = useState(user?.username || '');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
     const handleUpdateProfile = async (e: React.FormEvent) => {
         e.preventDefault();
+
         if (!username.trim()) {
             setMessage({ type: 'error', text: 'Username cannot be empty' });
             return;
         }
 
+        if (username === user?.username) {
+            setMessage({ type: 'error', text: 'No changes to save' });
+            return;
+        }
+
         try {
             setLoading(true);
             setMessage(null);
-            await updateProfile({ username });
-            await refreshUser();
-            setMessage({ type: 'success', text: 'Profile updated successfully!' });
+            await updateProfile({ username: username.trim() });
+            setMessage({ type: 'success', text: 'Username updated successfully!' });
         } catch (error: any) {
             setMessage({ type: 'error', text: error.message || 'Failed to update profile' });
         } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleProfilePictureUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        // Validate file type
-        if (!file.type.startsWith('image/')) {
-            setMessage({ type: 'error', text: 'Please select an image file' });
-            return;
-        }
-
-        // Validate file size (max 5MB)
-        if (file.size > 5 * 1024 * 1024) {
-            setMessage({ type: 'error', text: 'Image size must be less than 5MB' });
-            return;
-        }
-
-        try {
-            setLoading(true);
-            setMessage(null);
-
-            // Convert to base64
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-                try {
-                    await updateProfile({ profilePicture: reader.result as string });
-                    await refreshUser();
-                    setMessage({ type: 'success', text: 'Profile picture updated!' });
-                } catch (error: any) {
-                    setMessage({ type: 'error', text: error.message || 'Failed to upload picture' });
-                } finally {
-                    setLoading(false);
-                }
-            };
-            reader.readAsDataURL(file);
-        } catch (error: any) {
-            setMessage({ type: 'error', text: error.message || 'Failed to upload picture' });
             setLoading(false);
         }
     };
@@ -86,7 +51,7 @@ const Settings = () => {
                 </div>
             )}
 
-            {/* Profile Picture Section */}
+            {/* Profile Picture Section - Display Only */}
             <div className="glass-card p-8">
                 <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                     <User size={20} className="text-violet-400" />
@@ -101,24 +66,14 @@ const Settings = () => {
                             className="w-24 h-24 rounded-full object-cover border-2 border-violet-500/30"
                         />
                     ) : (
-                        <div className="w-24 h-24 rounded-full bg-linear-to-tr from-violet-500 to-pink-500 flex items-center justify-center text-2xl font-bold text-white">
+                        <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-violet-500 to-pink-500 flex items-center justify-center text-2xl font-bold text-white">
                             {user?.username?.charAt(0).toUpperCase() || 'U'}
                         </div>
                     )}
 
                     <div>
-                        <label className="btn-gradient px-6 py-3 cursor-pointer inline-flex items-center gap-2">
-                            <Upload size={18} />
-                            {loading ? 'Uploading...' : 'Upload Picture'}
-                            <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleProfilePictureUpload}
-                                disabled={loading}
-                            />
-                        </label>
-                        <p className="text-xs text-slate-400 mt-2">JPG, PNG or GIF. Max 5MB.</p>
+                        <p className="text-white font-medium mb-1">{user?.username}</p>
+                        <p className="text-xs text-slate-400">Profile picture is set from your account</p>
                     </div>
                 </div>
             </div>

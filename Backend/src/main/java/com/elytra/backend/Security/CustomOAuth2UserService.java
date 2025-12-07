@@ -121,7 +121,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo, String registrationId) {
-        existingUser.setUsername(oAuth2UserInfo.getName());
+        // Only update profile picture from OAuth2, don't overwrite username
+        // This allows users to customize their username in settings
         existingUser.setProfilePicture(oAuth2UserInfo.getImageUrl());
         return userRepository.save(existingUser);
     }

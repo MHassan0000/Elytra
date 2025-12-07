@@ -146,6 +146,11 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
 
+            System.out.println("=== Profile Update Request ===");
+            System.out.println("User ID: " + currentUser.getId());
+            System.out.println("Current Username: " + currentUser.getUsername());
+            System.out.println("New Username: " + updateRequest.getUsername());
+
             User user = userRepository.findById(currentUser.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -157,6 +162,7 @@ public class AuthController {
                     error.put("error", "Username is already taken");
                     return ResponseEntity.badRequest().body(error);
                 }
+                System.out.println("Setting new username: " + updateRequest.getUsername());
                 user.setUsername(updateRequest.getUsername());
             }
 
@@ -165,6 +171,7 @@ public class AuthController {
             }
 
             User updatedUser = userRepository.save(user);
+            System.out.println("User saved with username: " + updatedUser.getUsername());
 
             UserProfileResponse profile = new UserProfileResponse();
             profile.setId(updatedUser.getId());
@@ -177,8 +184,11 @@ public class AuthController {
             profile.setEmailVerified(updatedUser.getEmailVerified());
             profile.setCreatedAt(updatedUser.getCreatedAt().toString());
 
+            System.out.println("=== Profile Update Complete ===");
             return ResponseEntity.ok(profile);
         } catch (Exception e) {
+            System.err.println("Profile update failed: " + e.getMessage());
+            e.printStackTrace();
             Map<String, String> error = new HashMap<>();
             error.put("error", e.getMessage());
             return ResponseEntity.badRequest().body(error);
