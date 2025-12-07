@@ -80,3 +80,113 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #4a5568;
 }
+
+/* Custom 3D Button Styles */
+.center {
+  width: auto;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center button {
+  width: 110px;
+  height: 38px;
+  position: relative;
+  background: none;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.center .top {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  outline: 2px solid rgba(139, 92, 246, 0.5);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  z-index: 2;
+}
+
+.center .bottom {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+  top: 8px;
+  left: 0;
+  border-radius: 10px;
+  outline: 2px solid rgba(124, 58, 237, 0.5);
+  z-index: 0;
+}
+
+.center .bottom::before {
+  position: absolute;
+  content: "";
+  width: 2px;
+  height: 7px;
+  background: rgba(124, 58, 237, 0.8);
+  bottom: 0;
+  left: 15%;
+}
+
+.center .bottom::after {
+  position: absolute;
+  content: "";
+  width: 2px;
+  height: 7px;
+  background: rgba(124, 58, 237, 0.8);
+  bottom: 0;
+  left: 85%;
+}
+
+.center button:active .top {
+  transform: translateY(12px);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+}
+
+.center button::before {
+  position: absolute;
+  content: "";
+  width: calc(100% + 2px);
+  height: 100%;
+  background: linear-gradient(135deg, #6d28d9 0%, #be185d 100%);
+  top: 12px;
+  left: -1px;
+  border-radius: 10px;
+  outline: 2px solid rgba(109, 40, 217, 0.5);
+  z-index: 1;
+}
+
+.center .top::before {
+  position: absolute;
+  content: "";
+  width: 15px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: skewX(30deg);
+  left: -20px;
+  transition: 0.25s ease;
+}
+
+.center button:hover .top::before {
+  left: calc(100% + 20px);
+}
+
+.center button:active .top::before {
+  left: calc(100% + 20px);
+}

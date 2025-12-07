@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
+
 const HomeNav = () => {
     const { isAuthenticated } = useAuth();
 
@@ -40,12 +41,20 @@ const HomeNav = () => {
                 {/* Auth Buttons - Conditional Rendering */}
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
-                        <Link
-                            to="/dashboard"
-                            className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-violet-500 to-pink-500 text-white text-sm font-bold hover:shadow-lg hover:shadow-violet-500/50 transition-all duration-300"
-                        >
-                            Dashboard →
-                        </Link>
+                        <div className="center">
+                            <button
+                                type="button"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setTimeout(() => {
+                                        window.location.href = '/dashboard';
+                                    }, 200);
+                                }}
+                            >
+                                <div className="top">Dashboard</div>
+                                <div className="bottom"></div>
+                            </button>
+                        </div>
                     ) : (
                         <>
                             <Link
