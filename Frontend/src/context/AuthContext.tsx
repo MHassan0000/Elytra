@@ -58,6 +58,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             // Fetch full user profile
             const userData = await authService.getCurrentUser();
             setUser(userData);
+            localStorage.setItem('user', JSON.stringify(userData));
         } catch (error: any) {
             throw new Error(error.response?.data?.error || 'Login failed');
         }
@@ -71,6 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             // Fetch full user profile
             const userData = await authService.getCurrentUser();
             setUser(userData);
+            localStorage.setItem('user', JSON.stringify(userData));
         } catch (error: any) {
             throw new Error(error.response?.data?.error || 'Signup failed');
         }
@@ -94,6 +96,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
             const updatedUser = await authService.updateProfile(data);
             setUser(updatedUser);
+            // Persist updated user data in localStorage
+            localStorage.setItem('user', JSON.stringify(updatedUser));
         } catch (error: any) {
             throw new Error(error.response?.data?.error || 'Profile update failed');
         }
@@ -103,6 +107,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
             const userData = await authService.getCurrentUser();
             setUser(userData);
+            // Persist refreshed user data in localStorage
+            localStorage.setItem('user', JSON.stringify(userData));
         } catch (error: any) {
             console.error('Failed to refresh user:', error);
             throw new Error(error.response?.data?.error || 'Failed to refresh user data');

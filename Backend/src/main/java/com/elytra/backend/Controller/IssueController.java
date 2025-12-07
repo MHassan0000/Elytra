@@ -3,6 +3,7 @@ package com.elytra.backend.Controller;
 import com.elytra.backend.Models.Issue;
 import com.elytra.backend.DTO.IssueDTO;
 import com.elytra.backend.Services.IssueService;
+import com.elytra.backend.Services.UpvoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,9 @@ public class IssueController {
 
     @Autowired
     private IssueService issueService;
+
+    @Autowired
+    private UpvoteService upvoteService;
 
     @GetMapping
     public ResponseEntity<List<IssueDTO>> getAllIssues() {
@@ -147,5 +151,56 @@ public class IssueController {
         stats.put("inProgress", issueService.countIssuesByUserIdAndStatus(userId, Issue.IssueStatus.IN_PROGRESS));
         stats.put("resolved", issueService.countIssuesByUserIdAndStatus(userId, Issue.IssueStatus.RESOLVED));
         return ResponseEntity.ok(stats);
+    }
+
+    @PostMapping("/{id}/upvote")
+    public ResponseEntity<?> upvoteIssue(@PathVariable Long id, @RequestParam Long userId) {
+        try {
+            upvoteService.addUpvote(userId, id);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Upvote added successfully");
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @PostMapping("/{id}/downvote")
+    public ResponseEntity<?> downvoteIssue(@PathVariable Long id, @RequestParam Long userId) {
+        try {
+            upvoteService.removeUpvote(userId, id);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Downvote processed successfully");
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @DeleteMapping("/{id}/vote")
+    public ResponseEntity<?> removeVote(@PathVariable Long id, @RequestParam Long userId) {
+        try {
+            upvoteService.removeUpvote(userId, id);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Vote removed successfully");
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping("/{id}/user-vote")
+    public ResponseEntity<Map<String, Object>> getUserVote(@PathVariable Long id, @RequestParam Long userId) {
+        Map<String, Object> response = new HashMap<>();
+        boolean hasUpvoted = upvoteService.hasUserUpvoted(userId, id);
+        response.put("vote", hasUpvoted ? "up" : null);
+        response.put("hasUpvoted", hasUpvoted);
+        return ResponseEntity.ok(response);
     }
 }

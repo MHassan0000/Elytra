@@ -30,6 +30,9 @@ public class IssueService {
     @Autowired
     private AreaRepository areaRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public List<Issue> getAllIssues() {
         return issueRepository.findAllOrderByCreatedAtDesc();
     }
@@ -103,13 +106,24 @@ public class IssueService {
         Issue issue = issueRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Issue not found with id: " + id));
 
+        Issue.IssueStatus oldStatus = issue.getStatus();
         issue.setStatus(status);
 
         if (status == Issue.IssueStatus.RESOLVED && issue.getResolvedAt() == null) {
             issue.setResolvedAt(LocalDateTime.now());
         }
 
-        return issueRepository.save(issue);
+        Issue savedIssue = issueRepository.save(issue);
+
+        // Create notification if status changed
+        if (oldStatus != status && issue.getUser() != null) {
+            notificationService.createIssueStatusNotification(
+                    issue.getUser().getId(),
+                    issue.getId(),
+                    status);
+        }
+
+        return savedIssue;
     }
 
     public void deleteIssue(Long id) {

@@ -5,12 +5,16 @@ import { voteService } from '../services/voteService';
 import type { Issue } from '../types/types';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import VoteButtons from '../components/ui/VoteButtons';
+import ReportDetailModal from '../components/ui/ReportDetailModal';
+import { useUser } from '../context/UserContext';
 
 const CommunityBoard = () => {
+    const { userId } = useUser();
     const [filter, setFilter] = useState<'all' | 'PENDING' | 'IN_PROGRESS' | 'RESOLVED'>('all');
     const [issues, setIssues] = useState<Issue[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
 
     useEffect(() => {
         fetchIssues();
@@ -40,11 +44,11 @@ const CommunityBoard = () => {
     const handleVote = async (issueId: number, voteType: 'up' | 'down' | null) => {
         try {
             if (voteType === null) {
-                await voteService.removeVote(issueId);
+                await voteService.removeVote(issueId, userId);
             } else if (voteType === 'up') {
-                await voteService.upvote(issueId);
+                await voteService.upvote(issueId, userId);
             } else {
-                await voteService.downvote(issueId);
+                await voteService.downvote(issueId, userId);
             }
             // Refresh issues to get updated vote counts
             await fetchIssues();
@@ -122,14 +126,20 @@ const CommunityBoard = () => {
                     </div>
                 ) : (
                     issues.map((issue) => (
-                        <div key={issue.id} className="glass-card p-6 flex gap-4">
+                        <div
+                            key={issue.id}
+                            className="glass-card p-6 flex gap-4 cursor-pointer glass-card-hover"
+                            onClick={() => setSelectedIssue(issue)}
+                        >
                             {/* Vote Buttons */}
-                            <VoteButtons
-                                issueId={issue.id}
-                                initialVotes={issue.upvotes || 0}
-                                userVote={null} // TODO: Get from backend
-                                onVote={handleVote}
-                            />
+                            <div onClick={(e) => e.stopPropagation()}>
+                                <VoteButtons
+                                    issueId={issue.id}
+                                    initialVotes={issue.upvotes || 0}
+                                    userVote={null}
+                                    onVote={handleVote}
+                                />
+                            </div>
 
                             {/* Issue Content */}
                             <div className="flex-1">
@@ -154,6 +164,12 @@ const CommunityBoard = () => {
                     ))
                 )}
             </div>
+
+            {/* Report Detail Modal */}
+            <ReportDetailModal
+                issue={selectedIssue}
+                onClose={() => setSelectedIssue(null)}
+            />
         </div>
     );
 };

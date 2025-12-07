@@ -90,7 +90,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         try {
             User user = new User();
 
-            user.setProvider(User.AuthProvider.valueOf(registrationId.toUpperCase()));
+            // Map provider name to AuthProvider enum
+            User.AuthProvider provider;
+            if (registrationId.equalsIgnoreCase("google")) {
+                provider = User.AuthProvider.GOOGLE;
+            } else if (registrationId.equalsIgnoreCase("github")) {
+                provider = User.AuthProvider.GITHUB;
+            } else {
+                provider = User.AuthProvider.LOCAL;
+            }
+
+            user.setProvider(provider);
             user.setProviderId(oAuth2UserInfo.getId());
             user.setUsername(oAuth2UserInfo.getName());
             user.setEmail(oAuth2UserInfo.getEmail());

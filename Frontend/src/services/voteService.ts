@@ -2,24 +2,28 @@ import api from './api';
 
 export const voteService = {
     // Upvote an issue
-    upvote: async (issueId: number): Promise<void> => {
-        await api.post(`/issues/${issueId}/upvote`);
+    upvote: async (issueId: number, userId?: number): Promise<void> => {
+        const params = userId ? `?userId=${userId}` : '';
+        await api.post(`/issues/${issueId}/upvote${params}`);
     },
 
     // Downvote an issue
-    downvote: async (issueId: number): Promise<void> => {
-        await api.post(`/issues/${issueId}/downvote`);
+    downvote: async (issueId: number, userId?: number): Promise<void> => {
+        const params = userId ? `?userId=${userId}` : '';
+        await api.post(`/issues/${issueId}/downvote${params}`);
     },
 
     // Remove vote
-    removeVote: async (issueId: number): Promise<void> => {
-        await api.delete(`/issues/${issueId}/vote`);
+    removeVote: async (issueId: number, userId?: number): Promise<void> => {
+        const params = userId ? `?userId=${userId}` : '';
+        await api.delete(`/issues/${issueId}/vote${params}`);
     },
 
     // Get user's vote on an issue
-    getUserVote: async (issueId: number): Promise<'up' | 'down' | null> => {
+    getUserVote: async (issueId: number, userId?: number): Promise<'up' | 'down' | null> => {
         try {
-            const response = await api.get(`/issues/${issueId}/user-vote`);
+            const params = userId ? `?userId=${userId}` : '';
+            const response = await api.get(`/issues/${issueId}/user-vote${params}`);
             return response.data.vote;
         } catch {
             return null;

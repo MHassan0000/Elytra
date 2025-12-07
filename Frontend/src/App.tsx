@@ -19,6 +19,9 @@ import Homepage from './pages/Homepage';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import OAuth2RedirectHandler from './pages/auth/OAuth2RedirectHandler';
+import Surveys from './pages/Surveys';
+import SurveyDetail from './pages/SurveyDetail';
+import Notifications from './pages/Notifications';
 
 function App() {
   return (
@@ -149,11 +152,39 @@ function App() {
           <Route path="/admin/notifications" element={<ProtectedRoute><AdminLayout><div className="ml-56 mt-14 p-6"><h1 className="text-4xl font-bold text-white">Notifications - Coming Soon</h1></div></AdminLayout></ProtectedRoute>} />
           <Route path="/admin/settings" element={<ProtectedRoute><AdminLayout><div className="ml-56 mt-14 p-6"><h1 className="text-4xl font-bold text-white">System Settings - Coming Soon</h1></div></AdminLayout></ProtectedRoute>} />
 
-          {/* User Placeholder Routes */}
+          {/* User Routes */}
           <Route path="/city-areas" element={<ProtectedRoute><DashboardLayout><div className="ml-56 mt-14 p-6"><h1 className="text-4xl font-bold text-white">City Areas - Coming Soon</h1></div></DashboardLayout></ProtectedRoute>} />
-          <Route path="/notifications" element={<ProtectedRoute><DashboardLayout><div className="ml-56 mt-14 p-6"><h1 className="text-4xl font-bold text-white">Notifications - Coming Soon</h1></div></DashboardLayout></ProtectedRoute>} />
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Notifications />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
           <Route path="/help" element={<ProtectedRoute><DashboardLayout><div className="ml-56 mt-14 p-6"><h1 className="text-4xl font-bold text-white">Help & Support - Coming Soon</h1></div></DashboardLayout></ProtectedRoute>} />
-          <Route path="/surveys" element={<ProtectedRoute><DashboardLayout><div className="ml-56 mt-14 p-6"><h1 className="text-4xl font-bold text-white">Surveys - Coming Soon</h1></div></DashboardLayout></ProtectedRoute>} />
+          <Route
+            path="/surveys"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Surveys />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/surveys/:id"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <SurveyDetail />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
 
           {/* Redirect to login by default */}
           <Route path="*" element={<Navigate to="/login" replace />} />
