@@ -154,6 +154,7 @@ public class AuthController {
             User user = userRepository.findById(currentUser.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
+            boolean usernameChanged = false;
             if (updateRequest.getUsername() != null) {
                 // Check if username is already taken by another user
                 if (userRepository.existsByUsername(updateRequest.getUsername()) &&
@@ -161,6 +162,9 @@ public class AuthController {
                     Map<String, String> error = new HashMap<>();
                     error.put("error", "Username is already taken");
                     return ResponseEntity.badRequest().body(error);
+                }
+                if (!user.getUsername().equals(updateRequest.getUsername())) {
+                    usernameChanged = true;
                 }
                 System.out.println("Setting new username: " + updateRequest.getUsername());
                 user.setUsername(updateRequest.getUsername());
@@ -173,6 +177,15 @@ public class AuthController {
             User updatedUser = userRepository.save(user);
             System.out.println("User saved with username: " + updatedUser.getUsername());
 
+            // Generate new token if username changed
+            String newToken = null;
+            if (usernameChanged) {
+                newToken = tokenProvider.generateTokenFromUsername(updatedUser.getUsername());
+                System.out.println("Generated new JWT token for updated username");
+            }
+
+            Map<String, Object> response = new HashMap<>();
+
             UserProfileResponse profile = new UserProfileResponse();
             profile.setId(updatedUser.getId());
             profile.setUsername(updatedUser.getUsername());
@@ -184,8 +197,13 @@ public class AuthController {
             profile.setEmailVerified(updatedUser.getEmailVerified());
             profile.setCreatedAt(updatedUser.getCreatedAt().toString());
 
+            response.put("user", profile);
+            if (newToken != null) {
+                response.put("token", newToken);
+            }
+
             System.out.println("=== Profile Update Complete ===");
-            return ResponseEntity.ok(profile);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.err.println("Profile update failed: " + e.getMessage());
             e.printStackTrace();

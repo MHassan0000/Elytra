@@ -69,6 +69,15 @@ export interface Issue {
     createdAt: string;
     updatedAt: string;
     resolvedAt?: string;
+    userId: number;
+    username: string;
+    cityId?: number;
+    cityName?: string;
+    zoneId?: number;
+    zoneName?: string;
+    areaId?: number;
+    areaName?: string;
+    hasUserUpvoted?: boolean;
 }
 
 export interface IssueWithDetails extends Issue {

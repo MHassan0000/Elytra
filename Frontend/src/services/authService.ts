@@ -54,9 +54,16 @@ const authService = {
         return response.data;
     },
 
-    async updateProfile(data: UpdateProfileRequest): Promise<UserProfile> {
+    async updateProfile(data: UpdateProfileRequest): Promise<{ user: UserProfile; token?: string }> {
         const response = await api.put('/auth/profile', data);
-        return response.data;
+        // Response may contain { user: UserProfile, token?: string }
+        if (response.data.token) {
+            // New token provided (username was changed)
+            this.setToken(response.data.token);
+            return { user: response.data.user, token: response.data.token };
+        }
+        // No token means only non-critical fields were updated
+        return { user: response.data.user || response.data };
     },
 
     async logout(): Promise<void> {

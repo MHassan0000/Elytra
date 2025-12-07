@@ -94,10 +94,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const updateProfile = async (data: UpdateProfileRequest) => {
         try {
-            const updatedUser = await authService.updateProfile(data);
+            const result = await authService.updateProfile(data);
+            const updatedUser = result.user;
             setUser(updatedUser);
             // Persist updated user data in localStorage
             localStorage.setItem('user', JSON.stringify(updatedUser));
+            // Token is automatically updated in authService if provided
         } catch (error: any) {
             throw new Error(error.response?.data?.error || 'Profile update failed');
         }

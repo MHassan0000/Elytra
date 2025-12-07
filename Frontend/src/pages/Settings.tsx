@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { User, Mail, Shield, Key, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -7,6 +7,13 @@ const Settings = () => {
     const [username, setUsername] = useState(user?.username || '');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+    // Update local username state when user changes
+    useEffect(() => {
+        if (user?.username) {
+            setUsername(user.username);
+        }
+    }, [user?.username]);
 
     const handleUpdateProfile = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,6 +35,8 @@ const Settings = () => {
             setMessage({ type: 'success', text: 'Username updated successfully!' });
         } catch (error: any) {
             setMessage({ type: 'error', text: error.message || 'Failed to update profile' });
+            // Revert username on error
+            setUsername(user?.username || '');
         } finally {
             setLoading(false);
         }

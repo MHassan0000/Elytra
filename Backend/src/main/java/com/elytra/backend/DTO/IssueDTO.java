@@ -30,6 +30,9 @@ public class IssueDTO {
     private Long areaId;
     private String areaName;
 
+    // Vote tracking
+    private Boolean hasUserUpvoted;
+
     public static IssueDTO fromEntity(Issue issue) {
         IssueDTO dto = new IssueDTO();
         dto.setId(issue.getId());

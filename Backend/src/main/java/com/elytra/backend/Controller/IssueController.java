@@ -1,12 +1,14 @@
 package com.elytra.backend.Controller;
 
 import com.elytra.backend.Models.Issue;
+import com.elytra.backend.Models.User;
 import com.elytra.backend.DTO.IssueDTO;
 import com.elytra.backend.Services.IssueService;
 import com.elytra.backend.Services.UpvoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,19 +28,34 @@ public class IssueController {
     private UpvoteService upvoteService;
 
     @GetMapping
-    public ResponseEntity<List<IssueDTO>> getAllIssues() {
+    public ResponseEntity<List<IssueDTO>> getAllIssues(@AuthenticationPrincipal User currentUser) {
         List<Issue> issues = issueService.getAllIssues();
         List<IssueDTO> dtos = issues.stream()
-                .map(IssueDTO::fromEntity)
+                .map(issue -> {
+                    IssueDTO dto = IssueDTO.fromEntity(issue);
+                    // Set user's vote status if authenticated
+                    if (currentUser != null) {
+                        boolean hasUpvoted = upvoteService.hasUserUpvoted(currentUser.getId(), issue.getId());
+                        dto.setHasUserUpvoted(hasUpvoted);
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/sorted-by-upvotes")
-    public ResponseEntity<List<IssueDTO>> getIssuesSortedByUpvotes() {
+    public ResponseEntity<List<IssueDTO>> getIssuesSortedByUpvotes(@AuthenticationPrincipal User currentUser) {
         List<Issue> issues = issueService.getIssuesSortedByUpvotes();
         List<IssueDTO> dtos = issues.stream()
-                .map(IssueDTO::fromEntity)
+                .map(issue -> {
+                    IssueDTO dto = IssueDTO.fromEntity(issue);
+                    if (currentUser != null) {
+                        boolean hasUpvoted = upvoteService.hasUserUpvoted(currentUser.getId(), issue.getId());
+                        dto.setHasUserUpvoted(hasUpvoted);
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
@@ -61,17 +78,21 @@ public class IssueController {
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<IssueDTO>> getIssuesByStatus(@PathVariable String status) {
-        try {
-            Issue.IssueStatus issueStatus = Issue.IssueStatus.valueOf(status.toUpperCase());
-            List<Issue> issues = issueService.getIssuesByStatus(issueStatus);
-            List<IssueDTO> dtos = issues.stream()
-                    .map(IssueDTO::fromEntity)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(dtos);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<List<IssueDTO>> getIssuesByStatus(@PathVariable String status,
+            @AuthenticationPrincipal User currentUser) {
+        Issue.IssueStatus issueStatus = Issue.IssueStatus.valueOf(status.toUpperCase());
+        List<Issue> issues = issueService.getIssuesByStatus(issueStatus);
+        List<IssueDTO> dtos = issues.stream()
+                .map(issue -> {
+                    IssueDTO dto = IssueDTO.fromEntity(issue);
+                    if (currentUser != null) {
+                        boolean hasUpvoted = upvoteService.hasUserUpvoted(currentUser.getId(), issue.getId());
+                        dto.setHasUserUpvoted(hasUpvoted);
+                    }
+                    return dto;
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/city/{cityId}")

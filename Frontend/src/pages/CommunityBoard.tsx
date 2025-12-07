@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Filter, TrendingUp } from 'lucide-react';
+import { Filter, TrendingUp, Trash2 } from 'lucide-react';
 import { issueService } from '../services/issueService';
 import { voteService } from '../services/voteService';
 import type { Issue } from '../types/types';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import VoteButtons from '../components/ui/VoteButtons';
 import ReportDetailModal from '../components/ui/ReportDetailModal';
+import DeleteConfirmModal from '../components/ui/DeleteConfirmModal';
 import { useUser } from '../context/UserContext';
 
 const CommunityBoard = () => {
@@ -15,6 +16,8 @@ const CommunityBoard = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [issueToDelete, setIssueToDelete] = useState<number | null>(null);
 
     useEffect(() => {
         fetchIssues();
@@ -64,6 +67,25 @@ const CommunityBoard = () => {
             'PENDING': 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
         };
         return badges[status as keyof typeof badges] || badges.PENDING;
+    };
+
+    const handleDeleteClick = (issueId: number, e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIssueToDelete(issueId);
+        setDeleteModalOpen(true);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (!issueToDelete) return;
+
+        try {
+            await issueService.deleteIssue(issueToDelete);
+            // Refresh issues list
+            await fetchIssues();
+            setIssueToDelete(null);
+        } catch (error) {
+            console.error('Delete failed:', error);
+        }
     };
 
     if (loading) {
@@ -128,15 +150,26 @@ const CommunityBoard = () => {
                     issues.map((issue) => (
                         <div
                             key={issue.id}
-                            className="glass-card p-6 flex gap-4 cursor-pointer glass-card-hover"
+                            className="glass-card p-6 flex gap-4 cursor-pointer glass-card-hover relative"
                             onClick={() => setSelectedIssue(issue)}
                         >
+                            {/* Delete Button - Only visible to owner */}
+                            {issue.userId === userId && (
+                                <button
+                                    onClick={(e) => handleDeleteClick(issue.id, e)}
+                                    className="absolute top-4 right-4 p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 transition-all group"
+                                    title="Delete report"
+                                >
+                                    <Trash2 className="text-red-400 group-hover:text-red-300" size={18} />
+                                </button>
+                            )}
+
                             {/* Vote Buttons */}
                             <div onClick={(e) => e.stopPropagation()}>
                                 <VoteButtons
                                     issueId={issue.id}
                                     initialVotes={issue.upvotes || 0}
-                                    userVote={null}
+                                    userVote={issue.hasUserUpvoted ? 'up' : null}
                                     onVote={handleVote}
                                 />
                             </div>
@@ -169,6 +202,18 @@ const CommunityBoard = () => {
             <ReportDetailModal
                 issue={selectedIssue}
                 onClose={() => setSelectedIssue(null)}
+            />
+
+            {/* Delete Confirmation Modal */}
+            <DeleteConfirmModal
+                isOpen={deleteModalOpen}
+                onClose={() => {
+                    setDeleteModalOpen(false);
+                    setIssueToDelete(null);
+                }}
+                onConfirm={handleDeleteConfirm}
+                title="Delete Report?"
+                message="Are you sure you want to delete this report? This action cannot be undone and will permanently remove the report from the community board."
             />
         </div>
     );

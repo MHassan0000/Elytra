@@ -23,22 +23,22 @@ const HomeFooter = () => {
                         <h3 className="text-white font-semibold mb-4">Quick Links</h3>
                         <ul className="space-y-2">
                             <li>
-                                <Link to="/dashboard" className="text-slate-400 hover:text-white transition-colors text-sm">
+                                <Link to="#" className="text-slate-400 hover:text-white transition-colors text-sm">
                                     Dashboard
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/community-board" className="text-slate-400 hover:text-white transition-colors text-sm">
+                                <Link to="#" className="text-slate-400 hover:text-white transition-colors text-sm">
                                     Community Board
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/submit-feedback" className="text-slate-400 hover:text-white transition-colors text-sm">
+                                <Link to="#" className="text-slate-400 hover:text-white transition-colors text-sm">
                                     Submit Feedback
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/help" className="text-slate-400 hover:text-white transition-colors text-sm">
+                                <Link to="#" className="text-slate-400 hover:text-white transition-colors text-sm">
                                     Help & Support
                                 </Link>
                             </li>
