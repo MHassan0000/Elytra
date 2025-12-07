@@ -58,6 +58,8 @@ public class AuthController {
             user.setUsername(signupRequest.getUsername());
             user.setEmail(signupRequest.getEmail());
             user.setPasswordHash(passwordEncoder.encode(signupRequest.getPassword()));
+            // SECURITY: All signups are USER role only. Admin is created via
+            // AdminUserInitializer
             user.setRole(User.Role.USER);
             user.setStatus(User.Status.ACTIVE);
             user.setProvider(User.AuthProvider.LOCAL);

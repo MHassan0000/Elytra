@@ -32,7 +32,21 @@ const Signup: React.FC = () => {
 
         try {
             await signup({ username, email, password });
-            navigate('/dashboard');
+
+            // Get user data from localStorage to check role
+            const userDataStr = localStorage.getItem('user');
+            if (userDataStr) {
+                const userData = JSON.parse(userDataStr);
+                // Redirect based on role (new signups will be USER role)
+                if (userData.role === 'ADMIN') {
+                    navigate('/admin/dashboard');
+                } else {
+                    navigate('/dashboard');
+                }
+            } else {
+                // Fallback to regular dashboard
+                navigate('/dashboard');
+            }
         } catch (err: any) {
             setError(err.message || 'Signup failed');
         } finally {
