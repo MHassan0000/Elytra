@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import Threads from '../../components/ui/Threads';
+
 import { UserPlus } from 'lucide-react';
 
 const Signup: React.FC = () => {
@@ -46,15 +46,7 @@ const Signup: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-black text-white relative overflow-hidden">
-            {/* Threads Background */}
-            <div className="absolute inset-0 w-full h-full pointer-events-none opacity-40">
-                <Threads
-                    color={[1, 1, 1]}
-                    amplitude={1.5}
-                    distance={0.3}
-                    enableMouseInteraction={true}
-                />
-            </div>
+
 
             {/* Content */}
             <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
