@@ -17,15 +17,24 @@ const HomeNav = () => {
 
                 {/* Nav Links */}
                 <div className="hidden md:flex items-center gap-8">
-                    {['Features', 'Resources', 'Docs'].map((item) => (
-                        <a
-                            key={item}
-                            href={`#${item.toLowerCase()}`}
-                            className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
-                        >
-                            {item}
-                        </a>
-                    ))}
+                    <Link
+                        to="/features"
+                        className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
+                    >
+                        Features
+                    </Link>
+                    <Link
+                        to="/docs"
+                        className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
+                    >
+                        Docs
+                    </Link>
+                    <Link
+                        to="/resources"
+                        className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
+                    >
+                        Resources
+                    </Link>
                 </div>
 
                 {/* Auth Buttons - Conditional Rendering */}

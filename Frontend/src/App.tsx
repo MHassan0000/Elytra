@@ -22,6 +22,9 @@ import OAuth2RedirectHandler from './pages/auth/OAuth2RedirectHandler';
 import Surveys from './pages/Surveys';
 import SurveyDetail from './pages/SurveyDetail';
 import Notifications from './pages/Notifications';
+import Features from './pages/Features';
+import Docs from './pages/Docs';
+import Resources from './pages/Resources';
 
 function App() {
   return (
@@ -30,8 +33,12 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Homepage />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/docs" element={<Docs />} />
+          <Route path="/resources" element={<Resources />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/register" element={<Signup />} />
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
 
           {/* Protected User Dashboard Routes */}
