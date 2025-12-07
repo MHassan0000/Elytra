@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 
 
 const HomeNav = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, user } = useAuth();
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0B0E14]/80 backdrop-blur-md border-b border-white/5">
@@ -47,7 +47,11 @@ const HomeNav = () => {
                                 onClick={(e) => {
                                     e.preventDefault();
                                     setTimeout(() => {
-                                        window.location.href = '/dashboard';
+                                        // Redirect based on user role
+                                        const dashboardUrl = user?.role === 'ADMIN'
+                                            ? '/admin/dashboard'
+                                            : '/dashboard';
+                                        window.location.href = dashboardUrl;
                                     }, 200);
                                 }}
                             >

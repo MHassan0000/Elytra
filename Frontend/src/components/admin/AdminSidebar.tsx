@@ -25,12 +25,13 @@ const AdminSidebar = () => {
             {/* Logo */}
             <div className="h-20 flex items-center px-8 border-b border-white/5">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-linear-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/20">
-                        A
+                    <div className="w-10 h-10 rounded-xl">
+                        <img src="/images/logo.png" alt="Logo" />
                     </div>
                     <span className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-white to-slate-400">
                         <Link to="/">
-                            Elytra Admin
+                            Elytra
+                            <span className="text-xl font-bold bg-clip-text text-orange-400">  Admin</span>
                         </Link>
                     </span>
                 </div>
