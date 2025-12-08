@@ -26,6 +26,10 @@ import Notifications from './pages/Notifications';
 import Features from './pages/Features';
 import Docs from './pages/Docs';
 import Resources from './pages/Resources';
+import UserDetails from './pages/admin/UserDetails';
+import SurveyResponses from './pages/admin/SurveyResponses';
+import SurveyResponseDetails from './pages/admin/SurveyResponseDetails';
+import AdminSettings from './pages/admin/AdminSettings';
 
 function App() {
   return (
@@ -155,10 +159,49 @@ function App() {
               </AdminRoute>
             }
           />
+          <Route
+            path="/admin/users/:id"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <UserDetails />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/surveys/:id/responses"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <SurveyResponses />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/surveys/:surveyId/responses/:userId"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <SurveyResponseDetails />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
 
           {/* Admin Placeholder Routes */}
           <Route path="/admin/notifications" element={<AdminRoute><AdminLayout><div className="ml-56 mt-14 p-6"><h1 className="text-4xl font-bold text-white">Notifications - Coming Soon</h1></div></AdminLayout></AdminRoute>} />
-          <Route path="/admin/settings" element={<AdminRoute><AdminLayout><div className="ml-56 mt-14 p-6"><h1 className="text-4xl font-bold text-white">System Settings - Coming Soon</h1></div></AdminLayout></AdminRoute>} />
+          <Route
+            path="/admin/settings"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <AdminSettings />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
 
           {/* User Routes */}
           <Route path="/city-areas" element={<ProtectedRoute><DashboardLayout><div className="ml-56 mt-14 p-6"><h1 className="text-4xl font-bold text-white">City Areas - Coming Soon</h1></div></DashboardLayout></ProtectedRoute>} />

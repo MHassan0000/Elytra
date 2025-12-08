@@ -72,4 +72,15 @@ export const issueService = {
         const response = await api.get(`/issues/city/${cityId}`);
         return response.data;
     },
+
+    // Admin methods
+    updateIssueStatus: async (issueId: number, status: string): Promise<Issue> => {
+        const response = await api.put(`/admin/issues/${issueId}/status`, { status });
+        return response.data;
+    },
+
+    getAdminStats: async (): Promise<any> => {
+        const response = await api.get('/admin/stats');
+        return response.data;
+    },
 };

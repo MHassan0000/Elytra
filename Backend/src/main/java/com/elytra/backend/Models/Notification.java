@@ -49,6 +49,7 @@ public class Notification {
         ISSUE_UPDATE,
         ISSUE_RESOLVED,
         ISSUE_IN_PROGRESS,
-        SYSTEM_ANNOUNCEMENT
+        SYSTEM_ANNOUNCEMENT,
+        SYSTEM
     }
 }

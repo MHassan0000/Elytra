@@ -139,4 +139,41 @@ public class IssueService {
     public Long countIssuesByUserIdAndStatus(Long userId, Issue.IssueStatus status) {
         return issueRepository.countByUserIdAndStatus(userId, status);
     }
+
+    // Convert Issue entity to DTO
+    public java.util.Map<String, Object> convertToDTO(Issue issue) {
+        java.util.Map<String, Object> dto = new java.util.HashMap<>();
+        dto.put("id", issue.getId());
+        dto.put("title", issue.getTitle());
+        dto.put("description", issue.getDescription());
+        dto.put("category", issue.getCategory());
+        dto.put("priority", issue.getPriority().toString());
+        dto.put("status", issue.getStatus().toString());
+        dto.put("upvotes", issue.getUpvotes());
+        dto.put("createdAt", issue.getCreatedAt());
+        dto.put("updatedAt", issue.getUpdatedAt());
+        dto.put("resolvedAt", issue.getResolvedAt());
+
+        if (issue.getUser() != null) {
+            dto.put("userId", issue.getUser().getId());
+            dto.put("username", issue.getUser().getUsername());
+        }
+
+        if (issue.getCity() != null) {
+            dto.put("cityId", issue.getCity().getId());
+            dto.put("cityName", issue.getCity().getName());
+        }
+
+        if (issue.getZone() != null) {
+            dto.put("zoneId", issue.getZone().getId());
+            dto.put("zoneName", issue.getZone().getName());
+        }
+
+        if (issue.getArea() != null) {
+            dto.put("areaId", issue.getArea().getId());
+            dto.put("areaName", issue.getArea().getName());
+        }
+
+        return dto;
+    }
 }

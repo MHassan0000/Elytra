@@ -49,5 +49,21 @@ export const surveyService = {
     hasUserSubmittedSurvey: async (surveyId: number, userId: number): Promise<boolean> => {
         const response = await api.get(`/surveys/${surveyId}/check/${userId}`);
         return response.data.hasSubmitted;
-    }
+    },
+
+    // Admin methods
+    getAllSurveys: async (): Promise<Survey[]> => {
+        const response = await api.get('/surveys');
+        return response.data;
+    },
+
+    getSurveyResponses: async (surveyId: number): Promise<any[]> => {
+        const response = await api.get(`/admin/surveys/${surveyId}/responses`);
+        return response.data;
+    },
+
+    getSurveyResponseByUser: async (surveyId: number, userId: number): Promise<any> => {
+        const response = await api.get(`/admin/surveys/${surveyId}/responses/${userId}`);
+        return response.data;
+    },
 };

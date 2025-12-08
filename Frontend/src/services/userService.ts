@@ -36,4 +36,15 @@ export const userService = {
     deleteUser: async (id: number): Promise<void> => {
         await api.delete(`/users/${id}`);
     },
+
+    // Admin methods
+    getAllUsersWithStats: async (): Promise<any[]> => {
+        const response = await api.get('/admin/users');
+        return response.data;
+    },
+
+    getUserWithIssues: async (id: number): Promise<any> => {
+        const response = await api.get(`/admin/users/${id}`);
+        return response.data;
+    },
 };

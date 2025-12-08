@@ -37,4 +37,49 @@ export const locationService = {
         const response = await api.get(`/areas/zone/${zoneId}`);
         return response.data;
     },
+
+    // Admin methods - Cities
+    createCity: async (city: Partial<City>): Promise<City> => {
+        const response = await api.post('/cities', city);
+        return response.data;
+    },
+
+    updateCity: async (cityId: number, city: Partial<City>): Promise<City> => {
+        const response = await api.put(`/cities/${cityId}`, city);
+        return response.data;
+    },
+
+    deleteCity: async (cityId: number): Promise<void> => {
+        await api.delete(`/cities/${cityId}`);
+    },
+
+    // Admin methods - Zones
+    createZone: async (zone: Partial<Zone>, cityId: number): Promise<Zone> => {
+        const response = await api.post(`/zones?cityId=${cityId}`, zone);
+        return response.data;
+    },
+
+    updateZone: async (zoneId: number, zone: Partial<Zone>): Promise<Zone> => {
+        const response = await api.put(`/zones/${zoneId}`, zone);
+        return response.data;
+    },
+
+    deleteZone: async (zoneId: number): Promise<void> => {
+        await api.delete(`/zones/${zoneId}`);
+    },
+
+    // Admin methods - Areas
+    createArea: async (area: Partial<Area>, zoneId: number): Promise<Area> => {
+        const response = await api.post(`/areas?zoneId=${zoneId}`, area);
+        return response.data;
+    },
+
+    updateArea: async (areaId: number, area: Partial<Area>): Promise<Area> => {
+        const response = await api.put(`/areas/${areaId}`, area);
+        return response.data;
+    },
+
+    deleteArea: async (areaId: number): Promise<void> => {
+        await api.delete(`/areas/${areaId}`);
+    },
 };

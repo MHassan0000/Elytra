@@ -96,4 +96,46 @@ public class SurveyService {
     public boolean hasUserSubmittedSurvey(Long userId, Long surveyId) {
         return surveyResponseRepository.existsByUserIdAndSurveyId(userId, surveyId);
     }
+
+    // Admin methods
+    public List<java.util.Map<String, Object>> getSurveyResponsesWithUserInfo(Long surveyId) {
+        Survey survey = surveyRepository.findById(surveyId)
+                .orElseThrow(() -> new RuntimeException("Survey not found with id: " + surveyId));
+
+        List<SurveyResponse> responses = surveyResponseRepository.findBySurveyId(surveyId);
+
+        return responses.stream()
+                .map(response -> {
+                    java.util.Map<String, Object> map = new java.util.HashMap<>();
+                    map.put("id", response.getId());
+                    map.put("userId", response.getUser().getId());
+                    map.put("username", response.getUser().getUsername());
+                    map.put("email", response.getUser().getEmail());
+                    map.put("submittedAt", response.getSubmittedAt());
+                    return map;
+                })
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    public java.util.Map<String, Object> getSurveyResponseByUser(Long surveyId, Long userId) {
+        Survey survey = surveyRepository.findById(surveyId)
+                .orElseThrow(() -> new RuntimeException("Survey not found with id: " + surveyId));
+
+        SurveyResponse response = surveyResponseRepository.findByUserIdAndSurveyId(userId, surveyId)
+                .orElseThrow(() -> new RuntimeException("Survey response not found"));
+
+        java.util.Map<String, Object> map = new java.util.HashMap<>();
+        map.put("id", response.getId());
+        map.put("surveyId", survey.getId());
+        map.put("surveyTitle", survey.getTitle());
+        map.put("surveyDescription", survey.getDescription());
+        map.put("questions", survey.getQuestions());
+        map.put("userId", response.getUser().getId());
+        map.put("username", response.getUser().getUsername());
+        map.put("email", response.getUser().getEmail());
+        map.put("responses", response.getResponses());
+        map.put("submittedAt", response.getSubmittedAt());
+
+        return map;
+    }
 }

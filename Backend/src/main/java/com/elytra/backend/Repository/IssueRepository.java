@@ -36,4 +36,7 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     @Query("SELECT COUNT(i) FROM Issue i WHERE i.user.id = ?1 AND i.status = ?2")
     Long countByUserIdAndStatus(Long userId, Issue.IssueStatus status);
+
+    @Query("SELECT COUNT(i) FROM Issue i WHERE i.status = ?1")
+    Long countByStatus(Issue.IssueStatus status);
 }

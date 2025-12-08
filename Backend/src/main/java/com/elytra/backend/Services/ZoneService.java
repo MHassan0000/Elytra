@@ -2,8 +2,11 @@ package com.elytra.backend.Services;
 
 import com.elytra.backend.Models.Zone;
 import com.elytra.backend.Models.City;
+import com.elytra.backend.Models.Notification;
+import com.elytra.backend.Models.User;
 import com.elytra.backend.Repository.ZoneRepository;
 import com.elytra.backend.Repository.CityRepository;
+import com.elytra.backend.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,12 @@ public class ZoneService {
 
     @Autowired
     private CityRepository cityRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public List<Zone> getAllZones() {
         return zoneRepository.findAll();
@@ -43,20 +52,44 @@ public class ZoneService {
         }
 
         zone.setCity(city);
-        return zoneRepository.save(zone);
+        Zone savedZone = zoneRepository.save(zone);
+
+        // Notify all users
+        notifyAllUsers("New zone added in " + city.getName() + ": " + savedZone.getName(),
+                Notification.NotificationType.SYSTEM);
+
+        return savedZone;
     }
 
     public Zone updateZone(Long id, Zone zoneDetails) {
         Zone zone = zoneRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Zone not found with id: " + id));
 
+        String oldName = zone.getName();
         zone.setName(zoneDetails.getName());
-        return zoneRepository.save(zone);
+        Zone savedZone = zoneRepository.save(zone);
+
+        // Notify all users
+        notifyAllUsers("Zone updated: " + oldName + " → " + savedZone.getName(), Notification.NotificationType.SYSTEM);
+
+        return savedZone;
     }
 
     public void deleteZone(Long id) {
         Zone zone = zoneRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Zone not found with id: " + id));
+
+        String zoneName = zone.getName();
         zoneRepository.delete(zone);
+
+        // Notify all users
+        notifyAllUsers("Zone removed: " + zoneName, Notification.NotificationType.SYSTEM);
+    }
+
+    private void notifyAllUsers(String message, Notification.NotificationType type) {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            notificationService.createNotification(user.getId(), null, message, type);
+        }
     }
 }
