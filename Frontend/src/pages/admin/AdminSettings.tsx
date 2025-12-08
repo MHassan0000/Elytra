@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Shield, Bell, Database, Mail, Globe, Lock, AlertCircle, CheckCircle, Save } from 'lucide-react';
+import Button3D from '../../components/ui/Button3D';
 
 const AdminSettings = () => {
     const [settings, setSettings] = useState({
@@ -80,28 +81,31 @@ const AdminSettings = () => {
                     <h1 className="text-3xl font-bold text-white mb-2">System Settings</h1>
                     <p className="text-slate-400">Configure system-wide settings and preferences.</p>
                 </div>
-                <button
+                <Button3D
                     onClick={handleSave}
                     disabled={saveStatus === 'saving'}
-                    className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    variant="blue"
+                    size="lg"
                 >
-                    {saveStatus === 'saving' ? (
-                        <>
-                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            Saving...
-                        </>
-                    ) : saveStatus === 'success' ? (
-                        <>
-                            <CheckCircle className="w-4 h-4" />
-                            Saved!
-                        </>
-                    ) : (
-                        <>
-                            <Save className="w-4 h-4" />
-                            Save Changes
-                        </>
-                    )}
-                </button>
+                    <div className="flex items-center gap-2">
+                        {saveStatus === 'saving' ? (
+                            <>
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                Saving...
+                            </>
+                        ) : saveStatus === 'success' ? (
+                            <>
+                                <CheckCircle className="w-4 h-4" />
+                                Saved!
+                            </>
+                        ) : (
+                            <>
+                                <Save className="w-4 h-4" />
+                                Save Changes
+                            </>
+                        )}
+                    </div>
+                </Button3D>
             </div>
 
             {/* Settings Grid */}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Button3D from '../../components/ui/Button3D';
 import { useAuth } from '../../context/AuthContext';
 
 
@@ -41,24 +42,22 @@ const HomeNav = () => {
                 {/* Auth Buttons - Conditional Rendering */}
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
-                        <div className="center">
-                            <button
-                                type="button"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setTimeout(() => {
-                                        // Redirect based on user role
-                                        const dashboardUrl = user?.role === 'ADMIN'
-                                            ? '/admin/dashboard'
-                                            : '/dashboard';
-                                        window.location.href = dashboardUrl;
-                                    }, 200);
-                                }}
-                            >
-                                <div className="top">Dashboard</div>
-                                <div className="bottom"></div>
-                            </button>
-                        </div>
+                        <Button3D
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setTimeout(() => {
+                                    // Redirect based on user role
+                                    const dashboardUrl = user?.role === 'ADMIN'
+                                        ? '/admin/dashboard'
+                                        : '/dashboard';
+                                    window.location.href = dashboardUrl;
+                                }, 200);
+                            }}
+                            variant="primary"
+                            size="md"
+                        >
+                            Dashboard
+                        </Button3D>
                     ) : (
                         <>
                             <Link

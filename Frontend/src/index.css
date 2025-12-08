@@ -190,3 +190,90 @@ body {
 .center button:active .top::before {
   left: calc(100% + 20px);
 }
+
+/* Button 3D Color Variants */
+/* Primary (Purple/Pink) - Default */
+.btn-3d-primary .top {
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  outline: 2px solid rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.btn-3d-primary .bottom {
+  background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+  outline: 2px solid rgba(124, 58, 237, 0.5);
+}
+
+.btn-3d-primary::before {
+  background: linear-gradient(135deg, #6d28d9 0%, #be185d 100%);
+  outline: 2px solid rgba(109, 40, 217, 0.5);
+}
+
+/* Blue Variant */
+.btn-3d-blue .top {
+  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-3d-blue .bottom {
+  background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+  outline: 2px solid rgba(37, 99, 235, 0.5);
+}
+
+.btn-3d-blue::before {
+  background: linear-gradient(135deg, #1d4ed8 0%, #0e7490 100%);
+  outline: 2px solid rgba(29, 78, 216, 0.5);
+}
+
+/* Red Variant */
+.btn-3d-red .top {
+  background: linear-gradient(135deg, #ef4444 0%, #f43f5e 100%);
+  outline: 2px solid rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.btn-3d-red .bottom {
+  background: linear-gradient(135deg, #dc2626 0%, #e11d48 100%);
+  outline: 2px solid rgba(220, 38, 38, 0.5);
+}
+
+.btn-3d-red::before {
+  background: linear-gradient(135deg, #b91c1c 0%, #be123c 100%);
+  outline: 2px solid rgba(185, 28, 28, 0.5);
+}
+
+/* White Variant */
+.btn-3d-white .top {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  outline: 2px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 0 20px rgba(148, 163, 184, 0.3);
+  color: #0f172a;
+}
+
+.btn-3d-white .bottom {
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  outline: 2px solid rgba(203, 213, 225, 0.8);
+}
+
+.btn-3d-white::before {
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  outline: 2px solid rgba(148, 163, 184, 0.8);
+}
+
+/* Green Variant */
+.btn-3d-green .top {
+  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
+  outline: 2px solid rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-3d-green .bottom {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+  outline: 2px solid rgba(5, 150, 105, 0.5);
+}
+
+.btn-3d-green::before {
+  background: linear-gradient(135deg, #047857 0%, #0f766e 100%);
+  outline: 2px solid rgba(4, 120, 87, 0.5);
+}

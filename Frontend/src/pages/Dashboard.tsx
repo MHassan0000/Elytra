@@ -5,6 +5,7 @@ import { useUser } from '../context/UserContext';
 import { issueService } from '../services/issueService';
 import type { Issue, IssueStats } from '../types/types';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import Button3D from '../components/ui/Button3D';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -90,13 +91,16 @@ const Dashboard = () => {
                     </h1>
                     <p className="text-slate-400">Here's what's happening in your community today.</p>
                 </div>
-                <button
+                <Button3D
                     onClick={() => navigate('/submit-feedback')}
-                    className="btn-gradient px-6 py-3 shadow-lg shadow-violet-500/20 flex items-center gap-2"
+                    variant="primary"
+                    size="lg"
                 >
-                    <Plus size={20} />
-                    New Report
-                </button>
+                    <div className="flex items-center gap-2">
+                        <Plus size={15} />
+                        New Report
+                    </div>
+                </Button3D>
             </div>
 
             {/* Stats Grid */}

@@ -4,6 +4,8 @@ import { useUser } from '../context/UserContext';
 import { issueService } from '../services/issueService';
 import type { Issue } from '../types/types';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import Button3D from '../components/ui/Button3D';
+import { Plus } from 'lucide-react';
 
 const MyReports = () => {
     const navigate = useNavigate();
@@ -85,12 +87,14 @@ const MyReports = () => {
                     <h1 className="text-3xl font-bold text-white mb-2">My Reports</h1>
                     <p className="text-slate-400">Track and manage your submitted issues.</p>
                 </div>
-                <button
+                <Button3D
                     onClick={() => navigate('/submit-feedback')}
-                    className="btn-gradient px-6 py-3 shadow-lg shadow-violet-500/20"
+                    variant="primary"
+                    size="lg"
                 >
-                    + New Report
-                </button>
+                    <Plus className="mr-1" size={15} />
+                    New Report
+                </Button3D>
             </div>
 
             {/* Stats */}

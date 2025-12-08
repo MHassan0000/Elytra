@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Button3D from '../../components/ui/Button3D';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Users, AlertCircle, Plus, X, Trash2 } from 'lucide-react';
 import { surveyService } from '../../services/surveyService';
@@ -207,13 +208,16 @@ const SurveyManagement = () => {
                     <h1 className="text-3xl font-bold text-white mb-2">Survey Management</h1>
                     <p className="text-slate-400">View and manage community surveys and responses.</p>
                 </div>
-                <button
+                <Button3D
                     onClick={() => setShowCreateModal(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
+                    variant="blue"
+                    size="lg"
                 >
-                    <Plus className="w-4 h-4" />
-                    Create Survey
-                </button>
+                    <div className="flex items-center gap-2">
+                        <Plus className="m-2 w-4 h-4" />
+                        Create Survey
+                    </div>
+                </Button3D>
             </div>
 
             {/* Table */}

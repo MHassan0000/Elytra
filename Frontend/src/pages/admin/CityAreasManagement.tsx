@@ -3,6 +3,7 @@ import { Plus, Trash2, MapPin, AlertCircle, X, ChevronDown, ChevronRight } from 
 import { locationService } from '../../services/locationService';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
+import Button3D from '../../components/ui/Button3D';
 import type { City, Zone, Area } from '../../types/types';
 
 interface CityWithStats extends City {
@@ -224,13 +225,16 @@ const CityAreasManagement = () => {
                     <h1 className="text-3xl font-bold text-white mb-2">City & Areas Management</h1>
                     <p className="text-slate-400">Manage cities, zones, and areas for issue reporting.</p>
                 </div>
-                <button
+                <Button3D
                     onClick={() => setShowCityModal(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
+                    variant="blue"
+                    size="lg"
                 >
-                    <Plus className="w-4 h-4" />
-                    Add City
-                </button>
+                    <div className="flex items-center gap-2">
+                        <Plus className="w-4 h-4" />
+                        Add City
+                    </div>
+                </Button3D>
             </div>
 
             {/* Cities List */}

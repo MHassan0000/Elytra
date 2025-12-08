@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Button3D from '../components/ui/Button3D';
 import { User, Mail, Shield, Key, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -154,14 +155,17 @@ const Settings = () => {
                     </div>
 
                     {/* Save Button */}
-                    <button
+                    <Button3D
                         type="submit"
                         disabled={loading}
-                        className="btn-gradient px-8 py-3 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        variant="primary"
+                        size="lg"
                     >
-                        {loading && <Loader2 size={18} className="animate-spin" />}
-                        {loading ? 'Saving...' : 'Save Changes'}
-                    </button>
+                        <div className="flex items-center gap-2">
+                            {loading && <Loader2 size={18} className="animate-spin" />}
+                            {loading ? 'Saving...' : 'Save Changes'}
+                        </div>
+                    </Button3D>
                 </form>
             </div>
         </div>
