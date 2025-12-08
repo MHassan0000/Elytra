@@ -12,12 +12,12 @@ const Homepage = () => {
       <main className="relative min-h-screen max-w-7xl mx-auto px-6 py-24">
         {/* Threads Background */}
         <div className="absolute inset-0 w-full h-full pointer-events-none opacity-100">
-          <Threads
+          {/* <Threads
             color={[1, 1, 1]}
             amplitude={1.5}
             distance={0.3}
             enableMouseInteraction={true}
-          />
+          /> */}
         </div>
 
         {/* Content */}
