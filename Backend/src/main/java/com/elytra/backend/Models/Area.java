@@ -29,6 +29,9 @@ public class Area {
     @JsonIgnore
     private Zone zone;
 
+    @Column(name = "zone_id", insertable = false, updatable = false)
+    private Long zoneId;
+
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -38,5 +41,6 @@ public class Area {
 
     // Relationships
     @OneToMany(mappedBy = "area")
+    @JsonIgnore
     private List<Issue> issues = new ArrayList<>();
 }

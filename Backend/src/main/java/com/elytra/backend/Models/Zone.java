@@ -29,6 +29,9 @@ public class Zone {
     @JsonIgnore
     private City city;
 
+    @Column(name = "city_id", insertable = false, updatable = false)
+    private Long cityId;
+
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -38,8 +41,10 @@ public class Zone {
 
     // Relationships
     @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Area> areas = new ArrayList<>();
 
     @OneToMany(mappedBy = "zone")
+    @JsonIgnore
     private List<Issue> issues = new ArrayList<>();
 }

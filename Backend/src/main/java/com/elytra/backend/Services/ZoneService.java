@@ -4,9 +4,11 @@ import com.elytra.backend.Models.Zone;
 import com.elytra.backend.Models.City;
 import com.elytra.backend.Models.Notification;
 import com.elytra.backend.Models.User;
+import com.elytra.backend.Models.Issue;
 import com.elytra.backend.Repository.ZoneRepository;
 import com.elytra.backend.Repository.CityRepository;
 import com.elytra.backend.Repository.UserRepository;
+import com.elytra.backend.Repository.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,9 @@ public class ZoneService {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private IssueRepository issueRepository;
 
     public List<Zone> getAllZones() {
         return zoneRepository.findAll();
@@ -56,7 +61,7 @@ public class ZoneService {
 
         // Notify all users
         notifyAllUsers("New zone added in " + city.getName() + ": " + savedZone.getName(),
-                Notification.NotificationType.SYSTEM);
+                Notification.NotificationType.SYSTEM_ANNOUNCEMENT);
 
         return savedZone;
     }
@@ -70,7 +75,8 @@ public class ZoneService {
         Zone savedZone = zoneRepository.save(zone);
 
         // Notify all users
-        notifyAllUsers("Zone updated: " + oldName + " → " + savedZone.getName(), Notification.NotificationType.SYSTEM);
+        notifyAllUsers("Zone updated: " + oldName + " → " + savedZone.getName(),
+                Notification.NotificationType.SYSTEM_ANNOUNCEMENT);
 
         return savedZone;
     }
@@ -79,11 +85,20 @@ public class ZoneService {
         Zone zone = zoneRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Zone not found with id: " + id));
 
+        // Set zone_id and area_id to null for all issues referencing this zone or its
+        // areas
+        List<Issue> relatedIssues = issueRepository.findByZoneId(id);
+        for (Issue issue : relatedIssues) {
+            issue.setZone(null);
+            issue.setArea(null);
+        }
+        issueRepository.saveAll(relatedIssues);
+
         String zoneName = zone.getName();
         zoneRepository.delete(zone);
 
         // Notify all users
-        notifyAllUsers("Zone removed: " + zoneName, Notification.NotificationType.SYSTEM);
+        notifyAllUsers("Zone removed: " + zoneName, Notification.NotificationType.SYSTEM_ANNOUNCEMENT);
     }
 
     private void notifyAllUsers(String message, Notification.NotificationType type) {

@@ -66,6 +66,9 @@ const IssuesManagement = () => {
             );
         }
 
+        // Sort by upvotes in descending order (highest first)
+        filtered.sort((a, b) => b.upvotes - a.upvotes);
+
         setFilteredIssues(filtered);
     };
 
@@ -154,8 +157,8 @@ const IssuesManagement = () => {
                         key={status}
                         onClick={() => setStatusFilter(status.toLowerCase().replace(' ', '-'))}
                         className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${statusFilter === status.toLowerCase().replace(' ', '-')
-                                ? 'bg-[#151A25] text-white shadow-lg border border-white/10'
-                                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                            ? 'bg-[#151A25] text-white shadow-lg border border-white/10'
+                            : 'text-slate-400 hover:text-white hover:bg-white/5'
                             }`}
                     >
                         {status}

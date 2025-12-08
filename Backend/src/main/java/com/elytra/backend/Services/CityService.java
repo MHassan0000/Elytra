@@ -3,8 +3,10 @@ package com.elytra.backend.Services;
 import com.elytra.backend.Models.City;
 import com.elytra.backend.Models.Notification;
 import com.elytra.backend.Models.User;
+import com.elytra.backend.Models.Issue;
 import com.elytra.backend.Repository.CityRepository;
 import com.elytra.backend.Repository.UserRepository;
+import com.elytra.backend.Repository.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,9 @@ public class CityService {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private IssueRepository issueRepository;
+
     public List<City> getAllCities() {
         return cityRepository.findAll();
     }
@@ -45,7 +50,7 @@ public class CityService {
         City savedCity = cityRepository.save(city);
 
         // Notify all users
-        notifyAllUsers("New city added: " + savedCity.getName(), Notification.NotificationType.SYSTEM);
+        notifyAllUsers("New city added: " + savedCity.getName(), Notification.NotificationType.SYSTEM_ANNOUNCEMENT);
 
         return savedCity;
     }
@@ -59,7 +64,8 @@ public class CityService {
         City savedCity = cityRepository.save(city);
 
         // Notify all users
-        notifyAllUsers("City updated: " + oldName + " → " + savedCity.getName(), Notification.NotificationType.SYSTEM);
+        notifyAllUsers("City updated: " + oldName + " → " + savedCity.getName(),
+                Notification.NotificationType.SYSTEM_ANNOUNCEMENT);
 
         return savedCity;
     }
@@ -68,11 +74,21 @@ public class CityService {
         City city = cityRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("City not found with id: " + id));
 
+        // Set city_id, zone_id, and area_id to null for all issues referencing this
+        // city
+        List<Issue> relatedIssues = issueRepository.findByCityId(id);
+        for (Issue issue : relatedIssues) {
+            issue.setCity(null);
+            issue.setZone(null);
+            issue.setArea(null);
+        }
+        issueRepository.saveAll(relatedIssues);
+
         String cityName = city.getName();
         cityRepository.delete(city);
 
         // Notify all users
-        notifyAllUsers("City removed: " + cityName, Notification.NotificationType.SYSTEM);
+        notifyAllUsers("City removed: " + cityName, Notification.NotificationType.SYSTEM_ANNOUNCEMENT);
     }
 
     private void notifyAllUsers(String message, Notification.NotificationType type) {

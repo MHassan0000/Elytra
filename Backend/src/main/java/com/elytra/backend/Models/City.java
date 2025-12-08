@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,8 +31,10 @@ public class City {
 
     // Relationships
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Zone> zones = new ArrayList<>();
 
     @OneToMany(mappedBy = "city")
+    @JsonIgnore
     private List<Issue> issues = new ArrayList<>();
 }

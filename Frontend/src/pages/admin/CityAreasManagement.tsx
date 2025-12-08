@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, MapPin, AlertCircle, X } from 'lucide-react';
+import { Plus, Trash2, MapPin, AlertCircle, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { locationService } from '../../services/locationService';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import type { City, Zone, Area } from '../../types/types';
 
 interface CityWithStats extends City {
@@ -13,7 +14,8 @@ const CityAreasManagement = () => {
     const [cities, setCities] = useState<CityWithStats[]>([]);
     const [zones, setZones] = useState<Zone[]>([]);
     const [areas, setAreas] = useState<Area[]>([]);
-    const [selectedCity, setSelectedCity] = useState<number | null>(null);
+    const [expandedCities, setExpandedCities] = useState<Set<number>>(new Set());
+    const [expandedZones, setExpandedZones] = useState<Set<number>>(new Set());
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -24,8 +26,12 @@ const CityAreasManagement = () => {
     const [newCityName, setNewCityName] = useState('');
     const [newZoneName, setNewZoneName] = useState('');
     const [newAreaName, setNewAreaName] = useState('');
+    const [selectedCityForZone, setSelectedCityForZone] = useState<number | null>(null);
     const [selectedZoneForArea, setSelectedZoneForArea] = useState<number | null>(null);
-    const [deleteConfirm, setDeleteConfirm] = useState<{ type: string; id: number } | null>(null);
+
+    // Delete confirmation
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState<{ type: 'city' | 'zone' | 'area'; id: number; name: string } | null>(null);
 
     useEffect(() => {
         fetchData();
@@ -42,19 +48,35 @@ const CityAreasManagement = () => {
                 locationService.getAllAreas(),
             ]);
 
-            // Calculate stats for each city
-            const citiesWithStats = citiesData.map(city => ({
-                ...city,
-                zoneCount: zonesData.filter(z => z.cityId === city.id).length,
-                areaCount: areasData.filter(a => {
-                    const zone = zonesData.find(z => z.id === a.zoneId);
-                    return zone?.cityId === city.id;
-                }).length,
-            }));
+            console.log('Fetched cities:', citiesData);
+            console.log('Fetched zones:', zonesData);
+            console.log('Fetched areas:', areasData);
 
-            setCities(citiesWithStats);
+            // Store zones and areas first
             setZones(zonesData);
             setAreas(areasData);
+
+            // Calculate stats for each city
+            const citiesWithStats: CityWithStats[] = citiesData.map(city => {
+                const cityZones = zonesData.filter(z => z.cityId === city.id);
+                const cityAreas = areasData.filter(a => {
+                    const zone = zonesData.find(z => z.id === a.zoneId);
+                    return zone?.cityId === city.id;
+                });
+
+                console.log(`City ${city.name} (ID: ${city.id}):`, {
+                    zones: cityZones.length,
+                    areas: cityAreas.length
+                });
+
+                return {
+                    ...city,
+                    zoneCount: cityZones.length,
+                    areaCount: cityAreas.length,
+                };
+            });
+
+            setCities(citiesWithStats);
         } catch (err: any) {
             console.error('Error fetching data:', err);
             setError(err.message || 'Failed to load data');
@@ -64,56 +86,106 @@ const CityAreasManagement = () => {
     };
 
     const handleCreateCity = async () => {
-        if (!newCityName.trim()) return;
+        if (!newCityName.trim()) {
+            alert('Please enter a city name');
+            return;
+        }
         try {
-            await locationService.createCity({ name: newCityName });
+            await locationService.createCity({ name: newCityName.trim() });
             setNewCityName('');
             setShowCityModal(false);
-            fetchData();
+            await fetchData(); // Refresh data
         } catch (err: any) {
-            alert('Failed to create city: ' + (err.message || 'Unknown error'));
+            console.error('Create city error:', err);
+            alert('Failed to create city: ' + (err.response?.data?.error || err.message || 'Unknown error'));
         }
     };
 
     const handleCreateZone = async () => {
-        if (!newZoneName.trim() || !selectedCity) return;
+        if (!newZoneName.trim()) {
+            alert('Please enter a zone name');
+            return;
+        }
+        if (!selectedCityForZone) {
+            alert('Please select a city');
+            return;
+        }
         try {
-            await locationService.createZone({ name: newZoneName }, selectedCity);
+            await locationService.createZone({ name: newZoneName.trim() }, selectedCityForZone);
             setNewZoneName('');
             setShowZoneModal(false);
-            fetchData();
+            setSelectedCityForZone(null);
+            await fetchData(); // Refresh data
         } catch (err: any) {
-            alert('Failed to create zone: ' + (err.message || 'Unknown error'));
+            console.error('Create zone error:', err);
+            alert('Failed to create zone: ' + (err.response?.data?.error || err.message || 'Unknown error'));
         }
     };
 
     const handleCreateArea = async () => {
-        if (!newAreaName.trim() || !selectedZoneForArea) return;
+        if (!newAreaName.trim()) {
+            alert('Please enter an area name');
+            return;
+        }
+        if (!selectedZoneForArea) {
+            alert('Please select a zone');
+            return;
+        }
         try {
-            await locationService.createArea({ name: newAreaName }, selectedZoneForArea);
+            await locationService.createArea({ name: newAreaName.trim() }, selectedZoneForArea);
             setNewAreaName('');
             setShowAreaModal(false);
             setSelectedZoneForArea(null);
-            fetchData();
+            await fetchData(); // Refresh data
         } catch (err: any) {
-            alert('Failed to create area: ' + (err.message || 'Unknown error'));
+            console.error('Create area error:', err);
+            alert('Failed to create area: ' + (err.response?.data?.error || err.message || 'Unknown error'));
         }
     };
 
-    const handleDelete = async (type: string, id: number) => {
+    const handleDeleteClick = (type: 'city' | 'zone' | 'area', id: number, name: string) => {
+        setDeleteTarget({ type, id, name });
+        setShowDeleteDialog(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!deleteTarget) return;
+
         try {
-            if (type === 'city') {
-                await locationService.deleteCity(id);
-            } else if (type === 'zone') {
-                await locationService.deleteZone(id);
-            } else if (type === 'area') {
-                await locationService.deleteArea(id);
+            if (deleteTarget.type === 'city') {
+                await locationService.deleteCity(deleteTarget.id);
+            } else if (deleteTarget.type === 'zone') {
+                await locationService.deleteZone(deleteTarget.id);
+            } else if (deleteTarget.type === 'area') {
+                await locationService.deleteArea(deleteTarget.id);
             }
-            setDeleteConfirm(null);
-            fetchData();
+            setShowDeleteDialog(false);
+            setDeleteTarget(null);
+            await fetchData(); // Refresh data
         } catch (err: any) {
-            alert(`Failed to delete ${type}: ` + (err.message || 'Unknown error'));
+            console.error(`Delete ${deleteTarget.type} error:`, err);
+            alert(`Failed to delete ${deleteTarget.type}: ` + (err.response?.data?.error || err.message || 'Unknown error'));
         }
+    };
+
+    const toggleCity = (cityId: number) => {
+        const newExpanded = new Set(expandedCities);
+        if (newExpanded.has(cityId)) {
+            newExpanded.delete(cityId);
+        } else {
+            newExpanded.add(cityId);
+        }
+        setExpandedCities(newExpanded);
+    };
+
+    const toggleZone = (zoneId: number) => {
+        const newExpanded = new Set(expandedZones);
+        if (newExpanded.has(zoneId)) {
+            newExpanded.delete(zoneId);
+        } else {
+            newExpanded.add(zoneId);
+        }
+        setExpandedZones(newExpanded);
     };
 
     const getCityZones = (cityId: number) => zones.filter(z => z.cityId === cityId);
@@ -149,8 +221,8 @@ const CityAreasManagement = () => {
             {/* Header */}
             <div className="flex items-end justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">City Areas Management</h1>
-                    <p className="text-slate-400">Manage geographical zones and areas.</p>
+                    <h1 className="text-3xl font-bold text-white mb-2">City & Areas Management</h1>
+                    <p className="text-slate-400">Manage cities, zones, and areas for issue reporting.</p>
                 </div>
                 <button
                     onClick={() => setShowCityModal(true)}
@@ -161,172 +233,172 @@ const CityAreasManagement = () => {
                 </button>
             </div>
 
-            {/* Cities Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Cities List */}
+            <div className="space-y-4">
                 {cities.map((city) => (
-                    <div
-                        key={city.id}
-                        onClick={() => setSelectedCity(selectedCity === city.id ? null : city.id)}
-                        className={`glass-card p-6 cursor-pointer transition-all duration-300 hover:-translate-y-1 group ${selectedCity === city.id
-                                ? 'border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]'
-                                : 'hover:border-white/10'
-                            }`}
-                    >
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">{city.name}</h3>
-                            <MapPin className="w-6 h-6 text-blue-400" />
-                        </div>
-                        <div className="space-y-3">
-                            <div className="flex justify-between items-center p-2 rounded-lg bg-white/5">
-                                <span className="text-slate-400 text-sm">Zones</span>
-                                <span className="font-bold text-white">{city.zoneCount}</span>
-                            </div>
-                            <div className="flex justify-between items-center p-2 rounded-lg bg-white/5">
-                                <span className="text-slate-400 text-sm">Areas</span>
-                                <span className="font-bold text-white">{city.areaCount}</span>
-                            </div>
-                        </div>
-                        <div className="flex gap-2 mt-6 pt-4 border-t border-white/5">
-                            {deleteConfirm?.type === 'city' && deleteConfirm?.id === city.id ? (
-                                <div className="flex gap-2 w-full">
-                                    <button
-                                        onClick={(e) => { e.stopPropagation(); handleDelete('city', city.id); }}
-                                        className="flex-1 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600 text-sm font-medium transition-all"
-                                    >
-                                        Confirm
-                                    </button>
-                                    <button
-                                        onClick={(e) => { e.stopPropagation(); setDeleteConfirm(null); }}
-                                        className="flex-1 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 text-sm font-medium transition-all"
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            ) : (
+                    <div key={city.id} className="glass-card overflow-hidden">
+                        {/* City Header */}
+                        <div className="flex items-center justify-between p-6 border-b border-white/5">
+                            <div className="flex items-center gap-4 flex-1">
                                 <button
-                                    onClick={(e) => { e.stopPropagation(); setDeleteConfirm({ type: 'city', id: city.id }); }}
-                                    className="flex-1 py-2 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-sm font-medium transition-all flex items-center justify-center gap-2"
+                                    onClick={() => toggleCity(city.id)}
+                                    className="text-slate-400 hover:text-white transition-colors"
+                                >
+                                    {expandedCities.has(city.id) ? (
+                                        <ChevronDown className="w-5 h-5" />
+                                    ) : (
+                                        <ChevronRight className="w-5 h-5" />
+                                    )}
+                                </button>
+                                <MapPin className="w-6 h-6 text-blue-400" />
+                                <div>
+                                    <h3 className="text-lg font-bold text-white">{city.name}</h3>
+                                    <p className="text-sm text-slate-400">
+                                        {city.zoneCount} zone{city.zoneCount !== 1 ? 's' : ''} • {city.areaCount} area{city.areaCount !== 1 ? 's' : ''}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => {
+                                        setSelectedCityForZone(city.id);
+                                        setShowZoneModal(true);
+                                    }}
+                                    className="px-4 py-2 bg-blue-600/20 text-blue-400 rounded-lg hover:bg-blue-600/30 transition-colors text-sm"
+                                >
+                                    Add Zone
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteClick('city', city.id, city.name)}
+                                    className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
+                                    title="Delete city"
                                 >
                                     <Trash2 className="w-4 h-4" />
-                                    Delete
                                 </button>
-                            )}
+                            </div>
                         </div>
+
+                        {/* Zones List */}
+                        {expandedCities.has(city.id) && (
+                            <div className="p-6 space-y-3">
+                                {getCityZones(city.id).map((zone) => (
+                                    <div key={zone.id} className="bg-white/5 rounded-lg overflow-hidden">
+                                        {/* Zone Header */}
+                                        <div className="flex items-center justify-between p-4">
+                                            <div className="flex items-center gap-3 flex-1">
+                                                <button
+                                                    onClick={() => toggleZone(zone.id)}
+                                                    className="text-slate-400 hover:text-white transition-colors"
+                                                >
+                                                    {expandedZones.has(zone.id) ? (
+                                                        <ChevronDown className="w-4 h-4" />
+                                                    ) : (
+                                                        <ChevronRight className="w-4 h-4" />
+                                                    )}
+                                                </button>
+                                                <div className="w-2 h-2 rounded-full bg-violet-400"></div>
+                                                <span className="text-white font-medium">{zone.name}</span>
+                                                <span className="text-sm text-slate-400">
+                                                    ({getZoneAreas(zone.id).length} area{getZoneAreas(zone.id).length !== 1 ? 's' : ''})
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedZoneForArea(zone.id);
+                                                        setShowAreaModal(true);
+                                                    }}
+                                                    className="px-3 py-1.5 bg-violet-600/20 text-violet-400 rounded-lg hover:bg-violet-600/30 transition-colors text-sm"
+                                                >
+                                                    Add Area
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteClick('zone', zone.id, zone.name)}
+                                                    className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
+                                                    title="Delete zone"
+                                                >
+                                                    <Trash2 className="w-3.5 h-3.5" />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Areas List */}
+                                        {expandedZones.has(zone.id) && (
+                                            <div className="px-4 pb-4 space-y-2">
+                                                {getZoneAreas(zone.id).map((area) => (
+                                                    <div
+                                                        key={area.id}
+                                                        className="flex items-center justify-between p-3 bg-white/5 rounded-lg"
+                                                    >
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                                                            <span className="text-slate-300 text-sm">{area.name}</span>
+                                                        </div>
+                                                        <button
+                                                            onClick={() => handleDeleteClick('area', area.id, area.name)}
+                                                            className="p-1.5 text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
+                                                            title="Delete area"
+                                                        >
+                                                            <Trash2 className="w-3 h-3" />
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                                {getZoneAreas(zone.id).length === 0 && (
+                                                    <p className="text-slate-500 text-sm text-center py-2">
+                                                        No areas in this zone
+                                                    </p>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                                {getCityZones(city.id).length === 0 && (
+                                    <p className="text-slate-500 text-center py-4">
+                                        No zones in this city. Click "Add Zone" to create one.
+                                    </p>
+                                )}
+                            </div>
+                        )}
                     </div>
                 ))}
+
+                {cities.length === 0 && (
+                    <div className="glass-card p-12 text-center">
+                        <MapPin className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                        <p className="text-slate-400 mb-4">No cities found. Create your first city to get started.</p>
+                        <button
+                            onClick={() => setShowCityModal(true)}
+                            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        >
+                            Add City
+                        </button>
+                    </div>
+                )}
             </div>
 
-            {/* Selected City Details */}
-            {selectedCity && (
-                <div className="glass-card p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-2xl font-bold text-white">
-                            {cities.find(c => c.id === selectedCity)?.name} - Zones & Areas
-                        </h2>
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => setShowZoneModal(true)}
-                                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
-                            >
-                                <Plus className="w-4 h-4" />
-                                Add Zone
-                            </button>
-                            <button
-                                onClick={() => setShowAreaModal(true)}
-                                className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors text-sm"
-                            >
-                                <Plus className="w-4 h-4" />
-                                Add Area
-                            </button>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {getCityZones(selectedCity).map((zone) => (
-                            <div key={zone.id} className="p-6 rounded-2xl bg-[#0B0E14] border border-white/5 hover:border-white/10 transition-all">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h3 className="text-lg font-bold text-white">{zone.name}</h3>
-                                    {deleteConfirm?.type === 'zone' && deleteConfirm?.id === zone.id ? (
-                                        <div className="flex gap-2">
-                                            <button
-                                                onClick={() => handleDelete('zone', zone.id)}
-                                                className="px-2 py-1 bg-rose-500 text-white text-xs rounded hover:bg-rose-600"
-                                            >
-                                                Confirm
-                                            </button>
-                                            <button
-                                                onClick={() => setDeleteConfirm(null)}
-                                                className="px-2 py-1 bg-slate-600 text-white text-xs rounded hover:bg-slate-700"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <button
-                                            onClick={() => setDeleteConfirm({ type: 'zone', id: zone.id })}
-                                            className="p-2 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
-                                        >
-                                            <Trash2 className="w-4 h-4" />
-                                        </button>
-                                    )}
-                                </div>
-                                <p className="text-sm text-slate-400 mb-4">{getZoneAreas(zone.id).length} areas</p>
-                                <div className="space-y-2">
-                                    {getZoneAreas(zone.id).map((area) => (
-                                        <div key={area.id} className="flex items-center justify-between p-2 rounded-lg bg-white/5">
-                                            <span className="text-sm text-slate-300">{area.name}</span>
-                                            {deleteConfirm?.type === 'area' && deleteConfirm?.id === area.id ? (
-                                                <div className="flex gap-1">
-                                                    <button
-                                                        onClick={() => handleDelete('area', area.id)}
-                                                        className="px-2 py-0.5 bg-rose-500 text-white text-xs rounded"
-                                                    >
-                                                        ✓
-                                                    </button>
-                                                    <button
-                                                        onClick={() => setDeleteConfirm(null)}
-                                                        className="px-2 py-0.5 bg-slate-600 text-white text-xs rounded"
-                                                    >
-                                                        ✕
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <button
-                                                    onClick={() => setDeleteConfirm({ type: 'area', id: area.id })}
-                                                    className="text-slate-500 hover:text-rose-400 transition-colors"
-                                                >
-                                                    <Trash2 className="w-3 h-3" />
-                                                </button>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            {/* City Modal */}
+            {/* Add City Modal */}
             {showCityModal && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setShowCityModal(false)}>
-                    <div className="glass-card p-8 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-xl font-bold text-white">Add New City</h3>
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowCityModal(false)}>
+                    <div className="glass-card p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-bold text-white">Add New City</h2>
                             <button onClick={() => setShowCityModal(false)} className="text-slate-400 hover:text-white">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
                         <input
                             type="text"
-                            placeholder="City name"
                             value={newCityName}
                             onChange={(e) => setNewCityName(e.target.value)}
-                            className="w-full bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-violet-500/50 mb-6"
+                            placeholder="Enter city name"
+                            className="w-full bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-3 text-white mb-4 focus:outline-none focus:border-violet-500/50"
+                            onKeyPress={(e) => e.key === 'Enter' && handleCreateCity()}
+                            autoFocus
                         />
                         <div className="flex gap-3">
                             <button
                                 onClick={handleCreateCity}
-                                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all"
+                                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
                             >
                                 Create City
                             </button>
@@ -341,27 +413,35 @@ const CityAreasManagement = () => {
                 </div>
             )}
 
-            {/* Zone Modal */}
+            {/* Add Zone Modal */}
             {showZoneModal && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setShowZoneModal(false)}>
-                    <div className="glass-card p-8 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-xl font-bold text-white">Add New Zone</h3>
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowZoneModal(false)}>
+                    <div className="glass-card p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-bold text-white">Add New Zone</h2>
                             <button onClick={() => setShowZoneModal(false)} className="text-slate-400 hover:text-white">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-white mb-2">City</label>
+                            <div className="w-full bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-3 text-slate-300">
+                                {cities.find(c => c.id === selectedCityForZone)?.name || 'Unknown City'}
+                            </div>
+                        </div>
                         <input
                             type="text"
-                            placeholder="Zone name"
                             value={newZoneName}
                             onChange={(e) => setNewZoneName(e.target.value)}
-                            className="w-full bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-violet-500/50 mb-6"
+                            placeholder="Enter zone name"
+                            className="w-full bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-3 text-white mb-4 focus:outline-none focus:border-violet-500/50"
+                            onKeyPress={(e) => e.key === 'Enter' && handleCreateZone()}
+                            autoFocus
                         />
                         <div className="flex gap-3">
                             <button
                                 onClick={handleCreateZone}
-                                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all"
+                                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
                             >
                                 Create Zone
                             </button>
@@ -376,37 +456,39 @@ const CityAreasManagement = () => {
                 </div>
             )}
 
-            {/* Area Modal */}
+            {/* Add Area Modal */}
             {showAreaModal && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setShowAreaModal(false)}>
-                    <div className="glass-card p-8 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-xl font-bold text-white">Add New Area</h3>
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowAreaModal(false)}>
+                    <div className="glass-card p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-bold text-white">Add New Area</h2>
                             <button onClick={() => setShowAreaModal(false)} className="text-slate-400 hover:text-white">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
-                        <select
-                            value={selectedZoneForArea || ''}
-                            onChange={(e) => setSelectedZoneForArea(parseInt(e.target.value))}
-                            className="w-full bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-violet-500/50 mb-4"
-                        >
-                            <option value="">Select Zone</option>
-                            {selectedCity && getCityZones(selectedCity).map(zone => (
-                                <option key={zone.id} value={zone.id}>{zone.name}</option>
-                            ))}
-                        </select>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-white mb-2">Zone</label>
+                            <div className="w-full bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-3 text-slate-300">
+                                {(() => {
+                                    const zone = zones.find(z => z.id === selectedZoneForArea);
+                                    const city = cities.find(c => c.id === zone?.cityId);
+                                    return zone && city ? `${city.name} - ${zone.name}` : 'Unknown Zone';
+                                })()}
+                            </div>
+                        </div>
                         <input
                             type="text"
-                            placeholder="Area name"
                             value={newAreaName}
                             onChange={(e) => setNewAreaName(e.target.value)}
-                            className="w-full bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-violet-500/50 mb-6"
+                            placeholder="Enter area name"
+                            className="w-full bg-[#0B0E14] border border-white/10 rounded-lg px-4 py-3 text-white mb-4 focus:outline-none focus:border-violet-500/50"
+                            onKeyPress={(e) => e.key === 'Enter' && handleCreateArea()}
+                            autoFocus
                         />
                         <div className="flex gap-3">
                             <button
                                 onClick={handleCreateArea}
-                                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all"
+                                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
                             >
                                 Create Area
                             </button>
@@ -420,6 +502,26 @@ const CityAreasManagement = () => {
                     </div>
                 </div>
             )}
+
+            {/* Delete Confirmation Dialog */}
+            <ConfirmDialog
+                isOpen={showDeleteDialog}
+                onClose={() => {
+                    setShowDeleteDialog(false);
+                    setDeleteTarget(null);
+                }}
+                onConfirm={confirmDelete}
+                title={`Delete ${deleteTarget?.type}`}
+                message={`Are you sure you want to delete "${deleteTarget?.name}"? ${deleteTarget?.type === 'city'
+                        ? 'This will also delete all zones and areas within this city.'
+                        : deleteTarget?.type === 'zone'
+                            ? 'This will also delete all areas within this zone.'
+                            : 'This action cannot be undone.'
+                    }`}
+                confirmText={`Delete ${deleteTarget?.type}`}
+                cancelText="Cancel"
+                variant="danger"
+            />
         </div>
     );
 };

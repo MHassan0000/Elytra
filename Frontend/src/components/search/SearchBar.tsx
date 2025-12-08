@@ -32,8 +32,8 @@ const SearchResults = ({ results, onSelect, onClose }: SearchResultsProps) => {
                     <p className="text-xs text-slate-400 truncate mt-1">{issue.description}</p>
                     <div className="flex items-center gap-2 mt-2">
                         <span className={`text-xs px-2 py-0.5 rounded-full ${issue.status === 'RESOLVED' ? 'bg-emerald-500/10 text-emerald-400' :
-                                issue.status === 'IN_PROGRESS' ? 'bg-blue-500/10 text-blue-400' :
-                                    'bg-amber-500/10 text-amber-400'
+                            issue.status === 'IN_PROGRESS' ? 'bg-blue-500/10 text-blue-400' :
+                                'bg-amber-500/10 text-amber-400'
                             }`}>
                             {issue.status.replace('_', ' ')}
                         </span>
@@ -113,7 +113,7 @@ const SearchBar = () => {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search your issues..."
+                placeholder="Search"
                 className="w-full bg-[#151A25] border border-white/5 rounded-xl pl-11 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/50 transition-all placeholder-slate-500"
             />
             {query && (

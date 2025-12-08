@@ -4,9 +4,11 @@ import com.elytra.backend.Models.Area;
 import com.elytra.backend.Models.Zone;
 import com.elytra.backend.Models.Notification;
 import com.elytra.backend.Models.User;
+import com.elytra.backend.Models.Issue;
 import com.elytra.backend.Repository.AreaRepository;
 import com.elytra.backend.Repository.ZoneRepository;
 import com.elytra.backend.Repository.UserRepository;
+import com.elytra.backend.Repository.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,9 @@ public class AreaService {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private IssueRepository issueRepository;
 
     public List<Area> getAllAreas() {
         return areaRepository.findAll();
@@ -56,7 +61,7 @@ public class AreaService {
 
         // Notify all users
         notifyAllUsers("New area added in " + zone.getName() + ": " + savedArea.getName(),
-                Notification.NotificationType.SYSTEM);
+                Notification.NotificationType.SYSTEM_ANNOUNCEMENT);
 
         return savedArea;
     }
@@ -70,7 +75,8 @@ public class AreaService {
         Area savedArea = areaRepository.save(area);
 
         // Notify all users
-        notifyAllUsers("Area updated: " + oldName + " → " + savedArea.getName(), Notification.NotificationType.SYSTEM);
+        notifyAllUsers("Area updated: " + oldName + " → " + savedArea.getName(),
+                Notification.NotificationType.SYSTEM_ANNOUNCEMENT);
 
         return savedArea;
     }
@@ -79,11 +85,18 @@ public class AreaService {
         Area area = areaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Area not found with id: " + id));
 
+        // Set area_id to null for all issues referencing this area
+        List<Issue> relatedIssues = issueRepository.findByAreaId(id);
+        for (Issue issue : relatedIssues) {
+            issue.setArea(null);
+        }
+        issueRepository.saveAll(relatedIssues);
+
         String areaName = area.getName();
         areaRepository.delete(area);
 
         // Notify all users
-        notifyAllUsers("Area removed: " + areaName, Notification.NotificationType.SYSTEM);
+        notifyAllUsers("Area removed: " + areaName, Notification.NotificationType.SYSTEM_ANNOUNCEMENT);
     }
 
     private void notifyAllUsers(String message, Notification.NotificationType type) {
