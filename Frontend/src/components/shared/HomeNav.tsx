@@ -8,17 +8,17 @@ const HomeNav = () => {
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0B0E14]/80 backdrop-blur-md border-b border-white/5">
-            <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
                 {/* Logo */}
-                <Link to="/" className="flex items-center gap-3">
-                    <div className="w-12 h-12 relative">
+                <Link to="/" className="flex items-center gap-2 sm:gap-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 relative">
                         <img src="/images/logo.png" alt="logo" />
                     </div>
-                    <span className="text-3xl font-bold text-white tracking-tight">Elytra</span>
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-tight">Elytra</span>
                 </Link>
 
                 {/* Nav Links */}
-                <div className="hidden md:flex items-center gap-8">
+                <div className="hidden md:flex items-center gap-6 lg:gap-8">
                     <Link
                         to="/features"
                         className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
@@ -40,7 +40,7 @@ const HomeNav = () => {
                 </div>
 
                 {/* Auth Buttons - Conditional Rendering */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-4">
                     {isAuthenticated ? (
                         <Button3D
                             onClick={(e) => {
@@ -62,13 +62,13 @@ const HomeNav = () => {
                         <>
                             <Link
                                 to="/login"
-                                className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                                className="hidden sm:block text-sm font-medium text-slate-300 hover:text-white transition-colors"
                             >
                                 Sign in →
                             </Link>
                             <Link
                                 to="/register"
-                                className="px-4 py-2 rounded-lg bg-white text-black text-sm font-bold hover:bg-slate-200 transition-colors"
+                                className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-white text-black text-xs sm:text-sm font-bold hover:bg-slate-200 transition-colors"
                             >
                                 Get Started
                             </Link>
