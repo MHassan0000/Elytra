@@ -66,4 +66,13 @@ export const surveyService = {
         const response = await api.get(`/admin/surveys/${surveyId}/responses/${userId}`);
         return response.data;
     },
+
+    createSurvey: async (surveyData: any): Promise<Survey> => {
+        const response = await api.post('/admin/surveys', surveyData);
+        return response.data;
+    },
+
+    deleteSurvey: async (surveyId: number): Promise<void> => {
+        await api.delete(`/admin/surveys/${surveyId}`);
+    },
 };

@@ -180,4 +180,32 @@ public class AdminController {
             return ResponseEntity.badRequest().body(error);
         }
     }
+
+    // Create new survey (admin only)
+    @PostMapping("/surveys")
+    public ResponseEntity<?> createSurvey(@RequestBody Map<String, Object> surveyData) {
+        try {
+            com.elytra.backend.Models.Survey survey = surveyService.createSurveyAsAdmin(surveyData);
+            return ResponseEntity.ok(survey);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    // Delete survey (admin only)
+    @DeleteMapping("/surveys/{id}")
+    public ResponseEntity<?> deleteSurvey(@PathVariable Long id) {
+        try {
+            surveyService.deleteSurvey(id);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Survey deleted successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
 }

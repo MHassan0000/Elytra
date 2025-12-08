@@ -138,4 +138,37 @@ public class SurveyService {
 
         return map;
     }
+
+    // Admin method to create survey
+    public Survey createSurveyAsAdmin(java.util.Map<String, Object> surveyData) {
+        Survey survey = new Survey();
+
+        // Set basic fields
+        survey.setTitle((String) surveyData.get("title"));
+        survey.setDescription((String) surveyData.get("description"));
+
+        // Set questions as JSON string
+        Object questionsObj = surveyData.get("questions");
+        if (questionsObj != null) {
+            // If it's already a string, use it directly
+            if (questionsObj instanceof String) {
+                survey.setQuestions((String) questionsObj);
+            } else {
+                // Otherwise, convert to JSON string
+                try {
+                    com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+                    survey.setQuestions(mapper.writeValueAsString(questionsObj));
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to serialize questions: " + e.getMessage());
+                }
+            }
+        }
+
+        // Set active status (default to true if not specified)
+        Boolean isActive = (Boolean) surveyData.get("isActive");
+        survey.setIsActive(isActive != null ? isActive : true);
+
+        // Save and return
+        return surveyRepository.save(survey);
+    }
 }
