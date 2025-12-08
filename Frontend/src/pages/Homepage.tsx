@@ -1,9 +1,13 @@
 import HomeNav from '../components/shared/HomeNav';
 import HomeFooter from '../components/shared/HomeFooter';
-import Threads from '../components/ui/Threads';
 import { Link } from 'react-router-dom';
-
+import SplitText from '../components/ui/SplitText';
+import DarkVeil from '../components/ui/DarkVeil';
 const Homepage = () => {
+
+  const handleAnimationComplete = () => {
+    console.log('All letters have animated!');
+  };
   return (
     <div className="min-h-screen bg-black text-white selection:bg-violet-500/30">
       <HomeNav />
@@ -11,20 +15,29 @@ const Homepage = () => {
       {/* Hero Section with Threads Background */}
       <main className="relative min-h-screen max-w-7xl mx-auto px-6 py-24">
         {/* Threads Background */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-100">
-          {/* <Threads
-            color={[1, 1, 1]}
-            amplitude={1.5}
-            distance={0.3}
-            enableMouseInteraction={true}
-          /> */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-100 mt-20">
+          <DarkVeil />
         </div>
 
         {/* Content */}
         <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 mt-30">
-            Report issues, improve your city.
-          </h1>
+
+
+          <SplitText
+            text=" Report issues, improve your city."
+            className="text-5xl md:text-6xl font-bold mb-6 py-2 mt-30"
+            delay={50}
+            duration={0.6}
+            ease="power3.out"
+            splitType="chars"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="center"
+            onLetterAnimationComplete={handleAnimationComplete}
+          />
+
           <p className="text-lg md:text-xl text-slate-400 mb-10">
             A platform for citizens to easily report and track local issues, fostering community engagement and efficient problem-solving.
           </p>
@@ -42,7 +55,7 @@ const Homepage = () => {
       </main>
 
       {/* Features Grid */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-24 mt-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
