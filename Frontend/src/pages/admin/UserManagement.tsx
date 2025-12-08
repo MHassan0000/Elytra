@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Search, Trash2, User, AlertCircle } from 'lucide-react';
 import { userService } from '../../services/userService';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import ConfirmDialog from '../../components/ui/ConfirmDialog';
 
 interface UserData {
     id: number;
     username: string;
     email: string;
+    role?: string;
     reportCount: number;
     status: string;
     createdAt: string;
@@ -20,7 +22,7 @@ const UserManagement = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
+    const [deleteTarget, setDeleteTarget] = useState<{ id: number; username: string } | null>(null);
 
     useEffect(() => {
         fetchUsers();
@@ -46,8 +48,10 @@ const UserManagement = () => {
             setLoading(true);
             setError(null);
             const data = await userService.getAllUsersWithStats();
-            setUsers(data);
-            setFilteredUsers(data);
+            // Filter out admin users
+            const nonAdminUsers = data.filter((user: UserData) => user.role !== 'ADMIN');
+            setUsers(nonAdminUsers);
+            setFilteredUsers(nonAdminUsers);
         } catch (err: any) {
             console.error('Error fetching users:', err);
             setError(err.message || 'Failed to load users');
@@ -56,12 +60,14 @@ const UserManagement = () => {
         }
     };
 
-    const handleDeleteUser = async (userId: number) => {
+    const handleDeleteUser = async () => {
+        if (!deleteTarget) return;
+
         try {
-            await userService.deleteUser(userId);
+            await userService.deleteUser(deleteTarget.id);
             // Remove user from state
-            setUsers(users.filter(u => u.id !== userId));
-            setDeleteConfirm(null);
+            setUsers(users.filter(u => u.id !== deleteTarget.id));
+            setDeleteTarget(null);
         } catch (err: any) {
             console.error('Error deleting user:', err);
             alert('Failed to delete user: ' + (err.message || 'Unknown error'));
@@ -160,8 +166,8 @@ const UserManagement = () => {
                                 <td className="py-4 px-6 text-sm text-slate-300">{user.reportCount}</td>
                                 <td className="py-4 px-6">
                                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user.status === 'ACTIVE'
-                                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                            : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
+                                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                        : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
                                         }`}>
                                         {user.status}
                                     </span>
@@ -176,30 +182,13 @@ const UserManagement = () => {
                                         >
                                             <User className="w-4 h-4" />
                                         </button>
-                                        {deleteConfirm === user.id ? (
-                                            <div className="flex items-center gap-2">
-                                                <button
-                                                    onClick={() => handleDeleteUser(user.id)}
-                                                    className="px-3 py-1 bg-rose-500 text-white text-xs rounded-lg hover:bg-rose-600 transition-colors"
-                                                >
-                                                    Confirm
-                                                </button>
-                                                <button
-                                                    onClick={() => setDeleteConfirm(null)}
-                                                    className="px-3 py-1 bg-slate-600 text-white text-xs rounded-lg hover:bg-slate-700 transition-colors"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <button
-                                                onClick={() => setDeleteConfirm(user.id)}
-                                                className="p-2 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
-                                                title="Delete User"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
-                                        )}
+                                        <button
+                                            onClick={() => setDeleteTarget({ id: user.id, username: user.username })}
+                                            className="p-2 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
+                                            title="Delete User"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -212,6 +201,18 @@ const UserManagement = () => {
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <ConfirmDialog
+                isOpen={deleteTarget !== null}
+                onClose={() => setDeleteTarget(null)}
+                onConfirm={handleDeleteUser}
+                title="Delete User"
+                message={`Are you sure you want to delete user "${deleteTarget?.username}"? This will permanently remove all their data and reports. This action cannot be undone.`}
+                confirmText="Delete User"
+                cancelText="Cancel"
+                variant="danger"
+            />
         </div>
     );
 };

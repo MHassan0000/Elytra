@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Search, Trash2, AlertCircle, CheckCircle, Clock } from 'lucide-react';
 import { issueService } from '../../services/issueService';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import ConfirmDialog from '../../components/ui/ConfirmDialog';
 
 interface Issue {
     id: number;
@@ -24,7 +25,7 @@ const IssuesManagement = () => {
     const [statusFilter, setStatusFilter] = useState('all');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
+    const [deleteTarget, setDeleteTarget] = useState<{ id: number; title: string } | null>(null);
     const [updatingStatus, setUpdatingStatus] = useState<number | null>(null);
 
     useEffect(() => {
@@ -88,11 +89,13 @@ const IssuesManagement = () => {
         }
     };
 
-    const handleDeleteIssue = async (issueId: number) => {
+    const handleDeleteIssue = async () => {
+        if (!deleteTarget) return;
+
         try {
-            await issueService.deleteIssue(issueId);
-            setIssues(issues.filter(i => i.id !== issueId));
-            setDeleteConfirm(null);
+            await issueService.deleteIssue(deleteTarget.id);
+            setIssues(issues.filter(i => i.id !== deleteTarget.id));
+            setDeleteTarget(null);
         } catch (err: any) {
             console.error('Error deleting issue:', err);
             alert('Failed to delete issue: ' + (err.message || 'Unknown error'));
@@ -230,32 +233,13 @@ const IssuesManagement = () => {
                                     )}
                                 </td>
                                 <td className="py-4 px-6 text-right">
-                                    <div className="flex items-center justify-end gap-2">
-                                        {deleteConfirm === issue.id ? (
-                                            <div className="flex items-center gap-2">
-                                                <button
-                                                    onClick={() => handleDeleteIssue(issue.id)}
-                                                    className="px-3 py-1 bg-rose-500 text-white text-xs rounded-lg hover:bg-rose-600 transition-colors"
-                                                >
-                                                    Confirm
-                                                </button>
-                                                <button
-                                                    onClick={() => setDeleteConfirm(null)}
-                                                    className="px-3 py-1 bg-slate-600 text-white text-xs rounded-lg hover:bg-slate-700 transition-colors"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <button
-                                                onClick={() => setDeleteConfirm(issue.id)}
-                                                className="p-2 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
-                                                title="Delete Issue"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
-                                        )}
-                                    </div>
+                                    <button
+                                        onClick={() => setDeleteTarget({ id: issue.id, title: issue.title })}
+                                        className="p-2 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
+                                        title="Delete Issue"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -267,6 +251,18 @@ const IssuesManagement = () => {
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <ConfirmDialog
+                isOpen={deleteTarget !== null}
+                onClose={() => setDeleteTarget(null)}
+                onConfirm={handleDeleteIssue}
+                title="Delete Issue"
+                message={`Are you sure you want to delete "${deleteTarget?.title}"? This action cannot be undone.`}
+                confirmText="Delete Issue"
+                cancelText="Cancel"
+                variant="danger"
+            />
         </div>
     );
 };
