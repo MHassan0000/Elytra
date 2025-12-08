@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Search, Trash2, AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { Search, Trash2, AlertCircle, CheckCircle, Clock, X, MapPin, User, Calendar, ThumbsUp } from 'lucide-react';
 import { issueService } from '../../services/issueService';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
+import Button3D from '../../components/ui/Button3D';
 
 interface Issue {
     id: number;
     title: string;
+    description?: string;
     category: string;
     priority: string;
     status: string;
@@ -27,6 +29,7 @@ const IssuesManagement = () => {
     const [error, setError] = useState<string | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<{ id: number; title: string } | null>(null);
     const [updatingStatus, setUpdatingStatus] = useState<number | null>(null);
+    const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
 
     useEffect(() => {
         fetchIssues();
@@ -200,10 +203,14 @@ const IssuesManagement = () => {
                     </thead>
                     <tbody className="divide-y divide-white/5">
                         {filteredIssues.map((issue) => (
-                            <tr key={issue.id} className="group hover:bg-white/2 transition-colors">
+                            <tr
+                                key={issue.id}
+                                className="group hover:bg-white/2 transition-colors cursor-pointer"
+                                onClick={() => setSelectedIssue(issue)}
+                            >
                                 <td className="py-4 px-6">
                                     <div>
-                                        <span className="text-sm font-medium text-white">{issue.title}</span>
+                                        <span className="text-sm font-medium text-white group-hover:text-violet-400 transition-colors">{issue.title}</span>
                                         {(issue.cityName || issue.zoneName || issue.areaName) && (
                                             <p className="text-xs text-slate-500 mt-1">
                                                 {[issue.cityName, issue.zoneName, issue.areaName].filter(Boolean).join(' • ')}
@@ -214,7 +221,7 @@ const IssuesManagement = () => {
                                 <td className="py-4 px-6 text-sm text-slate-400">{issue.username}</td>
                                 <td className="py-4 px-6 text-sm text-slate-300">{issue.category}</td>
                                 <td className="py-4 px-6 text-sm text-slate-300">{issue.upvotes}</td>
-                                <td className="py-4 px-6">
+                                <td className="py-4 px-6" onClick={(e) => e.stopPropagation()}>
                                     {updatingStatus === issue.id ? (
                                         <div className="flex items-center gap-2">
                                             <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
@@ -232,7 +239,7 @@ const IssuesManagement = () => {
                                         </select>
                                     )}
                                 </td>
-                                <td className="py-4 px-6 text-right">
+                                <td className="py-4 px-6 text-right" onClick={(e) => e.stopPropagation()}>
                                     <button
                                         onClick={() => setDeleteTarget({ id: issue.id, title: issue.title })}
                                         className="p-2 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
@@ -263,6 +270,192 @@ const IssuesManagement = () => {
                 cancelText="Cancel"
                 variant="danger"
             />
+
+            {/* Issue Detail Modal */}
+            {selectedIssue && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                    <div className="glass-card max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                        {/* Header */}
+                        <div className="sticky top-0 bg-[#151A25]/95 backdrop-blur-sm border-b border-white/5 p-6 flex items-start justify-between">
+                            <div className="flex-1">
+                                <h2 className="text-2xl font-bold text-white mb-2">{selectedIssue.title}</h2>
+                                <div className="flex items-center gap-3">
+                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${selectedIssue.status === 'RESOLVED'
+                                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                        : selectedIssue.status === 'IN_PROGRESS'
+                                            ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                                            : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                                        }`}>
+                                        {selectedIssue.status.replace('_', ' ')}
+                                    </span>
+                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${selectedIssue.priority === 'HIGH'
+                                        ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                        : selectedIssue.priority === 'MEDIUM'
+                                            ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                                            : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
+                                        }`}>
+                                        {selectedIssue.priority} Priority
+                                    </span>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setSelectedIssue(null)}
+                                className="p-2 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-colors"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-6 space-y-6">
+                            {/* Description */}
+                            {selectedIssue.description && (
+                                <div>
+                                    <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">Description</h3>
+                                    <p className="text-slate-300 leading-relaxed">{selectedIssue.description}</p>
+                                </div>
+                            )}
+
+                            {/* Details Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Category */}
+                                <div className="glass-card p-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                                            <AlertCircle className="w-5 h-5 text-violet-400" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-slate-500">Category</p>
+                                            <p className="text-sm font-medium text-white">{selectedIssue.category}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Location */}
+                                {(selectedIssue.cityName || selectedIssue.zoneName || selectedIssue.areaName) && (
+                                    <div className="glass-card p-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                                                <MapPin className="w-5 h-5 text-blue-400" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs text-slate-500">Location</p>
+                                                <p className="text-sm font-medium text-white">
+                                                    {[selectedIssue.cityName, selectedIssue.zoneName, selectedIssue.areaName]
+                                                        .filter(Boolean)
+                                                        .join(' > ')}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Reporter */}
+                                <div className="glass-card p-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center">
+                                            <User className="w-5 h-5 text-pink-400" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-slate-500">Reported By</p>
+                                            <p className="text-sm font-medium text-white">{selectedIssue.username}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Date */}
+                                <div className="glass-card p-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                                            <Calendar className="w-5 h-5 text-emerald-400" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-slate-500">Submitted</p>
+                                            <p className="text-sm font-medium text-white">
+                                                {new Date(selectedIssue.createdAt).toLocaleDateString('en-US', {
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric'
+                                                })}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Upvotes */}
+                                <div className="glass-card p-4 md:col-span-2">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center">
+                                            <ThumbsUp className="w-5 h-5 text-amber-400" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-slate-500">Community Support</p>
+                                            <p className="text-sm font-medium text-white">{selectedIssue.upvotes} upvotes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="border-t border-white/5 pt-6">
+                                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Actions</h3>
+                                <div className="flex flex-wrap gap-3">
+                                    {selectedIssue.status !== 'PENDING' && (
+                                        <Button3D
+                                            onClick={() => {
+                                                handleStatusChange(selectedIssue.id, 'PENDING');
+                                                setSelectedIssue({ ...selectedIssue, status: 'PENDING' });
+                                            }}
+                                            variant="white"
+                                            size="md"
+                                        >
+                                            <Clock className="w-4 h-4 ml-2" />
+                                            Mark as Pending
+                                        </Button3D>
+                                    )}
+                                    {selectedIssue.status !== 'IN_PROGRESS' && (
+                                        <Button3D
+                                            onClick={() => {
+                                                handleStatusChange(selectedIssue.id, 'IN_PROGRESS');
+                                                setSelectedIssue({ ...selectedIssue, status: 'IN_PROGRESS' });
+                                            }}
+                                            variant="blue"
+                                            size="md"
+                                        >
+                                            <AlertCircle className="w-4 h-4 mr-2" />
+                                            In Progress
+                                        </Button3D>
+                                    )}
+                                    {selectedIssue.status !== 'RESOLVED' && (
+                                        <Button3D
+                                            onClick={() => {
+                                                handleStatusChange(selectedIssue.id, 'RESOLVED');
+                                                setSelectedIssue({ ...selectedIssue, status: 'RESOLVED' });
+                                            }}
+                                            variant="green"
+                                            size="md"
+                                        >
+                                            <CheckCircle className="w-4 h-4 mr-2" />
+                                            Resolve
+                                        </Button3D>
+                                    )}
+                                    <Button3D
+                                        onClick={() => {
+                                            setDeleteTarget({ id: selectedIssue.id, title: selectedIssue.title });
+                                            setSelectedIssue(null);
+                                        }}
+                                        variant="red"
+                                        size="md"
+                                    >
+                                        <Trash2 className="w-4 h-4 mr-2" />
+                                        Delete
+                                    </Button3D>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

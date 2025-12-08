@@ -1,6 +1,5 @@
 import HomeNav from '../components/shared/HomeNav';
 import HomeFooter from '../components/shared/HomeFooter';
-import Threads from '../components/ui/Threads';
 import {
     Zap,
     Users,
@@ -68,15 +67,7 @@ const Features = () => {
 
             {/* Hero Section */}
             <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-                {/* Threads Background */}
-                <div className="absolute inset-0 w-full h-full pointer-events-none opacity-100">
-                    <Threads
-                        color={[1, 1, 1]}
-                        amplitude={1.5}
-                        distance={0.3}
-                        enableMouseInteraction={true}
-                    />
-                </div>
+
 
                 {/* Content */}
                 <div className="relative z-10 max-w-4xl mx-auto px-6 text-center pt-32 pb-20">
