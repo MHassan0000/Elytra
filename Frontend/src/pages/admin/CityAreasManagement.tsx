@@ -226,7 +226,7 @@ const CityAreasManagement = () => {
                 </div>
                 <button
                     onClick={() => setShowCityModal(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
                 >
                     <Plus className="w-4 h-4" />
                     Add City
@@ -398,7 +398,7 @@ const CityAreasManagement = () => {
                         <div className="flex gap-3">
                             <button
                                 onClick={handleCreateCity}
-                                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
+                                className="flex-1 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
                             >
                                 Create City
                             </button>
@@ -441,7 +441,7 @@ const CityAreasManagement = () => {
                         <div className="flex gap-3">
                             <button
                                 onClick={handleCreateZone}
-                                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
+                                className="flex-1 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
                             >
                                 Create Zone
                             </button>
@@ -488,7 +488,7 @@ const CityAreasManagement = () => {
                         <div className="flex gap-3">
                             <button
                                 onClick={handleCreateArea}
-                                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
+                                className="flex-1 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
                             >
                                 Create Area
                             </button>
@@ -513,10 +513,10 @@ const CityAreasManagement = () => {
                 onConfirm={confirmDelete}
                 title={`Delete ${deleteTarget?.type}`}
                 message={`Are you sure you want to delete "${deleteTarget?.name}"? ${deleteTarget?.type === 'city'
-                        ? 'This will also delete all zones and areas within this city.'
-                        : deleteTarget?.type === 'zone'
-                            ? 'This will also delete all areas within this zone.'
-                            : 'This action cannot be undone.'
+                    ? 'This will also delete all zones and areas within this city.'
+                    : deleteTarget?.type === 'zone'
+                        ? 'This will also delete all areas within this zone.'
+                        : 'This action cannot be undone.'
                     }`}
                 confirmText={`Delete ${deleteTarget?.type}`}
                 cancelText="Cancel"

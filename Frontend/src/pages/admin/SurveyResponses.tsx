@@ -132,7 +132,7 @@ const SurveyResponses = () => {
                                 >
                                     <td className="py-4 px-6">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-xs font-bold text-white">
+                                            <div className="w-8 h-8 rounded-full bg-linear-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-xs font-bold text-white">
                                                 {response.username.charAt(0).toUpperCase()}
                                             </div>
                                             <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">

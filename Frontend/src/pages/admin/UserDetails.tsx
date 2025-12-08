@@ -111,7 +111,7 @@ const UserDetails = () => {
             {/* User Info Card */}
             <div className="glass-card p-8">
                 <div className="flex items-start gap-6">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-3xl font-bold text-white">
+                    <div className="w-20 h-20 rounded-full bg-linear-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-3xl font-bold text-white">
                         {user.username.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1">

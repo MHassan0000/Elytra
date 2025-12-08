@@ -129,7 +129,7 @@ const AdminDashboard = () => {
                     const Icon = stat.icon;
                     return (
                         <div key={i} className="glass-card p-6 relative overflow-hidden">
-                            <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${stat.color} opacity-10 rounded-bl-full -mr-4 -mt-4`} />
+                            <div className={`absolute top-0 right-0 w-24 h-24 bg-linear-to-br ${stat.color} opacity-10 rounded-bl-full -mr-4 -mt-4`} />
                             <div className="flex items-center justify-between mb-2">
                                 <p className="text-slate-400 text-sm font-medium">{stat.title}</p>
                                 <Icon className="w-5 h-5 text-slate-500" />
@@ -169,7 +169,7 @@ const AdminDashboard = () => {
                             <tr key={user.id} className="group hover:bg-white/2 transition-colors">
                                 <td className="py-4 px-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-xs font-bold text-white">
+                                        <div className="w-8 h-8 rounded-full bg-linear-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-xs font-bold text-white">
                                             {user.username.charAt(0).toUpperCase()}
                                         </div>
                                         <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">{user.username}</span>

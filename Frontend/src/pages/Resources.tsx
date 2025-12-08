@@ -63,7 +63,7 @@ const Resources = () => {
             {/* Hero Section */}
             <section className="max-w-7xl mx-auto px-6 pt-32 pb-16">
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
+                    <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-linear-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
                         Resources
                     </h1>
                     <p className="text-xl text-slate-400">
@@ -80,7 +80,7 @@ const Resources = () => {
                             className="group glass-card p-8 rounded-2xl hover:border-violet-500/30 transition-all duration-300 block"
                         >
                             {/* Icon */}
-                            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500/10 to-pink-500/10 border border-violet-500/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-violet-500/20 transition-all duration-300">
+                            <div className="w-14 h-14 rounded-xl bg-linear-to-br from-violet-500/10 to-pink-500/10 border border-violet-500/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-violet-500/20 transition-all duration-300">
                                 <div className="text-violet-400">
                                     {resource.icon}
                                 </div>
@@ -92,7 +92,7 @@ const Resources = () => {
                                     {resource.title}
                                 </h3>
                                 {resource.type === 'external' && (
-                                    <ExternalLink className="text-slate-400 flex-shrink-0" size={18} />
+                                    <ExternalLink className="text-slate-400 shrink-0" size={18} />
                                 )}
                             </div>
                             <p className="text-slate-400 leading-relaxed">

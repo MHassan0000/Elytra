@@ -107,7 +107,7 @@ const Docs = () => {
             <div className="max-w-7xl mx-auto px-6 pt-32 pb-24">
                 {/* Header */}
                 <div className="mb-12">
-                    <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
+                    <h1 className="text-5xl font-bold mb-4 bg-linear-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
                         Documentation
                     </h1>
                     <p className="text-xl text-slate-400">
@@ -138,7 +138,7 @@ const Docs = () => {
                                         key={section.id}
                                         onClick={() => setActiveSection(section.id)}
                                         className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all ${activeSection === section.id
-                                                ? 'bg-gradient-to-r from-violet-500/20 to-pink-500/20 border border-violet-500/30 text-white'
+                                                ? 'bg-linear-to-r from-violet-500/20 to-pink-500/20 border border-violet-500/30 text-white'
                                                 : 'text-slate-400 hover:text-white hover:bg-white/5'
                                             }`}
                                     >

@@ -43,7 +43,7 @@ const AdminNavbar = () => {
                                     className="w-10 h-10 rounded-full object-cover border-2 border-violet-500/30"
                                 />
                             ) : (
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-500 to-pink-500 p-0.5">
+                                <div className="w-10 h-10 rounded-full bg-linear-to-tr from-violet-500 to-pink-500 p-0.5">
                                     <div className="w-full h-full rounded-full bg-[#0B0E14] flex items-center justify-center">
                                         <span className="text-sm font-bold text-white">
                                             {user?.username ? getInitials(user.username) : 'AD'}

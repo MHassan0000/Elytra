@@ -75,7 +75,7 @@ const Settings = () => {
                             className="w-24 h-24 rounded-full object-cover border-2 border-violet-500/30"
                         />
                     ) : (
-                        <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-violet-500 to-pink-500 flex items-center justify-center text-2xl font-bold text-white">
+                        <div className="w-24 h-24 rounded-full bg-linear-to-tr from-violet-500 to-pink-500 flex items-center justify-center text-2xl font-bold text-white">
                             {user?.username?.charAt(0).toUpperCase() || 'U'}
                         </div>
                     )}
@@ -112,7 +112,7 @@ const Settings = () => {
 
                     {/* Email (Read-only) */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                        <label className="text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
                             <Mail size={16} />
                             Email
                         </label>
@@ -127,7 +127,7 @@ const Settings = () => {
 
                     {/* Role (Read-only) */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                        <label className="text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
                             <Shield size={16} />
                             Role
                         </label>
@@ -141,7 +141,7 @@ const Settings = () => {
 
                     {/* Provider (Read-only) */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                        <label className="text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
                             <Key size={16} />
                             Authentication Provider
                         </label>

@@ -57,17 +57,17 @@ const VoteButtons = ({ issueId, initialVotes, userVote, onVote }: VoteButtonsPro
                 onClick={() => handleVote('up')}
                 disabled={loading}
                 className={`p-1.5 rounded-lg transition-all ${currentVote === 'up'
-                        ? 'bg-orange-500/20 text-orange-400'
-                        : 'text-slate-400 hover:bg-white/5 hover:text-orange-400'
+                    ? 'bg-orange-500/20 text-orange-400'
+                    : 'text-slate-400 hover:bg-white/5 hover:text-orange-400'
                     }`}
             >
                 <ChevronUp size={20} strokeWidth={2.5} />
             </button>
 
             {/* Vote Count */}
-            <span className={`text-sm font-bold min-w-[2rem] text-center ${currentVote === 'up' ? 'text-orange-400' :
-                    currentVote === 'down' ? 'text-blue-400' :
-                        'text-white'
+            <span className={`text-sm font-bold min-w-8 text-center ${currentVote === 'up' ? 'text-orange-400' :
+                currentVote === 'down' ? 'text-blue-400' :
+                    'text-white'
                 }`}>
                 {votes}
             </span>
@@ -77,8 +77,8 @@ const VoteButtons = ({ issueId, initialVotes, userVote, onVote }: VoteButtonsPro
                 onClick={() => handleVote('down')}
                 disabled={loading}
                 className={`p-1.5 rounded-lg transition-all ${currentVote === 'down'
-                        ? 'bg-blue-500/20 text-blue-400'
-                        : 'text-slate-400 hover:bg-white/5 hover:text-blue-400'
+                    ? 'bg-blue-500/20 text-blue-400'
+                    : 'text-slate-400 hover:bg-white/5 hover:text-blue-400'
                     }`}
             >
                 <ChevronDown size={20} strokeWidth={2.5} />

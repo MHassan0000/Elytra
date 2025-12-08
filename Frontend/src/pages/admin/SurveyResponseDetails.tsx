@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, User, Mail, Calendar, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Mail, Calendar, AlertCircle } from 'lucide-react';
 import { surveyService } from '../../services/surveyService';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
@@ -136,7 +136,7 @@ const SurveyResponseDetails = () => {
             {/* User Info */}
             <div className="glass-card p-6">
                 <div className="flex items-start gap-6">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-2xl font-bold text-white">
+                    <div className="w-16 h-16 rounded-full bg-linear-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-2xl font-bold text-white">
                         {responseData.username.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1">
@@ -170,7 +170,7 @@ const SurveyResponseDetails = () => {
                     <div key={question.id || index} className="glass-card p-6">
                         <div className="mb-4">
                             <div className="flex items-start gap-3">
-                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-sm font-bold">
+                                <span className="shrink-0 w-8 h-8 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-sm font-bold">
                                     {index + 1}
                                 </span>
                                 <div className="flex-1">

@@ -209,7 +209,7 @@ const SurveyManagement = () => {
                 </div>
                 <button
                     onClick={() => setShowCreateModal(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
                 >
                     <Plus className="w-4 h-4" />
                     Create Survey
@@ -342,7 +342,7 @@ const SurveyManagement = () => {
                                     {questions.map((question, index) => (
                                         <div key={question.id} className="p-4 rounded-lg bg-white/5 border border-white/10 space-y-3">
                                             <div className="flex items-start gap-3">
-                                                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-sm font-bold">
+                                                <span className="shrink-0 w-8 h-8 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-sm font-bold">
                                                     {index + 1}
                                                 </span>
                                                 <div className="flex-1 space-y-3">
@@ -412,7 +412,7 @@ const SurveyManagement = () => {
                                                 </div>
                                                 <button
                                                     onClick={() => removeQuestion(question.id)}
-                                                    className="flex-shrink-0 p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg"
+                                                    className="shrink-0 p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
@@ -433,7 +433,7 @@ const SurveyManagement = () => {
                                 <button
                                     onClick={handleCreateSurvey}
                                     disabled={creating}
-                                    className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                                    className="flex-1 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                                 >
                                     {creating ? 'Creating...' : 'Create Survey'}
                                 </button>

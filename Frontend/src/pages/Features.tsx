@@ -80,7 +80,7 @@ const Features = () => {
 
                 {/* Content */}
                 <div className="relative z-10 max-w-4xl mx-auto px-6 text-center pt-32 pb-20">
-                    <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
+                    <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-linear-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
                         Powerful Features
                     </h1>
                     <p className="text-xl text-slate-400 max-w-2xl mx-auto">
@@ -99,7 +99,7 @@ const Features = () => {
                                 className="group glass-card p-8 rounded-2xl hover:border-violet-500/20 transition-all duration-300"
                             >
                                 {/* Icon */}
-                                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500/10 to-pink-500/10 border border-violet-500/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-violet-500/20 transition-all duration-300">
+                                <div className="w-14 h-14 rounded-xl bg-linear-to-br from-violet-500/10 to-pink-500/10 border border-violet-500/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-violet-500/20 transition-all duration-300">
                                     <div className="text-violet-400">
                                         {feature.icon}
                                     </div>
@@ -130,7 +130,7 @@ const Features = () => {
                         </p>
                         <a
                             href="/register"
-                            className="inline-block px-8 py-4 bg-gradient-to-r from-violet-500 to-pink-500 text-white font-bold rounded-full hover:shadow-lg hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105"
+                            className="inline-block px-8 py-4 bg-linear-to-r from-violet-500 to-pink-500 text-white font-bold rounded-full hover:shadow-lg hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105"
                         >
                             Get Started for Free →
                         </a>

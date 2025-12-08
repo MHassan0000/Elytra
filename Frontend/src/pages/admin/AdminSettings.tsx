@@ -83,7 +83,7 @@ const AdminSettings = () => {
                 <button
                     onClick={handleSave}
                     disabled={saveStatus === 'saving'}
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {saveStatus === 'saving' ? (
                         <>
@@ -409,7 +409,7 @@ const AdminSettings = () => {
             {/* Warning Banner */}
             <div className="glass-card p-6 border-l-4 border-amber-500">
                 <div className="flex items-start gap-4">
-                    <AlertCircle className="w-6 h-6 text-amber-400 flex-shrink-0 mt-0.5" />
+                    <AlertCircle className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
                     <div>
                         <h3 className="text-lg font-bold text-white mb-2">Important Notice</h3>
                         <p className="text-sm text-slate-300 leading-relaxed">

@@ -50,10 +50,10 @@ const Login: React.FC = () => {
                 <div className="max-w-md w-full">
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500/20 to-pink-500/20 border border-violet-500/30 mb-6">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br from-violet-500/20 to-pink-500/20 border border-violet-500/30 mb-6">
                             <LogIn className="text-violet-400" size={32} />
                         </div>
-                        <h2 className="text-4xl font-bold mb-2 bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
+                        <h2 className="text-4xl font-bold mb-2 bg-linear-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
                             Welcome Back
                         </h2>
                         <p className="text-slate-400">
@@ -107,7 +107,7 @@ const Login: React.FC = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full py-3 px-4 bg-gradient-to-r from-violet-500 to-pink-500 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-violet-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02]"
+                                className="w-full py-3 px-4 bg-linear-to-r from-violet-500 to-pink-500 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-violet-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02]"
                             >
                                 {loading ? 'Signing in...' : 'Sign in'}
                             </button>
