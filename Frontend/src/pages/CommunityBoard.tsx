@@ -8,7 +8,6 @@ import VoteButtons from '../components/ui/VoteButtons';
 import ReportDetailModal from '../components/ui/ReportDetailModal';
 import DeleteConfirmModal from '../components/ui/DeleteConfirmModal';
 import { useUser } from '../context/UserContext';
-import { useFadeIn, useStagger } from '../hooks/useAnimations';
 
 const CommunityBoard = () => {
     const { userId } = useUser();
@@ -19,9 +18,6 @@ const CommunityBoard = () => {
     const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [issueToDelete, setIssueToDelete] = useState<number | null>(null);
-
-    const headerRef = useFadeIn(0.5);
-    const issuesRef = useStagger(0.08, 0.5, 0.2);
 
     useEffect(() => {
         fetchIssues();
@@ -115,7 +111,7 @@ const CommunityBoard = () => {
     return (
         <div className="space-y-4 lg:space-y-6">
             {/* Header */}
-            <div ref={headerRef}>
+            <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center gap-2 sm:gap-3">
                     <TrendingUp className="text-violet-400" size={24} />
                     Community Board
@@ -143,7 +139,7 @@ const CommunityBoard = () => {
             </div>
 
             {/* Issues List */}
-            <div ref={issuesRef} className="space-y-3 lg:space-y-4">
+            <div className="space-y-3 lg:space-y-4">
                 {issues.length === 0 ? (
                     <div className="glass-card p-8 lg:p-12 text-center">
                         <p className="text-slate-400 text-base lg:text-lg">No issues found</p>

@@ -3,7 +3,6 @@ import { Users, FileText, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 import { issueService } from '../../services/issueService';
 import { userService } from '../../services/userService';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
-import { useFadeIn, useStagger, useSlideUp } from '../../hooks/useAnimations';
 
 interface DashboardStats {
     totalUsers: number;
@@ -27,10 +26,6 @@ const AdminDashboard = () => {
     const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
-    const headerRef = useFadeIn(0.5);
-    const statsRef = useStagger(0.1, 0.5, 0.2);
-    const tableRef = useSlideUp(0.6, 0.4);
 
     useEffect(() => {
         fetchDashboardData();
@@ -92,13 +87,13 @@ const AdminDashboard = () => {
     return (
         <div className="space-y-6 lg:space-y-8">
             {/* Header */}
-            <div ref={headerRef}>
+            <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
                 <p className="text-sm sm:text-base text-slate-400">System overview and management.</p>
             </div>
 
             {/* Stats Grid */}
-            <div ref={statsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                 {[
                     {
                         title: 'Total Users',
@@ -153,7 +148,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Recent Users Table */}
-            <div ref={tableRef} className="glass-card p-1 overflow-x-auto">
+            <div className="glass-card p-1 overflow-x-auto">
                 <div className="p-4 lg:p-6 border-b border-white/5 flex justify-between items-center">
                     <h2 className="text-lg sm:text-xl font-bold text-white">Recent Users</h2>
                 </div>
