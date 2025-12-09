@@ -56,10 +56,10 @@ const AdminSidebar = ({ isOpen = true, onClose }: AdminSidebarProps) => {
                         <div className="w-10 h-10 rounded-xl">
                             <img src="/images/logo.png" alt="Logo" />
                         </div>
-                        <span className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-white to-slate-400">
+                        <span className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-white to-slate-400">
                             <Link to="/" onClick={handleNavClick}>
                                 Elytra
-                                <span className="text-xl font-bold bg-clip-text text-orange-400">  Admin</span>
+                                <span className="text-2xl font-bold bg-clip-text text-orange-400">  Admin</span>
                             </Link>
                         </span>
                     </div>
