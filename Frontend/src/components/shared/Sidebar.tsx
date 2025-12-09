@@ -46,7 +46,7 @@ const Sidebar = () => {
 
                         </Link>
                     </div>
-                    <span className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-white to-slate-400">
+                    <span className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-white to-slate-400">
                         <Link to="/">
                             Elytra
                         </Link>

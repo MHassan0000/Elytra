@@ -100,8 +100,8 @@ const AdminSettings = () => {
                             </>
                         ) : (
                             <>
-                                <Save className="w-4 h-4" />
-                                Save Changes
+                                <Save className="mr-2 w-4 h-4" />
+                                Save
                             </>
                         )}
                     </div>

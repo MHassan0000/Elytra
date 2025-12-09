@@ -214,8 +214,8 @@ const SurveyManagement = () => {
                     size="lg"
                 >
                     <div className="flex items-center gap-2">
-                        <Plus className="m-2 w-4 h-4" />
-                        Create Survey
+                        <Plus className="w-4 h-4" />
+                        Create
                     </div>
                 </Button3D>
             </div>
