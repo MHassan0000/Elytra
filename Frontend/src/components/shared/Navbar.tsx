@@ -3,6 +3,7 @@ import { Bell } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import SearchBar from '../search/SearchBar';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -31,11 +32,11 @@ const Navbar = () => {
 
         {/* Actions */}
         <div className="flex items-center gap-6">
-          <div className="flex items-center gap-3">
+          <Link to="/notifications" className="flex items-center gap-3">
             <button className="w-10 h-10 rounded-xl bg-[#151A25] border border-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 transition-all">
               <Bell size={18} />
             </button>
-          </div>
+          </Link>
 
           <div className="h-8 w-px bg-white/10"></div>
 

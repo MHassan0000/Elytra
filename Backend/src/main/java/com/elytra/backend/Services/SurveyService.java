@@ -99,7 +99,8 @@ public class SurveyService {
 
     // Admin methods
     public List<java.util.Map<String, Object>> getSurveyResponsesWithUserInfo(Long surveyId) {
-        Survey survey = surveyRepository.findById(surveyId)
+        // Verify survey exists
+        surveyRepository.findById(surveyId)
                 .orElseThrow(() -> new RuntimeException("Survey not found with id: " + surveyId));
 
         List<SurveyResponse> responses = surveyResponseRepository.findBySurveyId(surveyId);

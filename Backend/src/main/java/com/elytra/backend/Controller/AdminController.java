@@ -2,7 +2,6 @@ package com.elytra.backend.Controller;
 
 import com.elytra.backend.Models.Issue;
 import com.elytra.backend.Models.User;
-import com.elytra.backend.DTO.UserDTO;
 import com.elytra.backend.Services.IssueService;
 import com.elytra.backend.Services.UserService;
 import com.elytra.backend.Services.NotificationService;
@@ -40,9 +39,6 @@ public class AdminController {
 
     @Autowired
     private IssueRepository issueRepository;
-
-    @Autowired
-    private SurveyResponseRepository surveyResponseRepository;
 
     // Get dashboard statistics
     @GetMapping("/stats")
@@ -96,7 +92,8 @@ public class AdminController {
 
     // Get user with their issues
     @GetMapping("/users/{id}")
-    public ResponseEntity<Map<String, Object>> getUserWithIssues(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getUserWithIssues(
+            @PathVariable @org.springframework.lang.NonNull Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
@@ -120,7 +117,7 @@ public class AdminController {
     // Update issue status (admin only)
     @PutMapping("/issues/{id}/status")
     public ResponseEntity<?> updateIssueStatus(
-            @PathVariable Long id,
+            @PathVariable @org.springframework.lang.NonNull Long id,
             @RequestBody Map<String, String> request) {
         try {
             String statusStr = request.get("status");
