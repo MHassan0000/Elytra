@@ -1,7 +1,7 @@
 import HomeNav from '../components/shared/HomeNav';
 import HomeFooter from '../components/shared/HomeFooter';
 import { Link } from 'react-router-dom';
-import SplitText from '../components/ui/SplitText';
+import BlurText from '../components/ui/BlurText';
 import DarkVeil from '../components/ui/DarkVeil';
 const Homepage = () => {
 
@@ -22,19 +22,14 @@ const Homepage = () => {
         {/* Content - Centered with max-width */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40 sm:mt-36 md:mt-0">
           <div className="text-center max-w-3xl mx-auto">
-            <SplitText
-              text=" Report issues, improve your city."
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 py-2 leading-tight"
-              delay={50}
-              duration={0.6}
-              ease="power3.out"
-              splitType="chars"
-              from={{ opacity: 0, y: 40 }}
-              to={{ opacity: 1, y: 0 }}
-              threshold={0.1}
-              rootMargin="-100px"
-              textAlign="center"
-              onLetterAnimationComplete={handleAnimationComplete}
+
+            <BlurText
+              text="Report issues improve your city."
+              delay={150}
+              animateBy="words"
+              direction="top"
+              onAnimationComplete={handleAnimationComplete}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 py-2 leading-tight justify-center"
             />
 
             <p className="text-base sm:text-lg md:text-xl text-slate-400 mb-8 sm:mb-10 px-4 sm:px-0">
