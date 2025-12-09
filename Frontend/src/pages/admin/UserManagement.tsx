@@ -4,6 +4,7 @@ import { Search, Trash2, User, AlertCircle } from 'lucide-react';
 import { userService } from '../../services/userService';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
+import { useFadeIn, useSlideUp } from '../../hooks/useAnimations';
 
 interface UserData {
     id: number;
@@ -23,6 +24,9 @@ const UserManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<{ id: number; username: string } | null>(null);
+
+    const headerRef = useFadeIn(0.5);
+    const tableRef = useSlideUp(0.6, 0.3);
 
     useEffect(() => {
         fetchUsers();
@@ -107,7 +111,7 @@ const UserManagement = () => {
     return (
         <div className="space-y-8">
             {/* Header */}
-            <div className="flex items-end justify-between">
+            <div ref={headerRef} className="flex items-end justify-between">
                 <div>
                     <h1 className="text-3xl font-bold text-white mb-2">User Management</h1>
                     <p className="text-slate-400">Manage registered users and permissions.</p>
@@ -134,7 +138,7 @@ const UserManagement = () => {
             </div>
 
             {/* Table */}
-            <div className="glass-card p-1 overflow-x-auto">
+            <div ref={tableRef} className="glass-card p-1 overflow-x-auto">
                 <table className="w-full min-w-[800px]">
                     <thead>
                         <tr className="border-b border-white/5 bg-white/2">

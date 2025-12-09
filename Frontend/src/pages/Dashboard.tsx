@@ -6,6 +6,7 @@ import { issueService } from '../services/issueService';
 import type { Issue, IssueStats } from '../types/types';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import Button3D from '../components/ui/Button3D';
+import { useFadeIn, useStagger, useSlideUp } from '../hooks/useAnimations';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -14,6 +15,11 @@ const Dashboard = () => {
     const [recentIssues, setRecentIssues] = useState<Issue[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    // Animation refs
+    const headerRef = useFadeIn(0.5);
+    const statsRef = useStagger(0.1, 0.5, 0.2);
+    const tableRef = useSlideUp(0.6, 0.4);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -84,7 +90,7 @@ const Dashboard = () => {
     return (
         <div className="space-y-6 lg:space-y-8">
             {/* Welcome Section */}
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <div ref={headerRef} className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                         Welcome back, <span className="text-transparent bg-clip-text bg-linear-to-r from-violet-400 to-pink-400">{currentUser?.username || 'User'}</span>
@@ -105,7 +111,7 @@ const Dashboard = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            <div ref={statsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                 {[
                     { title: 'Total Reports', value: stats?.total || 0, change: `+${stats?.total || 0}`, color: 'from-violet-500 to-purple-500' },
                     { title: 'In Progress', value: stats?.inProgress || 0, change: `${stats?.inProgress || 0}`, color: 'from-blue-500 to-cyan-500' },
@@ -128,7 +134,7 @@ const Dashboard = () => {
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 {/* Recent Activity */}
-                <div className="lg:col-span-2 space-y-4 lg:space-y-6">
+                <div ref={tableRef} className="lg:col-span-2 space-y-4 lg:space-y-6">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg sm:text-xl font-bold text-white">Recent Activity</h2>
                         <button
