@@ -24,7 +24,7 @@ const AdminNavbar = () => {
 
     return (
         <>
-            <nav className="h-20 bg-[#0B0E14]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-8 sticky top-0 z-50">
+            <nav className="hidden lg:flex h-20 bg-[#0B0E14]/80 backdrop-blur-md border-b border-white/5 items-center justify-between px-8 sticky top-0 z-50">
                 {/* Search */}
                 <SearchBar />
 

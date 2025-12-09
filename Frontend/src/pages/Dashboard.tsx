@@ -82,21 +82,22 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6 lg:space-y-8">
             {/* Welcome Section */}
-            <div className="flex items-end justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                         Welcome back, <span className="text-transparent bg-clip-text bg-linear-to-r from-violet-400 to-pink-400">{currentUser?.username || 'User'}</span>
                     </h1>
-                    <p className="text-slate-400">Here's what's happening in your community today.</p>
+                    <p className="text-sm sm:text-base text-slate-400">Here's what's happening in your community today.</p>
                 </div>
                 <Button3D
                     onClick={() => navigate('/submit-feedback')}
                     variant="primary"
                     size="lg"
+                    className="w-full sm:w-auto"
                 >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 justify-center">
                         <Plus size={15} />
                         New Report
                     </div>
@@ -104,18 +105,18 @@ const Dashboard = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                 {[
                     { title: 'Total Reports', value: stats?.total || 0, change: `+${stats?.total || 0}`, color: 'from-violet-500 to-purple-500' },
                     { title: 'In Progress', value: stats?.inProgress || 0, change: `${stats?.inProgress || 0}`, color: 'from-blue-500 to-cyan-500' },
                     { title: 'Resolved', value: stats?.resolved || 0, change: `${stats?.resolved || 0}`, color: 'from-emerald-500 to-teal-500' },
                     { title: 'Pending', value: stats?.pending || 0, change: `${stats?.pending || 0}`, color: 'from-pink-500 to-rose-500' },
                 ].map((stat, i) => (
-                    <div key={i} className="glass-card p-6 relative overflow-hidden group">
+                    <div key={i} className="glass-card p-4 lg:p-6 relative overflow-hidden group">
                         <div className={`absolute top-0 right-0 w-24 h-24 bg-linear-to-br ${stat.color} opacity-10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110`} />
-                        <p className="text-slate-400 text-sm font-medium mb-2">{stat.title}</p>
+                        <p className="text-slate-400 text-xs sm:text-sm font-medium mb-2">{stat.title}</p>
                         <div className="flex items-end justify-between">
-                            <h3 className="text-3xl font-bold text-white">{stat.value}</h3>
+                            <h3 className="text-2xl sm:text-3xl font-bold text-white">{stat.value}</h3>
                             <span className="text-xs font-medium bg-white/5 text-white px-2 py-1 rounded-lg border border-white/5">
                                 {stat.change}
                             </span>
@@ -125,22 +126,22 @@ const Dashboard = () => {
             </div>
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 {/* Recent Activity */}
-                <div className="lg:col-span-2 space-y-6">
+                <div className="lg:col-span-2 space-y-4 lg:space-y-6">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-bold text-white">Recent Activity</h2>
+                        <h2 className="text-lg sm:text-xl font-bold text-white">Recent Activity</h2>
                         <button
                             onClick={() => navigate('/my-reports')}
-                            className="text-sm text-violet-400 hover:text-violet-300"
+                            className="text-xs sm:text-sm text-violet-400 hover:text-violet-300"
                         >
                             View All
                         </button>
                     </div>
 
-                    <div className="glass-card p-1">
+                    <div className="glass-card p-1 overflow-x-auto">
                         {recentIssues.length === 0 ? (
-                            <div className="p-12 text-center">
+                            <div className="p-8 lg:p-12 text-center">
                                 <p className="text-slate-400 mb-4">No issues reported yet</p>
                                 <button
                                     onClick={() => navigate('/submit-feedback')}
@@ -150,28 +151,28 @@ const Dashboard = () => {
                                 </button>
                             </div>
                         ) : (
-                            <table className="w-full">
+                            <table className="w-full min-w-[600px]">
                                 <thead>
                                     <tr className="border-b border-white/5">
-                                        <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issue</th>
-                                        <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
-                                        <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                                        <th className="text-right py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Date</th>
+                                        <th className="text-left py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issue</th>
+                                        <th className="text-left py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
+                                        <th className="text-left py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                                        <th className="text-right py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Date</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
                                     {recentIssues.map((issue) => (
                                         <tr key={issue.id} className="group hover:bg-white/2 transition-colors">
-                                            <td className="py-4 px-6">
+                                            <td className="py-4 px-4 lg:px-6">
                                                 <span className="text-sm font-medium text-white group-hover:text-violet-400 transition-colors">{issue.title}</span>
                                             </td>
-                                            <td className="py-4 px-6 text-sm text-slate-400">{issue.category}</td>
-                                            <td className="py-4 px-6">
+                                            <td className="py-4 px-4 lg:px-6 text-sm text-slate-400">{issue.category}</td>
+                                            <td className="py-4 px-4 lg:px-6">
                                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(issue.status)}`}>
                                                     {issue.status.replace('_', ' ')}
                                                 </span>
                                             </td>
-                                            <td className="py-4 px-6 text-right text-sm text-slate-500">{formatTimeAgo(issue.createdAt)}</td>
+                                            <td className="py-4 px-4 lg:px-6 text-right text-sm text-slate-500">{formatTimeAgo(issue.createdAt)}</td>
                                         </tr>
                                     ))}
                                 </tbody>

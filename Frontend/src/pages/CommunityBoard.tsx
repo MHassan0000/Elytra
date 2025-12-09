@@ -109,27 +109,25 @@ const CommunityBoard = () => {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 lg:space-y-6">
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-                        <TrendingUp className="text-violet-400" size={32} />
-                        Community Board
-                    </h1>
-                    <p className="text-slate-400">See what's trending in your community</p>
-                </div>
+            <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center gap-2 sm:gap-3">
+                    <TrendingUp className="text-violet-400" size={24} />
+                    Community Board
+                </h1>
+                <p className="text-sm sm:text-base text-slate-400">See what's trending in your community</p>
             </div>
 
             {/* Filters */}
-            <div className="flex items-center gap-3">
-                <Filter size={18} className="text-slate-400" />
-                <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <Filter size={18} className="text-slate-400 hidden sm:block" />
+                <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
                     {['all', 'PENDING', 'IN_PROGRESS', 'RESOLVED'].map((status) => (
                         <button
                             key={status}
                             onClick={() => setFilter(status as any)}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === status
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${filter === status
                                 ? 'bg-violet-500 text-white'
                                 : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
                                 }`}
@@ -141,31 +139,31 @@ const CommunityBoard = () => {
             </div>
 
             {/* Issues List */}
-            <div className="space-y-4">
+            <div className="space-y-3 lg:space-y-4">
                 {issues.length === 0 ? (
-                    <div className="glass-card p-12 text-center">
-                        <p className="text-slate-400 text-lg">No issues found</p>
+                    <div className="glass-card p-8 lg:p-12 text-center">
+                        <p className="text-slate-400 text-base lg:text-lg">No issues found</p>
                     </div>
                 ) : (
                     issues.map((issue) => (
                         <div
                             key={issue.id}
-                            className="glass-card p-6 flex gap-4 cursor-pointer glass-card-hover relative"
+                            className="glass-card p-4 lg:p-6 flex flex-col sm:flex-row gap-4 cursor-pointer glass-card-hover relative"
                             onClick={() => setSelectedIssue(issue)}
                         >
                             {/* Delete Button - Only visible to owner */}
                             {issue.userId === userId && (
                                 <button
                                     onClick={(e) => handleDeleteClick(issue.id, e)}
-                                    className="absolute top-4 right-4 p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 transition-all group"
+                                    className="absolute top-3 right-3 lg:top-4 lg:right-4 p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 transition-all group"
                                     title="Delete report"
                                 >
-                                    <Trash2 className="text-red-400 group-hover:text-red-300" size={18} />
+                                    <Trash2 className="text-red-400 group-hover:text-red-300" size={16} />
                                 </button>
                             )}
 
                             {/* Vote Buttons */}
-                            <div onClick={(e) => e.stopPropagation()}>
+                            <div onClick={(e) => e.stopPropagation()} className="flex sm:flex-col items-center sm:items-start">
                                 <VoteButtons
                                     issueId={issue.id}
                                     initialVotes={issue.upvotes || 0}
@@ -175,21 +173,21 @@ const CommunityBoard = () => {
                             </div>
 
                             {/* Issue Content */}
-                            <div className="flex-1">
-                                <h3 className="text-lg font-bold text-white mb-2">
+                            <div className="flex-1 min-w-0">
+                                <h3 className="text-base sm:text-lg font-bold text-white mb-2 pr-8 sm:pr-0">
                                     {issue.title}
                                 </h3>
-                                <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                                <p className="text-slate-400 text-sm mb-3 lg:mb-4 line-clamp-2">
                                     {issue.description}
                                 </p>
 
                                 {/* Meta Info */}
-                                <div className="flex items-center gap-4 text-xs text-slate-500">
+                                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-slate-500">
                                     <span className={`px-2 py-1 rounded-full ${getStatusBadge(issue.status)}`}>
                                         {issue.status.replace('_', ' ')}
                                     </span>
                                     <span>{issue.category}</span>
-                                    <span>•</span>
+                                    <span className="hidden sm:inline">•</span>
                                     <span>{new Date(issue.createdAt).toLocaleDateString()}</span>
                                 </div>
                             </div>

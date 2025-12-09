@@ -134,8 +134,8 @@ const UserManagement = () => {
             </div>
 
             {/* Table */}
-            <div className="glass-card p-1">
-                <table className="w-full">
+            <div className="glass-card p-1 overflow-x-auto">
+                <table className="w-full min-w-[800px]">
                     <thead>
                         <tr className="border-b border-white/5 bg-white/2">
                             <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Username</th>

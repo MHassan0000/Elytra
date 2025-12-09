@@ -147,38 +147,38 @@ const IssuesManagement = () => {
     }
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6 lg:space-y-8">
             {/* Header */}
-            <div className="flex items-end justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Issues Management</h1>
-                    <p className="text-slate-400">Track and resolve reported community issues.</p>
-                </div>
+            <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Issues Management</h1>
+                <p className="text-sm sm:text-base text-slate-400">Track and resolve reported community issues.</p>
             </div>
 
             {/* Filters */}
-            <div className="glass-card p-2 flex items-center gap-2 flex-wrap">
-                {['All', 'Pending', 'In Progress', 'Resolved'].map((status) => (
-                    <button
-                        key={status}
-                        onClick={() => setStatusFilter(status.toLowerCase().replace(' ', '-'))}
-                        className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${statusFilter === status.toLowerCase().replace(' ', '-')
-                            ? 'bg-[#151A25] text-white shadow-lg border border-white/10'
-                            : 'text-slate-400 hover:text-white hover:bg-white/5'
-                            }`}
-                    >
-                        {status}
-                    </button>
-                ))}
+            <div className="glass-card p-2 flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-2">
+                <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0">
+                    {['All', 'Pending', 'In Progress', 'Resolved'].map((status) => (
+                        <button
+                            key={status}
+                            onClick={() => setStatusFilter(status.toLowerCase().replace(' ', '-'))}
+                            className={`px-4 lg:px-6 py-2.5 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${statusFilter === status.toLowerCase().replace(' ', '-')
+                                ? 'bg-[#151A25] text-white shadow-lg border border-white/10'
+                                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            {status}
+                        </button>
+                    ))}
+                </div>
                 <div className="flex-1" />
-                <div className="relative px-2">
-                    <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4" />
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4" />
                     <input
                         type="text"
                         placeholder="Search issues..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="bg-[#0B0E14] border border-white/10 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-violet-500/50 w-64"
+                        className="bg-[#0B0E14] border border-white/10 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-violet-500/50 w-full lg:w-64"
                     />
                 </div>
             </div>
@@ -189,16 +189,16 @@ const IssuesManagement = () => {
             </div>
 
             {/* Table */}
-            <div className="glass-card p-1">
-                <table className="w-full">
+            <div className="glass-card p-1 overflow-x-auto">
+                <table className="w-full min-w-[800px]">
                     <thead>
                         <tr className="border-b border-white/5 bg-white/2">
-                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issue Title</th>
-                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Reporter</th>
-                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
-                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Upvotes</th>
-                            <th className="text-left py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                            <th className="text-right py-4 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
+                            <th className="text-left py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issue Title</th>
+                            <th className="text-left py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Reporter</th>
+                            <th className="text-left py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
+                            <th className="text-left py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Upvotes</th>
+                            <th className="text-left py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                            <th className="text-right py-4 px-4 lg:px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
@@ -208,7 +208,7 @@ const IssuesManagement = () => {
                                 className="group hover:bg-white/2 transition-colors cursor-pointer"
                                 onClick={() => setSelectedIssue(issue)}
                             >
-                                <td className="py-4 px-6">
+                                <td className="py-4 px-4 lg:px-6">
                                     <div>
                                         <span className="text-sm font-medium text-white group-hover:text-violet-400 transition-colors">{issue.title}</span>
                                         {(issue.cityName || issue.zoneName || issue.areaName) && (
@@ -218,10 +218,10 @@ const IssuesManagement = () => {
                                         )}
                                     </div>
                                 </td>
-                                <td className="py-4 px-6 text-sm text-slate-400">{issue.username}</td>
-                                <td className="py-4 px-6 text-sm text-slate-300">{issue.category}</td>
-                                <td className="py-4 px-6 text-sm text-slate-300">{issue.upvotes}</td>
-                                <td className="py-4 px-6" onClick={(e) => e.stopPropagation()}>
+                                <td className="py-4 px-4 lg:px-6 text-sm text-slate-400">{issue.username}</td>
+                                <td className="py-4 px-4 lg:px-6 text-sm text-slate-300">{issue.category}</td>
+                                <td className="py-4 px-4 lg:px-6 text-sm text-slate-300">{issue.upvotes}</td>
+                                <td className="py-4 px-4 lg:px-6" onClick={(e) => e.stopPropagation()}>
                                     {updatingStatus === issue.id ? (
                                         <div className="flex items-center gap-2">
                                             <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
@@ -239,7 +239,7 @@ const IssuesManagement = () => {
                                         </select>
                                     )}
                                 </td>
-                                <td className="py-4 px-6 text-right" onClick={(e) => e.stopPropagation()}>
+                                <td className="py-4 px-4 lg:px-6 text-right" onClick={(e) => e.stopPropagation()}>
                                     <button
                                         onClick={() => setDeleteTarget({ id: issue.id, title: issue.title })}
                                         className="p-2 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
