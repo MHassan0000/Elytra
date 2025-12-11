@@ -7,11 +7,7 @@ export const voteService = {
         await api.post(`/issues/${issueId}/upvote${params}`);
     },
 
-    // Downvote an issue
-    downvote: async (issueId: number, userId?: number): Promise<void> => {
-        const params = userId ? `?userId=${userId}` : '';
-        await api.post(`/issues/${issueId}/downvote${params}`);
-    },
+
 
     // Remove vote
     removeVote: async (issueId: number, userId?: number): Promise<void> => {

@@ -50,8 +50,6 @@ const CommunityBoard = () => {
                 await voteService.removeVote(issueId, userId);
             } else if (voteType === 'up') {
                 await voteService.upvote(issueId, userId);
-            } else {
-                await voteService.downvote(issueId, userId);
             }
             // Refresh issues to get updated vote counts
             await fetchIssues();

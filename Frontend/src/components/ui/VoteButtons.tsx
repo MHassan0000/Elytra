@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronUp } from 'lucide-react';
 
 interface VoteButtonsProps {
     issueId: number;
@@ -13,7 +13,7 @@ const VoteButtons = ({ issueId, initialVotes, userVote, onVote }: VoteButtonsPro
     const [currentVote, setCurrentVote] = useState<'up' | 'down' | null>(userVote || null);
     const [loading, setLoading] = useState(false);
 
-    const handleVote = async (voteType: 'up' | 'down') => {
+    const handleVote = async () => {
         if (loading) return;
 
         try {
@@ -21,18 +21,15 @@ const VoteButtons = ({ issueId, initialVotes, userVote, onVote }: VoteButtonsPro
 
             // Optimistic UI update
             let newVotes = votes;
-            let newVote: 'up' | 'down' | null = voteType;
+            let newVote: 'up' | 'down' | null = 'up';
 
-            if (currentVote === voteType) {
+            if (currentVote === 'up') {
                 // Remove vote
-                newVotes = voteType === 'up' ? votes - 1 : votes + 1;
+                newVotes = votes - 1;
                 newVote = null;
-            } else if (currentVote) {
-                // Change vote
-                newVotes = voteType === 'up' ? votes + 2 : votes - 2;
             } else {
                 // New vote
-                newVotes = voteType === 'up' ? votes + 1 : votes - 1;
+                newVotes = votes + 1;
             }
 
             setVotes(newVotes);
@@ -54,7 +51,7 @@ const VoteButtons = ({ issueId, initialVotes, userVote, onVote }: VoteButtonsPro
         <div className="flex flex-col items-center gap-1 bg-[#151A25] border border-white/5 rounded-xl p-2">
             {/* Upvote */}
             <button
-                onClick={() => handleVote('up')}
+                onClick={handleVote}
                 disabled={loading}
                 className={`p-1.5 rounded-lg transition-all ${currentVote === 'up'
                     ? 'bg-orange-500/20 text-orange-400'
@@ -65,24 +62,9 @@ const VoteButtons = ({ issueId, initialVotes, userVote, onVote }: VoteButtonsPro
             </button>
 
             {/* Vote Count */}
-            <span className={`text-sm font-bold min-w-8 text-center ${currentVote === 'up' ? 'text-orange-400' :
-                currentVote === 'down' ? 'text-blue-400' :
-                    'text-white'
-                }`}>
+            <span className={`text-sm font-bold min-w-8 text-center ${currentVote === 'up' ? 'text-orange-400' : 'text-white'}`}>
                 {votes}
             </span>
-
-            {/* Downvote */}
-            <button
-                onClick={() => handleVote('down')}
-                disabled={loading}
-                className={`p-1.5 rounded-lg transition-all ${currentVote === 'down'
-                    ? 'bg-blue-500/20 text-blue-400'
-                    : 'text-slate-400 hover:bg-white/5 hover:text-blue-400'
-                    }`}
-            >
-                <ChevronDown size={20} strokeWidth={2.5} />
-            </button>
         </div>
     );
 };
