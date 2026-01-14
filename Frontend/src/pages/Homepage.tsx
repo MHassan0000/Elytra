@@ -2,7 +2,7 @@ import HomeNav from '../components/shared/HomeNav';
 import HomeFooter from '../components/shared/HomeFooter';
 import { Link } from 'react-router-dom';
 import BlurText from '../components/ui/BlurText';
-import DarkVeil from '../components/ui/DarkVeil';
+import Hyperspeed from '../components/ui/Hyperspeed';
 const Homepage = () => {
 
   const handleAnimationComplete = () => {
@@ -12,14 +12,57 @@ const Homepage = () => {
     <div className="min-h-screen w-full bg-black text-white selection:bg-violet-500/30 overflow-x-hidden">
       <HomeNav />
 
-      {/* Hero Section with Threads Background */}
-      <main className="relative min-h-screen w-full">
-        {/* Threads Background - Full Width */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-100">
-          <DarkVeil />
+      {/* Hero Section with Hyperspeed Background */}
+      <section className="relative w-full min-h-screen overflow-hidden">
+        {/* Hyperspeed Background Container - Constrained height */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none">
+          {/* Hyperspeed Effect */}
+          <div className="absolute inset-0 w-full h-full opacity-100">
+            <Hyperspeed
+              effectOptions={{
+                onSpeedUp: () => { },
+                onSlowDown: () => { },
+                distortion: 'turbulentDistortion',
+                length: 400,
+                roadWidth: 10,
+                islandWidth: 2,
+                lanesPerRoad: 4,
+                fov: 90,
+                fovSpeedUp: 150,
+                speedUp: 2,
+                carLightsFade: 0.4,
+                totalSideLightSticks: 20,
+                lightPairsPerRoadWay: 40,
+                shoulderLinesWidthPercentage: 0.05,
+                brokenLinesWidthPercentage: 0.1,
+                brokenLinesLengthPercentage: 0.5,
+                lightStickWidth: [0.12, 0.5],
+                lightStickHeight: [1.3, 1.7],
+                movingAwaySpeed: [60, 80],
+                movingCloserSpeed: [-120, -160],
+                carLightsLength: [400 * 0.03, 400 * 0.2],
+                carLightsRadius: [0.05, 0.14],
+                carWidthPercentage: [0.3, 0.5],
+                carShiftX: [-0.8, 0.8],
+                carFloorSeparation: [0, 5],
+                colors: {
+                  roadColor: 0x080808,
+                  islandColor: 0x0a0a0a,
+                  background: 0x000000,
+                  shoulderLines: 0xFFFFFF,
+                  brokenLines: 0xFFFFFF,
+                  leftCars: [0xD856BF, 0x6750A2, 0xC247AC],
+                  rightCars: [0x03B3C3, 0x0E5EA5, 0x324555],
+                  sticks: 0x03B3C3,
+                }
+              }}
+            />
+          </div>
+          {/* Gradient Fade to Black at Bottom */}
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-transparent via-transparent via-70% to-black pointer-events-none" />
         </div>
 
-        {/* Content - Centered with max-width */}
+        {/* Hero Content - Centered with max-width */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40 sm:mt-36 md:mt-0">
           <div className="text-center max-w-3xl mx-auto">
 
@@ -47,10 +90,10 @@ const Homepage = () => {
             </div>
           </div>
         </div>
-      </main>
+      </section>
 
       {/* Features Grid */}
-      <section className="w-full px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
+      <section className="relative w-full px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16 pb-16 sm:pb-24 bg-black z-10">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {[
