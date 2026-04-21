@@ -29,8 +29,8 @@ Before running the backend, you need to set up the PostgreSQL database.
 CREATE DATABASE elytra;
 
 -- The default 'postgres' user usually exists.
--- If you need to set the password to 'bigbruh' for the postgres user:
-ALTER USER postgres WITH PASSWORD 'bigbruh';
+-- Set a strong local password for your postgres user:
+ALTER USER postgres WITH PASSWORD '<your_strong_db_password>';
 
 -- Verify connection privileges (optional, usually default is fine for local)
 GRANT ALL PRIVILEGES ON DATABASE elytra TO postgres;
@@ -49,25 +49,29 @@ The backend is built with Spring Boot and Maven. It requires a `.env` file for c
     cd Backend
     ```
 2.  Create a new file named `.env` in the `Backend` directory.
-3.  Copy and paste the following configuration into the `.env` file:
+3.  Copy and paste the following configuration into the `.env` file, replacing all placeholder values with your own:
 
     ```env
     # Database Configuration
     DB_URL=jdbc:postgresql://localhost:5432/elytra
-    DB_USERNAME=postgres
-    DB_PASSWORD=bigbruh
+    DB_USERNAME=your_db_user
+    DB_PASSWORD=your_db_password
 
     # JWT Configuration
-    JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    JWT_SECRET=your_long_random_jwt_secret_min_32_bytes
     JWT_EXPIRATION=86400000
 
     # Google OAuth2
-    GOOGLE_CLIENT_ID=629187544110-q3mios7kvl1l0l3ajffq1fvomhu3nenu.apps.googleusercontent.com
-    GOOGLE_CLIENT_SECRET=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
+    GOOGLE_CLIENT_ID=your_google_client_id
+    GOOGLE_CLIENT_SECRET=your_google_client_secret
 
     # GitHub OAuth2
-    GITHUB_CLIENT_ID=Ov23lipmMgQeBK3zYszt
-    GITHUB_CLIENT_SECRET=800a791329ce0f79537cc2be8f2c1014f535960e
+    GITHUB_CLIENT_ID=your_github_client_id
+    GITHUB_CLIENT_SECRET=your_github_client_secret
+
+    APP_ADMIN_EMAIL=admin@elytra.com
+    APP_ADMIN_USERNAME=admin
+    APP_ADMIN_PASSWORD=your_strong_admin_password
     ```
 
 ### Running the Backend

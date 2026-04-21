@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MapPin, ThumbsUp } from 'lucide-react';
 
 interface TrendingIssueCardProps {
     id: number;
@@ -68,7 +69,7 @@ const TrendingIssueCard = ({
             {/* Footer */}
             <div className="flex items-center justify-between pt-3 border-t border-white/10">
                 <div className="flex items-center gap-2">
-                    <span className="text-sm">📍</span>
+                    <MapPin size={14} className="text-gray-400" />
                     <span className="text-sm text-gray-400">{area}</span>
                 </div>
                 <button
@@ -78,7 +79,7 @@ const TrendingIssueCard = ({
                             : 'bg-white/5 text-gray-300 hover:bg-white/10'
                         }`}
                 >
-                    <span className="text-lg">{upvoted ? '👍' : '👍🏻'}</span>
+                    <ThumbsUp size={16} fill={upvoted ? 'currentColor' : 'none'} />
                     <span className="font-semibold">{upvoteCount}</span>
                 </button>
             </div>

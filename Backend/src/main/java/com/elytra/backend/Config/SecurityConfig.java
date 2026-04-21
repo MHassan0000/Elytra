@@ -2,6 +2,7 @@ package com.elytra.backend.Config;
 
 import com.elytra.backend.Security.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:3000}")
+    private String allowedOrigins;
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
@@ -29,6 +33,9 @@ public class SecurityConfig {
 
     @Autowired
     private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+
+    @Autowired
+    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -57,7 +64,10 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
                     corsConfig.setAllowedOriginPatterns(
-                            java.util.List.of("http://localhost:5173", "http://localhost:3000"));
+                            java.util.Arrays.stream(allowedOrigins.split(","))
+                                    .map(String::trim)
+                                    .filter(origin -> !origin.isBlank())
+                                    .toList());
                     corsConfig.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                     corsConfig.setAllowedHeaders(java.util.List.of("*")); // Allow all headers
                     corsConfig.setExposedHeaders(java.util.List.of("Authorization", "Content-Type")); // Expose headers
@@ -68,7 +78,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form.disable()) // Disable default form login
                 .httpBasic(basic -> basic.disable()) // Disable HTTP Basic auth
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
                         .requestMatchers("/", "/api", "/api/health").permitAll()
@@ -83,7 +93,7 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/oauth2/authorization/google") // Bypass default login page
                         .successHandler(oAuth2AuthenticationSuccessHandler)
-                        .failureUrl("http://localhost:5173/login?error=oauth_failed")
+                        .failureHandler(oAuth2AuthenticationFailureHandler)
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService)))
                 .logout(logout -> logout

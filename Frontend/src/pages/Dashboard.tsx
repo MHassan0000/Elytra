@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
+import { Plus, MapPin, Users } from 'lucide-react';
 import { useUser } from '../context/UserContext';
 import { issueService } from '../services/issueService';
 import type { Issue, IssueStats } from '../types/types';
@@ -210,14 +210,18 @@ const Dashboard = () => {
                                 onClick={() => navigate('/submit-feedback')}
                                 className="w-full p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-violet-500/30 transition-all flex items-center gap-3 group"
                             >
-                                <span className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">📍</span>
+                                <span className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
+                                    <MapPin size={16} />
+                                </span>
                                 <span className="text-sm font-medium text-slate-300 group-hover:text-white">Report Issue</span>
                             </button>
                             <button
                                 onClick={() => navigate('/community-board')}
                                 className="w-full p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-pink-500/30 transition-all flex items-center gap-3 group"
                             >
-                                <span className="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">👥</span>
+                                <span className="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">
+                                    <Users size={16} />
+                                </span>
                                 <span className="text-sm font-medium text-slate-300 group-hover:text-white">Community Board</span>
                             </button>
                         </div>

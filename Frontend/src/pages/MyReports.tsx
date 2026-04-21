@@ -5,7 +5,7 @@ import { issueService } from '../services/issueService';
 import type { Issue } from '../types/types';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import Button3D from '../components/ui/Button3D';
-import { Plus } from 'lucide-react';
+import { Plus, FileText, Clock3, RefreshCcw, CheckCircle2, ClipboardList, MapPin } from 'lucide-react';
 
 const MyReports = () => {
     const navigate = useNavigate();
@@ -100,28 +100,36 @@ const MyReports = () => {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="glass-card p-6 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center text-2xl">📝</div>
+                    <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center text-violet-400">
+                        <FileText size={22} />
+                    </div>
                     <div>
                         <p className="text-slate-400 text-sm">Total Reports</p>
                         <p className="text-2xl font-bold text-white">{stats.total}</p>
                     </div>
                 </div>
                 <div className="glass-card p-6 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-2xl">⏳</div>
+                    <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
+                        <Clock3 size={22} />
+                    </div>
                     <div>
                         <p className="text-slate-400 text-sm">Pending</p>
                         <p className="text-2xl font-bold text-amber-400">{stats.pending}</p>
                     </div>
                 </div>
                 <div className="glass-card p-6 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-2xl">🔄</div>
+                    <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                        <RefreshCcw size={22} />
+                    </div>
                     <div>
                         <p className="text-slate-400 text-sm">In Progress</p>
                         <p className="text-2xl font-bold text-blue-400">{stats.inProgress}</p>
                     </div>
                 </div>
                 <div className="glass-card p-6 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-2xl">✅</div>
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                        <CheckCircle2 size={22} />
+                    </div>
                     <div>
                         <p className="text-slate-400 text-sm">Resolved</p>
                         <p className="text-2xl font-bold text-emerald-400">{stats.resolved}</p>
@@ -132,7 +140,9 @@ const MyReports = () => {
             {/* Reports List */}
             {reports.length === 0 ? (
                 <div className="glass-card p-12 text-center">
-                    <div className="text-6xl mb-4">📋</div>
+                    <div className="mb-4 flex justify-center text-slate-400">
+                        <ClipboardList size={56} />
+                    </div>
                     <h3 className="text-xl font-bold text-white mb-2">No Reports Yet</h3>
                     <p className="text-slate-400 mb-6">Start by submitting your first issue report</p>
                     <button
@@ -149,7 +159,10 @@ const MyReports = () => {
                             <div className="flex items-start justify-between mb-4">
                                 <div>
                                     <h3 className="text-lg font-bold text-white mb-1">{report.title}</h3>
-                                    <p className="text-sm text-slate-400">📍 {report.category}</p>
+                                    <p className="text-sm text-slate-400 flex items-center gap-1.5">
+                                        <MapPin size={14} />
+                                        {report.category}
+                                    </p>
                                 </div>
                                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusBadge(report.status)}`}>
                                     {report.status.replace('_', ' ')}

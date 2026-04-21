@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MapPin } from 'lucide-react';
 
 interface AreaSelectorProps {
     onAreaChange?: (city: string, zone: string, area: string) => void;
@@ -45,7 +46,7 @@ const AreaSelector = ({ onAreaChange }: AreaSelectorProps) => {
     return (
         <div className="card glass-hover">
             <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">📍</span>
+                <MapPin className="text-blue-400" size={24} />
                 <h3 className="text-lg font-bold text-white">Select Your Area</h3>
             </div>
 

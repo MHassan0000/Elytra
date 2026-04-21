@@ -3,6 +3,8 @@ package com.elytra.backend.Security;
 import com.elytra.backend.Models.User;
 import com.elytra.backend.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +24,8 @@ import java.util.Optional;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomOAuth2UserService.class);
+
     @Autowired
     private UserRepository userRepository;
 
@@ -30,17 +34,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         try {
-            System.out.println("=== OAuth2 User Loading ===");
-            System.out.println("Provider: " + userRequest.getClientRegistration().getRegistrationId());
-            System.out.println("Attributes: " + oAuth2User.getAttributes());
+            logger.debug("OAuth2 user loading for provider: {}",
+                    userRequest.getClientRegistration().getRegistrationId());
 
             OAuth2User result = processOAuth2User(userRequest, oAuth2User);
-            System.out.println("=== OAuth2 User Loaded Successfully ===");
+            logger.debug("OAuth2 user loaded successfully");
             return result;
         } catch (Exception ex) {
-            System.err.println("=== OAuth2 User Loading FAILED ===");
-            System.err.println("Error: " + ex.getMessage());
-            ex.printStackTrace();
+            logger.error("OAuth2 user loading failed", ex);
             throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
         }
     }
@@ -109,13 +110,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setRole(User.Role.USER);
             user.setStatus(User.Status.ACTIVE);
 
-            System.out.println("Saving new OAuth2 user: " + user.getEmail());
+            logger.info("Saving new OAuth2 user");
             User savedUser = userRepository.save(user);
-            System.out.println("User saved successfully with ID: " + savedUser.getId());
+            logger.info("OAuth2 user saved successfully with ID: {}", savedUser.getId());
             return savedUser;
         } catch (Exception e) {
-            System.err.println("Failed to save OAuth2 user: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Failed to save OAuth2 user", e);
             throw new RuntimeException("Failed to register OAuth2 user: " + e.getMessage(), e);
         }
     }

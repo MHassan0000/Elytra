@@ -3,6 +3,7 @@ import HomeFooter from '../components/shared/HomeFooter';
 import { Link } from 'react-router-dom';
 import BlurText from '../components/ui/BlurText';
 import Hyperspeed from '../components/ui/Hyperspeed';
+import { Rocket, Zap, Wrench } from 'lucide-react';
 const Homepage = () => {
 
   const handleAnimationComplete = () => {
@@ -98,17 +99,17 @@ const Homepage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {[
               {
-                icon: "🚀",
+                icon: <Rocket className="w-5 h-5 sm:w-6 sm:h-6" />,
                 title: "Ready-to-use",
                 description: "Start reporting issues immediately. No complicated setup needed."
               },
               {
-                icon: "⚡",
+                icon: <Zap className="w-5 h-5 sm:w-6 sm:h-6" />,
                 title: "Seamless scaling",
                 description: "Designed to handle traffic from entire cities without breaking a sweat."
               },
               {
-                icon: "🛠️",
+                icon: <Wrench className="w-5 h-5 sm:w-6 sm:h-6" />,
                 title: "Zero maintenance",
                 description: "Focus on community improvement, not managing infrastructure."
               }

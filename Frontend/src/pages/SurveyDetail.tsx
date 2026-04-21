@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Send, Loader2 } from 'lucide-react';
+import { ArrowLeft, Send, Loader2, CheckCircle2 } from 'lucide-react';
 import { surveyService, type Survey, type SurveyQuestion, type SurveyResponseData } from '../services/surveyService';
 import { useUser } from '../context/UserContext';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
@@ -118,7 +118,9 @@ const SurveyDetail = () => {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="glass-card p-12 text-center max-w-md">
-                    <div className="text-6xl mb-4">✅</div>
+                    <div className="mb-4 flex justify-center text-emerald-400">
+                        <CheckCircle2 size={56} />
+                    </div>
                     <h2 className="text-2xl font-bold text-white mb-2">Thank You!</h2>
                     <p className="text-slate-400 mb-6">Your response has been submitted successfully</p>
                     <button

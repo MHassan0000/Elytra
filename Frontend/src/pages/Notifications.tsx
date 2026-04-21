@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Bell, Check, Trash2 } from 'lucide-react';
+import { Bell, Check, Trash2, CheckCircle2, RefreshCcw, FileText, Megaphone } from 'lucide-react';
 import { notificationService, type Notification } from '../services/notificationService';
 import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
@@ -53,15 +53,15 @@ const Notifications = () => {
     const getNotificationIcon = (type: Notification['type']) => {
         switch (type) {
             case 'ISSUE_RESOLVED':
-                return '✅';
+                return <CheckCircle2 size={22} />;
             case 'ISSUE_IN_PROGRESS':
-                return '🔄';
+                return <RefreshCcw size={22} />;
             case 'ISSUE_UPDATE':
-                return '📝';
+                return <FileText size={22} />;
             case 'SYSTEM_ANNOUNCEMENT':
-                return '📢';
+                return <Megaphone size={22} />;
             default:
-                return '🔔';
+                return <Bell size={22} />;
         }
     };
 
@@ -137,7 +137,9 @@ const Notifications = () => {
             {/* Notifications List */}
             {notifications.length === 0 ? (
                 <div className="glass-card p-12 text-center">
-                    <div className="text-6xl mb-4">🔔</div>
+                    <div className="mb-4 flex justify-center text-slate-400">
+                        <Bell size={56} />
+                    </div>
                     <h3 className="text-xl font-bold text-white mb-2">No Notifications</h3>
                     <p className="text-slate-400">You're all caught up!</p>
                 </div>
@@ -150,7 +152,7 @@ const Notifications = () => {
                                 }`}
                         >
                             {/* Icon */}
-                            <div className={`w-12 h-12 rounded-xl bg-linear-to-br ${getNotificationColor(notification.type)} flex items-center justify-center text-2xl shrink-0`}>
+                            <div className={`w-12 h-12 rounded-xl bg-linear-to-br ${getNotificationColor(notification.type)} flex items-center justify-center text-white shrink-0`}>
                                 {getNotificationIcon(notification.type)}
                             </div>
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { AlertTriangle } from 'lucide-react';
 import authService from '../../services/authService';
 
 const OAuth2RedirectHandler: React.FC = () => {
@@ -9,7 +10,8 @@ const OAuth2RedirectHandler: React.FC = () => {
 
     useEffect(() => {
         const handleOAuth2Redirect = async () => {
-            const token = searchParams.get('token');
+            const hashParams = new URLSearchParams(window.location.hash.replace('#', ''));
+            const token = hashParams.get('token') ?? searchParams.get('token');
             const errorParam = searchParams.get('error');
 
             if (errorParam) {
@@ -22,6 +24,9 @@ const OAuth2RedirectHandler: React.FC = () => {
                 try {
                     // Store the token
                     authService.setToken(token);
+                    if (window.location.hash) {
+                        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+                    }
 
                     // Fetch user data to verify token and update context
                     await authService.getCurrentUser();
@@ -48,7 +53,9 @@ const OAuth2RedirectHandler: React.FC = () => {
             <div className="text-center">
                 {error ? (
                     <>
-                        <div className="text-red-500 text-xl mb-4">⚠️</div>
+                        <div className="text-red-500 mb-4 flex justify-center">
+                            <AlertTriangle size={28} />
+                        </div>
                         <p className="text-red-400">{error}</p>
                         <p className="mt-2 text-gray-500 text-sm">Redirecting to login...</p>
                     </>

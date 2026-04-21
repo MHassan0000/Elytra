@@ -93,9 +93,9 @@ VITE_API_URL=http://localhost:8080
 
 ```
 Email: admin@elytra.com
-Password: admin123
+Password: set via APP_ADMIN_PASSWORD
 ```
- Change password after first login!
+Set `APP_ADMIN_PASSWORD` in `Backend/.env` before first startup.
 
 ## Main Routes
 

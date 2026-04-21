@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Check, X, Info } from 'lucide-react';
 
 export type ToastType = 'success' | 'error' | 'info';
 
@@ -34,9 +35,9 @@ const Toast = ({ message, type, duration = 3000, onClose }: ToastProps) => {
     }[type];
 
     const icon = {
-        success: '✓',
-        error: '✕',
-        info: 'ℹ',
+        success: <Check size={18} />,
+        error: <X size={18} />,
+        info: <Info size={18} />,
     }[type];
 
     return (
@@ -45,7 +46,7 @@ const Toast = ({ message, type, duration = 3000, onClose }: ToastProps) => {
                 }`}
         >
             <div className={`${bgColor} border rounded-xl px-6 py-4 shadow-lg backdrop-blur-sm flex items-center gap-3 min-w-[300px]`}>
-                <span className={`text-xl ${textColor}`}>{icon}</span>
+                <span className={textColor}>{icon}</span>
                 <p className={`text-sm font-medium ${textColor}`}>{message}</p>
                 <button
                     onClick={() => {
@@ -54,7 +55,7 @@ const Toast = ({ message, type, duration = 3000, onClose }: ToastProps) => {
                     }}
                     className={`ml-auto ${textColor} hover:opacity-70 transition-opacity`}
                 >
-                    ✕
+                    <X size={16} />
                 </button>
             </div>
         </div>

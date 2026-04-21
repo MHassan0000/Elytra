@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Bell } from 'lucide-react';
+import { Bell, LogOut } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ConfirmDialog from '../ui/ConfirmDialog';
 import SearchBar from '../search/SearchBar';
@@ -77,7 +77,7 @@ const Navbar = () => {
                   }}
                   className="w-full px-4 py-3 text-left text-sm text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-2"
                 >
-                  <span>🚪</span>
+                  <LogOut size={16} />
                   Logout
                 </button>
               </div>

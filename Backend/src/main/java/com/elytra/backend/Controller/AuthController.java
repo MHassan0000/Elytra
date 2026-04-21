@@ -5,6 +5,8 @@ import com.elytra.backend.Models.User;
 import com.elytra.backend.Repository.UserRepository;
 import com.elytra.backend.Security.JwtTokenProvider;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 @SuppressWarnings("null")
 public class AuthController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -80,9 +84,10 @@ public class AuthController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(authResponse);
         } catch (Exception e) {
+            logger.error("User registration failed", e);
             Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.badRequest().body(error);
+            error.put("error", "Failed to register user");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
 
@@ -110,6 +115,7 @@ public class AuthController {
 
             return ResponseEntity.ok(authResponse);
         } catch (Exception e) {
+            logger.warn("Login failed for email: {}", loginRequest.getEmail());
             Map<String, String> error = new HashMap<>();
             error.put("error", "Invalid email or password");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
@@ -148,11 +154,6 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
 
-            System.out.println("=== Profile Update Request ===");
-            System.out.println("User ID: " + currentUser.getId());
-            System.out.println("Current Username: " + currentUser.getUsername());
-            System.out.println("New Username: " + updateRequest.getUsername());
-
             User user = userRepository.findById(currentUser.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -168,7 +169,6 @@ public class AuthController {
                 if (!user.getUsername().equals(updateRequest.getUsername())) {
                     usernameChanged = true;
                 }
-                System.out.println("Setting new username: " + updateRequest.getUsername());
                 user.setUsername(updateRequest.getUsername());
             }
 
@@ -177,13 +177,11 @@ public class AuthController {
             }
 
             User updatedUser = userRepository.save(user);
-            System.out.println("User saved with username: " + updatedUser.getUsername());
 
             // Generate new token if username changed
             String newToken = null;
             if (usernameChanged) {
                 newToken = tokenProvider.generateTokenFromUsername(updatedUser.getUsername());
-                System.out.println("Generated new JWT token for updated username");
             }
 
             Map<String, Object> response = new HashMap<>();
@@ -203,15 +201,12 @@ public class AuthController {
             if (newToken != null) {
                 response.put("token", newToken);
             }
-
-            System.out.println("=== Profile Update Complete ===");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            System.err.println("Profile update failed: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Profile update failed for user id: {}", currentUser != null ? currentUser.getId() : "unknown", e);
             Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.badRequest().body(error);
+            error.put("error", "Failed to update profile");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
 

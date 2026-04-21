@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ClipboardList, CheckCircle2, Clock } from 'lucide-react';
+import { ClipboardList, CheckCircle2, Clock, FileText } from 'lucide-react';
 import { surveyService, type Survey } from '../services/surveyService';
 import { useUser } from '../context/UserContext';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
@@ -75,7 +75,9 @@ const Surveys = () => {
             {/* Surveys Grid */}
             {surveys.length === 0 ? (
                 <div className="glass-card p-12 text-center">
-                    <div className="text-6xl mb-4">📋</div>
+                    <div className="mb-4 flex justify-center text-slate-400">
+                        <ClipboardList size={56} />
+                    </div>
                     <h3 className="text-xl font-bold text-white mb-2">No Active Surveys</h3>
                     <p className="text-slate-400">Check back later for new surveys</p>
                 </div>
@@ -99,8 +101,8 @@ const Surveys = () => {
                                 )}
 
                                 {/* Survey Icon */}
-                                <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center text-2xl mb-4">
-                                    📝
+                                <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center text-violet-400 mb-4">
+                                    <FileText size={22} />
                                 </div>
 
                                 {/* Survey Info */}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Mail, Calendar, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Mail, Calendar, AlertCircle, Star } from 'lucide-react';
 import { surveyService } from '../../services/surveyService';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
@@ -72,9 +72,12 @@ const SurveyResponseDetails = () => {
             return (
                 <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
-                        <span key={star} className={`text-2xl ${star <= answer ? 'text-yellow-400' : 'text-slate-600'}`}>
-                            ★
-                        </span>
+                        <Star
+                            key={star}
+                            size={22}
+                            className={star <= answer ? 'text-yellow-400' : 'text-slate-600'}
+                            fill={star <= answer ? 'currentColor' : 'none'}
+                        />
                     ))}
                     <span className="ml-2 text-slate-400">({answer}/5)</span>
                 </div>

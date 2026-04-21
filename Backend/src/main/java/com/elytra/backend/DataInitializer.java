@@ -14,7 +14,6 @@ public class DataInitializer {
         return args -> {
             // Check if surveys already exist
             if (surveyRepository.count() > 0) {
-                System.out.println("Surveys already initialized");
                 return;
             }
 
@@ -103,7 +102,6 @@ public class DataInitializer {
             surveyRepository.save(survey2);
             surveyRepository.save(survey3);
 
-            System.out.println("Comprehensive professional surveys initialized successfully!");
         };
     }
 }

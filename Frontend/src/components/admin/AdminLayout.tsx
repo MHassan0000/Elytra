@@ -4,6 +4,7 @@ import AdminNavbar from './AdminNavbar';
 import HamburgerButton from '../ui/HamburgerButton';
 import { useAuth } from '../../context/AuthContext';
 import ConfirmDialog from '../ui/ConfirmDialog';
+import { LogOut } from 'lucide-react';
 
 interface AdminLayoutProps {
     children: React.ReactNode;
@@ -90,7 +91,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                                             }}
                                             className="w-full px-4 py-3 text-left text-sm text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-2"
                                         >
-                                            <span>🚪</span>
+                                            <LogOut size={16} />
                                             Logout
                                         </button>
                                     </div>
